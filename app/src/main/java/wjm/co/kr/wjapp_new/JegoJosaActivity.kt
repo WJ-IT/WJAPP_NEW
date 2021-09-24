@@ -26,6 +26,7 @@ import wjm.co.kr.wjapp_new.databinding.ActivityJegoJosaBinding
 import wjm.co.kr.wjapp_new.databinding.ActivityWjJaegoReportBinding
 import java.io.IOException
 import java.net.URL
+import java.util.concurrent.TimeUnit
 
 class JegoJosaActivity : AppCompatActivity() {
     private lateinit var bindingA: ActivityJegoJosaBinding
@@ -269,7 +270,10 @@ class JegoJosaActivity : AppCompatActivity() {
         val body = FormBody.Builder().add("loc", cdloc).add("cdpln", selCdPln).build()
         val request = Request.Builder().url(url).post(body).build()
         val client = OkHttpClient()
-        client.newCall(request).enqueue(object : Callback {
+        client.newBuilder().readTimeout(30, TimeUnit.MINUTES)
+            .writeTimeout(30, TimeUnit.MINUTES)
+            .connectTimeout(30, TimeUnit.MINUTES).build()
+            .newCall(request).enqueue(object : Callback {
             override fun onResponse(call: Call, response: Response) {
                 val body1 = response.body?.string()
                 var rlmSumQty = 0
@@ -317,7 +321,10 @@ class JegoJosaActivity : AppCompatActivity() {
         val body = FormBody.Builder().add("tags", tagLists).add("cdpln", selCdPln).build()
         val request = Request.Builder().url(url).post(body).build()
         val client = OkHttpClient()
-        client.newCall(request).enqueue(object : Callback {
+        client.newBuilder().readTimeout(30, TimeUnit.MINUTES)
+            .writeTimeout(30, TimeUnit.MINUTES)
+            .connectTimeout(30, TimeUnit.MINUTES).build()
+            .newCall(request).enqueue(object : Callback {
             override fun onResponse(call: Call, response: Response) {
                 val body1 = response.body?.string()
                 var tagSumQty = 0
@@ -368,7 +375,10 @@ class JegoJosaActivity : AppCompatActivity() {
         val body = FormBody.Builder().add("tags", tagLists).add("cdpln", selCdPln).add("readerNo", cdloc).add("cdUsr", WjmMain.LoginUser.sno).build()
         val request = Request.Builder().url(url).post(body).build()
         val client = OkHttpClient()
-        client.newCall(request).enqueue(object : Callback {
+        client.newBuilder().readTimeout(30, TimeUnit.MINUTES)
+            .writeTimeout(30, TimeUnit.MINUTES)
+            .connectTimeout(30, TimeUnit.MINUTES).build()
+            .newCall(request).enqueue(object : Callback {
             override fun onResponse(call: Call, response: Response) {
                 val body1 = response.body?.string()
                 println("Success to execute request! : $body1")
