@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                                             xmlns:app="http://schemas.android.com/apk/res-auto"
+                                             xmlns:tools="http://schemas.android.com/tools"
+                                             android:layout_width="match_parent"
+                                             android:layout_height="wrap_content">
+
+    <TextView
+            android:text="우전"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/txtCompanyBoard"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="8dp"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="8dp"
+            android:textColor="#3F51B5"
+            android:textStyle="bold"
+            android:textSize="16dp"/>
+
+    <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txtCompanyBoard"
+            android:paddingBottom="5dp">
+
+        <CheckedTextView
+                android:text="박상용"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/checkTxtName01"
+                android:layout_weight="15"
+                android:clickable="true"
+                android:checked="false"
+                android:checkMark="@android:drawable/checkbox_off_background"
+                android:gravity="center"
+                android:textSize="14dp"/>
+
+        <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/textView110"
+                android:layout_weight="4"/>
+
+        <CheckedTextView
+                android:text="박상용"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/checkTxtName02"
+                android:layout_weight="15"
+                android:checked="false"
+                android:checkMark="@android:drawable/checkbox_on_background"
+                android:textSize="14dp"/>
+
+        <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/textView111"
+                android:layout_weight="4"/>
+
+        <CheckedTextView
+                android:text="박상용"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/checkTxtName03"
+                android:layout_weight="15"
+                android:checked="false"
+                android:checkMark="@android:drawable/checkbox_off_background"
+                android:textSize="14dp"/>
+
+        <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/textView112"
+                android:layout_weight="4"/>
+
+        <CheckedTextView
+                android:text="박상용"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/checkTxtName04"
+                android:layout_weight="15"
+                android:checked="false"
+                android:checkMark="@android:drawable/checkbox_off_background"
+                android:textSize="14dp"/>
+
+        <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/textView114"
+                android:layout_weight="4"/>
+
+        <CheckedTextView
+                android:text="박상용"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/checkTxtName05"
+                android:layout_weight="15"
+                android:checked="false"
+                android:checkMark="@android:drawable/checkbox_off_background"
+                android:textSize="14dp"/>
+    </LinearLayout>
+</android.support.constraint.ConstraintLayout>

@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                                             xmlns:app="http://schemas.android.com/apk/res-auto"
+                                             xmlns:tools="http://schemas.android.com/tools"
+                                             android:layout_width="match_parent"
+                                             android:layout_height="wrap_content">
+
+    <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/tlPodFTJisi"
+            >
+
+        <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="5dp"
+                android:id="@+id/trJisiNmHosp"
+                android:layout_marginEnd="5dp">
+
+            <TextView
+                    android:text="TextView"
+                    android:layout_height="25dp"
+                    android:id="@+id/txtJisiNmHosp"
+                    android:background="@drawable/cdialog_outline"
+                    android:backgroundTint="#2196F3"
+                    android:textColor="@android:color/white"
+                    android:gravity="center"
+                    android:layout_weight="2"
+                    android:textSize="18dp"
+                    android:layout_width="0dp"/>
+
+            <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/txtJisiDtReg"
+                    android:layout_weight="1"
+                    android:textSize="12dp"
+                    android:gravity="end"/>
+        </TableRow>
+
+        <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/trJisiUp">
+
+            <CheckedTextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:id="@+id/chkJisi"
+                    android:checkMark="@android:drawable/checkbox_off_background"
+                    android:layout_weight="5"
+                    android:textColor="@android:color/black"
+                    android:textSize="13dp"
+                    android:gravity="center"
+                    />
+
+            <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:id="@+id/txtJisiPower"
+                    android:layout_weight="10"
+                    android:textColor="@android:color/black"
+                    android:textSize="13dp"
+                    android:gravity="center"/>
+
+            <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:id="@+id/txtJisiSpecAdd"
+                    android:layout_weight="6"
+                    android:textColor="@android:color/black"
+                    android:textSize="13dp"
+                    android:gravity="center"/>
+
+            <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:id="@+id/txtJisiTagcnt"
+                    android:layout_weight="8"
+                    android:textColor="@android:color/black"
+                    android:textSize="13dp"
+                    android:gravity="center"/>
+
+            <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:id="@+id/txtJisiSB"
+                    android:layout_weight="5"
+                    android:textColor="@android:color/black"
+                    android:textSize="13dp"
+                    android:gravity="center"/>
+
+            <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:id="@+id/txtJisiQty"
+                    android:layout_weight="5"
+                    android:textColor="@android:color/black"
+                    android:textSize="13dp"
+                    android:gravity="center"/>
+
+            <EditText
+                    android:layout_width="0dp"
+                    android:layout_height="25dp"
+                    android:inputType="number"
+                    android:ems="10"
+                    android:id="@+id/etxtJisiInj"
+                    android:background="@android:drawable/editbox_background_normal"
+                    android:textSize="13dp"
+                    android:layout_weight="7"
+                    android:textColor="@android:color/black"
+                    android:gravity="center"
+                    android:imeOptions="actionDone|flagNoExtractUi"
+                    android:selectAllOnFocus="true"/>
+
+            <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:id="@+id/txtJisiDtSurg"
+                    android:layout_weight="15"
+                    android:textColor="@android:color/black"
+                    android:textSize="13dp"
+                    android:gravity="center"
+                    android:background="@drawable/cdialog_outline"
+                    android:backgroundTint="@android:color/transparent"/>
+
+            <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:id="@+id/txtJisiDtOut"
+                    android:layout_weight="9"
+                    android:textColor="@android:color/black"
+                    android:textSize="13dp"
+                    android:gravity="center"/>
+
+        </TableRow>
+
+        <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/trJisiDown"
+                android:gravity="center">
+
+            <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:id="@+id/txtJisiGbn"
+                    android:textColor="@android:color/black"
+                    android:textSize="13dp"
+                    android:layout_weight="5"
+                    android:gravity="center"/>
+
+            <EditText
+                    android:id="@+id/etxtJisiPatient"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="12"
+                    android:background="@android:drawable/editbox_background_normal"
+                    android:ems="10"
+                    android:imeOptions="actionDone|flagNoExtractUi"
+                    android:inputType="textPersonName"
+                    android:selectAllOnFocus="true"
+                    android:textColor="@android:color/black"
+                    android:textSize="12dp" />
+
+            <EditText
+                    android:id="@+id/etxtJisiRmk"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="24"
+                    android:autoText="false"
+                    android:background="@android:drawable/editbox_background_normal"
+                    android:ems="10"
+                    android:imeOptions="actionDone|flagNoExtractUi"
+                    android:inputType="textPersonName"
+                    android:selectAllOnFocus="true"
+                    android:text="Name"
+                    android:textAlignment="center"
+                    android:textSize="12dp" />
+
+            <ImageButton
+                    android:id="@+id/btnJisiSave"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="2dp"
+                    android:layout_weight="5"
+                    android:background="@android:drawable/btn_default"
+                    android:scaleType="center"
+                    app:srcCompat="@android:drawable/ic_input_add" />
+
+            <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/txtJisiDtJisi"
+                    android:textSize="13dp"
+                    android:layout_weight="15"
+                    android:gravity="center"
+                    android:hint="..."
+                    android:background="@android:drawable/editbox_background_normal"
+                    android:textColor="@color/dtVal_3"/>
+
+            <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:id="@+id/txtJisiDtCancel"
+                    android:textColor="@android:color/black"
+                    android:textSize="13dp"
+                    android:layout_weight="9"
+                    android:gravity="center"/>
+
+            <Button
+                    android:text="취소하기"
+                    android:layout_width="0dp"
+                    android:layout_height="25dp"
+                    android:id="@+id/btnJisiCancel"
+                    android:layout_weight="9"
+                    style="@style/ButtonTheme"
+                    android:visibility="gone"
+                    android:textSize="12dp"/>
+
+        </TableRow>
+
+    </TableLayout>
+
+    <TextView
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:id="@+id/textView131"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="16dp"
+            android:background="#80C0C0C0"
+            app:layout_constraintTop_toBottomOf="@+id/tlPodFTJisi"/>
+</android.support.constraint.ConstraintLayout>

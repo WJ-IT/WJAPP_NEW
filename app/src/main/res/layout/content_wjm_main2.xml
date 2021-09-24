@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                                             xmlns:app="http://schemas.android.com/apk/res-auto"
+                                             xmlns:tools="http://schemas.android.com/tools"
+                                             android:layout_width="match_parent"
+                                             android:layout_height="match_parent"
+                                             android:background="@android:color/white"
+                                             tools:showIn="@layout/activity_wjm_main2"
+                                             tools:context=".WjmMain"
+                                             android:id="@+id/cl_login">
+
+    <LinearLayout
+            android:id="@+id/linearLayout1"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="8dp"
+            android:orientation="vertical"
+            app:layout_constraintHeight_max="wrap"
+            app:layout_constraintHeight_percent="0.5"
+            app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+                android:id="@+id/imageView5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:adjustViewBounds="true"
+                android:contentDescription="@string/wjmmain_image01"
+                android:cropToPadding="false"
+                app:srcCompat="@drawable/login_top" />
+    </LinearLayout>
+
+    <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/ll_loninselect"
+            android:background="@android:color/white"
+            android:paddingBottom="10dp"
+            android:paddingTop="10dp"
+            android:layout_marginEnd="16dp"
+            app:layout_constraintEnd_toStartOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/linearLayout5"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout1">
+
+        <TableLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+            <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="top|center"
+                    android:orientation="vertical">
+
+                <TableLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center">
+
+                    <TableRow
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="center">
+
+                        <TextView
+                                android:text="@string/wjmmain_id_text"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/textView2"
+                                android:textSize="20dp"
+                                android:textStyle="bold"
+                                android:textAlignment="textEnd"/>
+
+                        <Spinner
+                                android:layout_width="150dp"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/spinner"
+                                android:gravity="center"
+                                android:layout_marginLeft="10dp"
+                                android:labelFor="@id/spinner"/>
+                    </TableRow>
+
+                    <TableRow
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="center">
+
+                        <TextView
+                                android:text="@string/wjmmain_pw_text"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/textView3"
+                                android:textSize="20dp"
+                                android:textStyle="bold"
+                                android:textAlignment="textEnd"
+                                android:minWidth="100dp"/>
+
+                        <EditText
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:inputType="textPassword"
+                                android:ems="5"
+                                android:id="@+id/txt_pass"
+                                android:textIsSelectable="false"
+                                android:singleLine="true"
+                                android:textSize="18dp"
+                                android:minWidth="130dp"
+                                android:layout_marginLeft="10dp"/>
+                    </TableRow>
+                </TableLayout>
+
+            </TableRow>
+        </TableLayout>
+    </LinearLayout>
+
+    <ImageView
+            android:layout_width="wrap_content"
+            android:id="@+id/btn_login"
+            android:src="@drawable/login_btn2"
+            android:layout_height="100dp"
+            android:contentDescription="@string/wjmmain_image03"
+            android:layout_marginBottom="8dp"
+            app:layout_constraintBottom_toTopOf="@+id/linearLayout5"
+            android:layout_marginTop="8dp"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout1"
+            app:layout_constraintVertical_bias="0.495"
+            app:layout_constraintStart_toEndOf="parent"
+            android:layout_marginStart="8dp"/>
+
+    <LinearLayout
+            android:id="@+id/linearLayout5"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginBottom="8dp"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintHeight_max="wrap"
+            app:layout_constraintHeight_percent="0.2">
+
+        <ImageView
+                android:id="@+id/imageView6"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:adjustViewBounds="true"
+                android:contentDescription="@string/wjmmain_image02"
+                app:srcCompat="@drawable/login_bottom" />
+    </LinearLayout>
+</android.support.constraint.ConstraintLayout>

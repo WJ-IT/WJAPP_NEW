@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="choice_dlg">
+        <item>거래처</item>
+        <item>본사저장거래처</item>
+        <!--item>사내</item>
+        <item>대리점(ICL검사)</item-->
+    </string-array>
+
+    <string-array name="company_list">
+        <item>전체</item>
+        <item>우전메디칼</item>
+        <item>우전브이티</item>
+        <item>우전브이에스</item>
+    </string-array>
+
+    <string-array name="loc_list">
+        <item>서울창고</item>
+        <item>부산창고</item>
+        <item>대구창고</item>
+    </string-array>
+
+    <string-array name="team_list">
+        <item>전체</item>
+        <item>본부</item>
+        <item>동부</item>
+        <item>서부</item>
+        <item>부산</item>
+        <item>광주</item>
+    </string-array>
+
+    <array name="auto_text_sizes13under">
+        <item>4dp</item>
+        <item>6dp</item>
+        <item>8dp</item>
+        <item>10dp</item>
+        <item>12dp</item>
+        <item>13dp</item>
+    </array>
+</resources>

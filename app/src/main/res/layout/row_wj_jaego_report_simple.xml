@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content">
+
+    <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/layout_JaegoList"
+            android:paddingTop="4dp"
+            android:paddingBottom="4dp">
+
+        <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/jaego_cd_spec"
+                android:layout_weight="70"
+                android:textSize="18dp"
+                android:gravity="center"/>
+
+        <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/jaego_tag_qty"
+                android:layout_weight="30"
+                android:textSize="16dp"
+                android:gravity="right"
+                android:paddingRight="20dp"/>
+    </LinearLayout>
+
+    <TextView
+            android:text="TextView"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:id="@+id/textView16"
+            android:background="#80C0C0C0"
+            android:layout_marginStart="16dp"/>
+</LinearLayout>

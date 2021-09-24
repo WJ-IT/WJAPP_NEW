@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                                             xmlns:app="http://schemas.android.com/apk/res-auto"
+                                             xmlns:tools="http://schemas.android.com/tools"
+                                             android:layout_width="match_parent"
+                                             android:layout_height="wrap_content"
+                                             android:id="@+id/cl_row_team">
+
+    <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/ll_row_top_team"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+        <TextView
+                android:text="동부"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/txt_team_team"
+                android:layout_weight="15"
+                style="@style/RowTextTheme"
+                android:gravity="center"/>
+
+        <TextView
+                android:text="광주우리메디칼"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/txt_daeri_team"
+                android:layout_weight="15"
+                style="@style/RowTextTheme"
+                android:singleLine="true"
+                android:paddingStart="5dp"
+                android:gravity="center"/>
+
+        <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/txt_cust_team"
+                android:layout_weight="80"
+                style="@style/RowTextTheme"
+                android:textStyle="bold"
+                android:textColor="#242323"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/ll_row_bottom_team"
+            app:layout_constraintTop_toBottomOf="@+id/ll_row_top_team">
+
+        <TextView
+                android:text="OTHER"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/txt_item_team"
+                android:layout_weight="50"
+                style="@style/RowTextTheme"
+                android:singleLine="true"
+                android:paddingStart="15dp"/>
+
+        <TextView
+                android:text="100"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/txt_qt_pln_team"
+                android:layout_weight="10"
+                style="@style/RowNumberTheme"/>
+
+        <TextView
+                android:text="1,000,000"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/txt_at_pln_team"
+                android:layout_weight="20"
+                style="@style/RowNumberTheme"/>
+
+        <TextView
+                android:text="20,000"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/txt_qt_sale_team"
+                android:layout_weight="10"
+                style="@style/RowNumberTheme"/>
+
+        <TextView
+                android:text="100,000,000"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/txt_at_sale_team"
+                android:layout_weight="20"
+                style="@style/RowNumberTheme"/>
+    </LinearLayout>
+
+    <TextView
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:id="@+id/txt_bottom_line_team"
+            android:background="@drawable/dot"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintTop_toBottomOf="@+id/ll_row_bottom_team"/>
+</android.support.constraint.ConstraintLayout>

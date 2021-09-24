@@ -1,0 +1,331 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="6dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginBottom="16dp">
+
+    <android.support.constraint.ConstraintLayout
+            android:id="@+id/constraintLayout3"
+            android:layout_width="0dp"
+            android:layout_height="8dp"
+            android:background="@android:color/transparent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+                android:id="@+id/txtBadgeTop"
+                android:layout_width="60dp"
+                android:layout_height="0dp"
+                android:layout_marginEnd="16dp"
+                android:background="@drawable/badge_top_round"
+                android:backgroundTint="#B7C3E1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+    </android.support.constraint.ConstraintLayout>
+
+    <android.support.constraint.ConstraintLayout
+            android:id="@+id/clCustStockRow"
+            android:layout_width="match_parent"
+            android:layout_height="95dp"
+            android:background="@drawable/cdialog_outline2"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+        <TextView
+                android:id="@+id/txt_nmHosp"
+                android:layout_width="180dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="5dp"
+                android:ellipsize="marquee"
+                android:marqueeRepeatLimit="marquee_forever"
+                android:singleLine="true"
+                android:text="강남밝은  세상안과"
+                android:textColor="#2196F3"
+                android:textSize="15dp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+                android:id="@+id/txtBadgeBottom"
+                android:layout_width="60dp"
+                android:layout_height="40dp"
+                android:layout_marginEnd="16dp"
+                android:background="@drawable/badge_bottom_round"
+                android:backgroundTint="#B7C3E1"
+                android:text="판매비율"
+                android:textAlignment="center"
+                android:textColor="#FFFFFF"
+                android:textSize="12dp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+                android:id="@+id/txt_percent"
+                android:layout_width="60dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:text="51%"
+                android:textAlignment="center"
+                android:textColor="#FFFFFF"
+                android:textSize="14dp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+                android:id="@+id/txt_kname"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="이철주"
+                android:textColor="#000000"
+                android:textSize="12dp"
+                app:layout_constraintStart_toStartOf="@+id/txt_nmHosp"
+                app:layout_constraintTop_toBottomOf="@+id/txt_nmHosp" />
+
+        <TextView
+                android:id="@+id/textView173"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="5dp"
+                android:text="최초"
+                android:textSize="12dp"
+                app:layout_constraintEnd_toStartOf="@+id/txt_firstDate"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+                android:id="@+id/textView174"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="최종"
+                android:textSize="12dp"
+                app:layout_constraintStart_toStartOf="@+id/textView173"
+                app:layout_constraintTop_toBottomOf="@+id/textView173" />
+
+        <TextView
+                android:id="@+id/txt_firstDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="8dp"
+                android:text="2019.05.01"
+                android:textColor="#000000"
+                android:textSize="12dp"
+                app:layout_constraintEnd_toStartOf="@+id/txtBadgeBottom"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+                android:id="@+id/txt_lastDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="2020.05.01"
+                android:textColor="#000000"
+                android:textSize="12dp"
+                app:layout_constraintStart_toStartOf="@+id/txt_firstDate"
+                app:layout_constraintTop_toTopOf="@+id/textView174" />
+
+        <TableLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="8dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent">
+
+            <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                <TextView
+                        android:id="@+id/textView186"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1.2"
+                        android:text="STOCK"
+                        android:textAlignment="center"
+                        android:textSize="12dp" />
+
+                <TextView
+                        android:id="@+id/textView191"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1.5"
+                        android:text="현재수량"
+                        android:textAlignment="center"
+                        android:textSize="12dp" />
+
+                <TextView
+                        android:id="@+id/txt_m_head"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="M"
+                        android:textAlignment="center"
+                        android:textSize="12dp" />
+
+                <TextView
+                        android:id="@+id/txt_m1_head"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="M-1"
+                        android:textAlignment="center"
+                        android:textSize="12dp" />
+
+                <TextView
+                        android:id="@+id/txt_m2_head"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="M-2"
+                        android:textAlignment="center"
+                        android:textSize="12dp" />
+
+                <TextView
+                        android:id="@+id/txt_m3_head"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="M-3"
+                        android:textAlignment="center"
+                        android:textSize="12dp" />
+
+                <TextView
+                        android:id="@+id/txt_m4_head"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="M-4"
+                        android:textAlignment="center"
+                        android:textSize="12dp" />
+
+                <TextView
+                        android:id="@+id/txt_m5_head"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="M-5"
+                        android:textAlignment="center"
+                        android:textSize="12dp" />
+
+                <TextView
+                        android:id="@+id/textView192"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1.5"
+                        android:text="평균판매"
+                        android:textAlignment="center"
+                        android:textSize="12dp" />
+            </TableRow>
+
+            <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                <TextView
+                        android:id="@+id/txt_stock"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1.2"
+                        android:text="20"
+                        android:textAlignment="center"
+                        android:textColor="#000000"
+                        android:textSize="14dp" />
+
+                <TextView
+                        android:id="@+id/txt_cnt"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1.5"
+                        android:text="20"
+                        android:textAlignment="center"
+                        android:textColor="#000000"
+                        android:textSize="14dp" />
+
+                <TextView
+                        android:id="@+id/txt_m"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="20"
+                        android:textAlignment="center"
+                        android:textColor="#000000"
+                        android:textSize="14dp" />
+
+                <TextView
+                        android:id="@+id/txt_m1"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="20"
+                        android:textAlignment="center"
+                        android:textColor="#000000"
+                        android:textSize="14dp" />
+
+                <TextView
+                        android:id="@+id/txt_m2"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="20"
+                        android:textAlignment="center"
+                        android:textColor="#000000"
+                        android:textSize="14dp" />
+
+                <TextView
+                        android:id="@+id/txt_m3"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="20"
+                        android:textAlignment="center"
+                        android:textColor="#000000"
+                        android:textSize="14dp" />
+
+                <TextView
+                        android:id="@+id/txt_m4"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="20"
+                        android:textAlignment="center"
+                        android:textColor="#000000"
+                        android:textSize="14dp" />
+
+                <TextView
+                        android:id="@+id/txt_m5"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="20"
+                        android:textAlignment="center"
+                        android:textColor="#000000"
+                        android:textSize="14dp" />
+
+                <TextView
+                        android:id="@+id/txt_average"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1.5"
+                        android:text="20"
+                        android:textAlignment="center"
+                        android:textColor="#000000"
+                        android:textSize="14dp" />
+            </TableRow>
+
+        </TableLayout>
+    </android.support.constraint.ConstraintLayout>
+</android.support.constraint.ConstraintLayout>

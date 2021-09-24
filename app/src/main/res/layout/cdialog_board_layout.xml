@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                                             xmlns:app="http://schemas.android.com/apk/res-auto"
+                                             android:layout_width="350dp"
+                                             android:layout_height="wrap_content"
+                                             android:background="@drawable/cdialog_outline">
+
+    <TextView
+            android:text="공용 접속 계정설정(첨부파일 확인시 필수)"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView119"
+            android:background="@drawable/toolbar_background"
+            android:textColor="#FFFFFF"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:textSize="16dp"
+            android:gravity="center"
+            android:paddingTop="4dp"
+            android:paddingBottom="4dp"
+            android:textStyle="bold"/>
+
+    <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView119">
+
+        <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingTop="8dp">
+
+            <TextView
+                    android:text="아이디 :"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/textView117"
+                    android:layout_weight="1"
+                    android:gravity="end"
+                    android:textColor="#000000"
+                    android:textSize="16dp"/>
+
+            <EditText
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:inputType="textPersonName"
+                    android:ems="10"
+                    android:id="@+id/etxtPublicID"
+                    android:layout_weight="3"
+                    android:textSize="16dp"
+                    android:hint="공용 접속 아이디 입력"/>
+        </TableRow>
+
+        <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+            <TextView
+                    android:text="비밀번호 :"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/textView118"
+                    android:layout_weight="1"
+                    android:gravity="end"
+                    android:textColor="#000000"
+                    android:textSize="16dp"/>
+
+            <EditText
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:inputType="textPersonName"
+                    android:ems="10"
+                    android:id="@+id/etxtPublicPW"
+                    android:layout_weight="3"
+                    android:textSize="16dp"
+                    android:hint="공용 접속 비밀번호 입력"/>
+        </TableRow>
+
+        <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+            <Button
+                    android:text="취소"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/btnBoardPublicCancle"
+                    android:layout_weight="1"
+                    android:textSize="16dp"
+                    android:background="#00FFEB3B"
+                    android:textColor="#2196F3"
+                    android:textStyle="bold"/>
+
+            <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/textView120"
+                    android:layout_weight="2"/>
+
+            <Button
+                    android:text="저장하기"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/btnBoardPublicSave"
+                    android:layout_weight="1"
+                    android:textSize="16dp"
+                    android:background="#00FFEB3B"
+                    android:textColor="#2196F3"
+                    android:textStyle="bold"/>
+        </TableRow>
+
+    </TableLayout>
+</android.support.constraint.ConstraintLayout>

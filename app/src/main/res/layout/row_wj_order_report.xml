@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                                             xmlns:app="http://schemas.android.com/apk/res-auto"
+                                             android:layout_width="match_parent"
+                                             android:layout_height="wrap_content">
+
+    <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:id="@+id/tl_order"
+            android:layout_marginEnd="4dp"
+            android:layout_marginStart="4dp">
+
+        <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+            <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/txt_dtorder"
+                    android:layout_weight="15"
+                    android:textSize="14dp"
+                    android:gravity="start"
+                    android:textColor="@android:color/black"/>
+
+            <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/txt_gbnorder"
+                    android:gravity="center"
+                    android:layout_weight="10"
+                    android:textSize="14dp"
+                    android:textColor="@android:color/black"/>
+
+            <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/txt_custorder"
+                    android:gravity="center"
+                    android:layout_weight="65"
+                    android:maxLines="1"
+                    android:textSize="14dp"
+                    android:textColor="@android:color/black"/>
+
+            <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/txt_qtyorder"
+                    android:layout_weight="10"
+                    android:gravity="end"
+                    android:textSize="14dp"
+                    android:textColor="@android:color/black"/>
+
+        </TableRow>
+
+        <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+            <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:id="@+id/textView26"
+                    android:layout_weight="1"
+                    android:background="@drawable/dot"/>
+        </TableRow>
+
+        <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+            <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/txt_dtsurgorder"
+                    android:layout_weight="15"
+                    android:gravity="start"
+                    android:textSize="14dp"
+                    android:textColor="@android:color/black"/>
+
+            <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/txt_itemorder"
+                    android:layout_weight="40"
+                    android:singleLine="false"
+                    android:focusable="auto"
+                    android:maxLines="1"
+                    android:gravity="start"
+                    android:textSize="14dp"
+                    android:textColor="@android:color/black"/>
+
+            <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/txt_specorder"
+                    android:layout_weight="45"
+                    android:paddingStart="5dp"
+                    android:singleLine="false"
+                    android:focusable="auto"
+                    android:maxLines="1"
+                    android:gravity="start"
+                    android:textSize="14dp"
+                    android:textColor="@android:color/black"/>
+
+        </TableRow>
+
+        <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+            <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:id="@+id/textView27"
+                    android:layout_weight="1"
+                    android:background="@drawable/dot"/>
+        </TableRow>
+
+        <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+            <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/txt_dtexorder"
+                    android:layout_weight="15"
+                    android:gravity="start"
+                    android:textSize="14dp"
+                    android:textColor="@android:color/black"/>
+
+            <TextView
+                    android:layout_height="wrap_content"
+                    android:id="@+id/txt_remarkorder"
+                    android:paddingStart="8dp"
+                    android:focusable="true"
+                    android:singleLine="false"
+                    android:layout_width="0dp"
+                    android:maxLines="1"
+                    android:layout_weight="65"
+                    android:gravity="start"
+                    android:textSize="14dp"
+                    android:textColor="@android:color/black"/>
+
+            <Button
+                    android:text="주문취소"
+                    android:layout_width="0dp"
+                    android:layout_height="25dp"
+                    android:id="@+id/btn_cancleorder"
+                    android:layout_weight="20"
+                    android:textSize="12dp"
+                    android:textColor="#0048FF"
+                    android:background="#00ffffff"/>
+
+        </TableRow>
+
+    </TableLayout>
+
+    <TextView
+            android:text="TextView"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:id="@+id/textView25"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tl_order"
+            android:background="@color/dialog_bottom"/>
+</android.support.constraint.ConstraintLayout>

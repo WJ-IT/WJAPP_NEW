@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                                             xmlns:app="http://schemas.android.com/apk/res-auto"
+                                             android:layout_width="90dp"
+                                             android:layout_height="wrap_content"
+                                             android:id="@+id/cl_balance_manage">
+
+    <TextView
+            android:text="3월"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/txt_balance_mon"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:gravity="center"
+            android:textSize="14dp"/>
+
+    <TextView
+            android:text="1,111,111,111"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/txt_balance_amt"
+            app:layout_constraintTop_toBottomOf="@+id/txt_balance_mon"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:textColor="#4B4949"
+            android:textSize="14dp"/>
+
+</android.support.constraint.ConstraintLayout>

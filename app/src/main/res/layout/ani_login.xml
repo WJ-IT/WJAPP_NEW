@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                                             xmlns:app="http://schemas.android.com/apk/res-auto"
+                                             xmlns:tools="http://schemas.android.com/tools"
+                                             android:layout_width="match_parent"
+                                             android:layout_height="match_parent"
+                                             android:background="@android:color/white"
+                                             tools:showIn="@layout/activity_wjm_main2"
+                                             tools:context=".WjmMain">
+
+
+    <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/ll_loninselect"
+            android:background="@android:color/white"
+            android:paddingBottom="10dp"
+            android:paddingTop="10dp"
+            android:layout_marginBottom="8dp"
+            app:layout_constraintBottom_toTopOf="@+id/linearLayout5"
+            android:layout_marginTop="8dp"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout1"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="120dp"
+            app:layout_constraintEnd_toEndOf="parent">
+
+        <TableLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+            <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="top|center"
+                    android:orientation="vertical">
+
+                <TableLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center">
+
+                    <TableRow
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="center">
+
+                        <TextView
+                                android:text="@string/wjmmain_id_text"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/textView2"
+                                android:textSize="20sp"
+                                android:textStyle="bold"
+                                android:textAlignment="textEnd"/>
+
+                        <Spinner
+                                android:layout_width="150dp"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/spinner"
+                                android:gravity="center"
+                                android:layout_marginLeft="10dp"
+                                android:labelFor="@id/spinner"/>
+                    </TableRow>
+
+                    <TableRow
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="center">
+
+                        <TextView
+                                android:text="@string/wjmmain_pw_text"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/textView3"
+                                android:textSize="20sp"
+                                android:textStyle="bold"
+                                android:textAlignment="textEnd"
+                                android:minWidth="100dp"/>
+
+                        <EditText
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:inputType="textPassword"
+                                android:ems="5"
+                                android:id="@+id/txt_pass"
+                                android:textIsSelectable="false"
+                                android:singleLine="true"
+                                android:textSize="18sp"
+                                android:minWidth="130dp"
+                                android:layout_marginLeft="10dp"/>
+                    </TableRow>
+                </TableLayout>
+
+            </TableRow>
+        </TableLayout>
+    </LinearLayout>
+
+    <ImageView
+            android:layout_width="wrap_content"
+            android:id="@+id/btn_login"
+            android:src="@drawable/login_btn2"
+            android:layout_height="100dp"
+            android:contentDescription="@string/wjmmain_image03"
+            app:layout_constraintStart_toEndOf="@+id/ll_loninselect"
+            android:layout_marginStart="8dp"
+            android:layout_marginBottom="8dp"
+            app:layout_constraintBottom_toTopOf="@+id/linearLayout5"
+            android:layout_marginTop="8dp"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout1"
+            />
+
+</android.support.constraint.ConstraintLayout>

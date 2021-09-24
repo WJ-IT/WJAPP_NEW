@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#008577</color>
+    <color name="colorPrimaryDark">#00574B</color>
+    <color name="colorAccent">#D81B60</color>
+    <color name="item_color_0">#E6EDF0</color>
+    <color name="item_color_1">#5BBCDE</color>
+    <color name="item_color_2">#ffffff</color>
+    <color name="item_color_3">#F0F8FF</color>
+    <color name="item_color_selected">#FFA500</color>
+    <color name="dialog_top">#1B387E</color>
+    <color name="dialog_center">#00000000</color>
+    <color name="dialog_bottom">#C0C0C0</color>
+
+    <color name="dtVal_1">#FF0000</color>
+    <color name="dtVal_2">#0000FF</color>
+    <color name="dtVal_3">#800000</color>
+
+    <color name="middle_sum_color">#FFEE99</color>
+    <color name="tot_sum_color">#AAA8E4F9</color>
+    <color name="menu_back">#EDEDED</color>
+
+    <color name="slycalendar_defBackgroundColor">#ffffff</color>
+    <color name="slycalendar_defHeaderColor">#2962ff</color>
+    <color name="slycalendar_defHeaderTextColor">#ffffff</color>
+    <color name="slycalendar_defTextColor">#333333</color>
+    <color name="slycalendar_defSelectedColor">#2962FF</color>
+    <color name="slycalendar_defSelectedTextColor">#ffffff</color>
+
+</resources>

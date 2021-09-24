@@ -1,0 +1,107 @@
+<resources>
+    <string name="app_name">우전앱</string>
+    <string name="title_activity_wjm_main">WjmMain</string>
+    <string name="wjmmain_image01">로그인윗그림</string>
+    <string name="wjmmain_image02">로그인아랫그림</string>
+    <string name="wjmmain_image03">로그인버튼그림</string>
+    <string name="wjmmain_id_text">사원명</string>
+    <string name="wjmmain_pw_text">비밀번호</string>
+    <string name="title_activity_main_menu">MainMenuActivity</string>
+
+    <!--  login -->
+    <string name="login_ok">로그인 성공</string>
+    <string name="login_fail">로그인 실패</string>
+
+    <!--  BluetoothChat -->
+    <string name="btn_clear">초기화</string>
+    <string name="not_connected">연결된 장비가 없습니다.</string>
+    <string name="bt_not_enabled_leaving">Bluetooth기능 사용 불가. 프로그램을 종료합니다..</string>
+    <string name="title_connecting">연결중&#8230;</string>
+    <string name="title_connected_to">연결: </string>
+    <string name="title_not_connected">연결된 장비가 없습니다.</string>
+    <string name="bt_not_machine">기기에 블루투스 기능이 없습니다.</string>
+
+    <!--Swing Conn -->
+    <string name="swing_already_conn">이미 스윙기가 연결되어 있습니다.</string>
+    <string name="swing_noconn">우선 스윙기를 연결해주세요</string>
+
+    <string name="tag_sending">현재 태그정보 전송중입니다.</string>
+    <string name="tag_sendingErr">태그전송중 오류가 발생하였습니다.</string>
+    <string name="tag_sendOK">태그정보 전송완료 하였습니다.</string>
+    <string name="tag_nodata">전송할 태그가 없습니다.</string>
+    <string name="tag_nocust">Clinic 또는 대리점을 먼저 선택하세요.</string>
+    <string name="tag_del">선택된 태그가 삭제되었습니다.</string>
+
+    <!--스캔 범위 -->
+    <string name="scan_dlg_title">스캔할 장소를 지정해주세요.</string>
+
+    <!--  DeviceListActivity -->
+    <string name="scanning">장치 검색 중&#8230;</string>
+    <string name="select_device">연결할 장치를 선택하세요.</string>
+    <string name="none_paired">패어링된 장치가 없습니다.</string>
+    <string name="none_found">검색된 장치가 없습니다.</string>
+    <string name="title_paired_devices">연결된 장치</string>
+    <string name="title_other_devices">사용가능한 장치</string>
+    <string name="button_scan">장치 검색</string>
+    <string name="title_activity_jego_scan">JegoScanActivity</string>
+
+    <!-- Dialog -->
+    <string name="dia_T_cust">거래처 선택</string>
+    <string name="dia_T_imsitag">임시 TAG 정보 삭제</string>
+    <string name="dia_T_singletag">선택 TAG 찾기/삭제</string>
+    <string name="dia_yes">네</string>
+    <string name="dia_no">아니오</string>
+    <string name="dia_search">찾기</string>
+    <string name="dia_delete">삭제</string>
+    <string name="dia_confirm">확인</string>
+    <string name="dia_cancle">취소</string>
+
+    <!-- DB -->
+    <string name="db_delTagOK">임시 TAG정보를 삭제하였습니다.</string>
+    <string name="db_delTagNOT">삭제할 임시 TAG가 없습니다.</string>
+
+    <!--customer-->
+    <string name="cust_search_fail">거래처 조회 실패</string>
+    <string name="cust_choice">거래처를 선택해 주세요</string>
+    <string name="cust_input_require">검색어를 입력하세요</string>
+    <string name="title_activity_jego_result">JegoResultActivity</string>
+    <string name="title_activity_jego_jjscan">JegoJJScanActivity</string>
+    <string name="title_activity_wj_sales_report">WjSalesReportActivity</string>
+    <string name="title_activity_top_main_menu">TopMainMenuActivity</string>
+    <string name="title_activity_wj_jaego_report">WjJaegoReportActivity</string>
+    <string name="title_activity_wj_lm_report">WjLmReportActivity</string>
+
+    <string name="slycalendar_singledate" translatable="false">MMMM DD(EE)</string>
+    <string name="slycalendar_short" translatable="false">dd(EE)</string>
+    <string name="slycalendar_short_month" translatable="false">MMM dd(EE)</string>
+    <string name="slycalendar_dates_period" translatable="false">%1$s – %2$s</string>
+
+    <string name="slycalendar_cancel">취소</string>
+    <string name="slycalendar_save">확인</string>
+    <string name="slycalendar_next">Next</string>
+    <string name="slycalendar_prev">Prev</string>
+    <string name="title_activity_top_main">TopMainActivity</string>
+    <string name="title_activity_inventory_menu">InventoryMenuActivity</string>
+    <string name="title_activity_company_menu">CompanyMenuActivity</string>
+    <string name="title_activity_wj_order_report">WjOrderReportActivity</string>
+    <string name="title_activity_wj_order">WjOrderActivity</string>
+    <string name="title_activity_jego_scan_result">JegoScanResultActivity</string>
+    <string name="title_activity_wj_balance_manage">WjBalanceManageActivity</string>
+    <string name="title_activity_wj_sales_team_report">WjSalesTeamReportActivity</string>
+    <string name="title_activity_wj_board">WjBoardActivity</string>
+    <string name="title_activity_wj_board_write">WjBoardWriteActivity</string>
+    <string name="title_activity_company_timetable">CompanyTimetableActivity</string>
+    <string name="title_activity_wj_podft_jisi">WjPodftJisiActivity</string>
+    <string name="title_activity_wj_cust_journal">WjCustJournalActivity</string>
+    <string name="title_activity_wj2st_login_manage">Wj2stLoginManageActivity</string>
+    <string name="title_activity_wj_cust_stock">WjCustStockActivity</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="first_fragment_label">First Fragment</string>
+    <string name="second_fragment_label">Second Fragment</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+
+    <string name="hello_first_fragment">Hello first fragment</string>
+    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+    <string name="title_activity_jego_josa">JegoJosaActivity</string>
+</resources>

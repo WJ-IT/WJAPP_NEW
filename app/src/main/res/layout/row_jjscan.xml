@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:orientation="horizontal"
+              android:gravity="center"
+              android:id="@+id/ll_jjscan">
+
+    <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="15"
+            android:gravity="center">
+
+        <TextView
+                android:id="@+id/col1"
+                android:textColor="@android:color/black"
+                android:layout_width="wrap_content"
+                android:gravity="center"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:textSize="15dp"/>
+
+        <TextView
+                android:id="@+id/col2"
+                android:textColor="@android:color/black"
+                android:layout_width="wrap_content"
+                android:gravity="center"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:textSize="13dp"/>
+    </LinearLayout>
+
+    <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="15"
+            android:gravity="center">
+
+        <TextView
+                android:id="@+id/col3"
+                android:textColor="@android:color/black"
+                android:layout_width="wrap_content"
+                android:gravity="center"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:textSize="15dp"/>
+
+        <TextView
+                android:id="@+id/scanCol4"
+                android:textColor="#ff407bff"
+                android:layout_width="wrap_content"
+                android:gravity="center"
+                android:layout_height="0dp"
+                android:textStyle="bold"
+                android:layout_weight="1"
+                android:textSize="15dp"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="15"
+            android:gravity="center">
+
+        <TextView
+                android:id="@+id/scanCol5"
+                android:textColor="@android:color/black"
+                android:layout_width="wrap_content"
+                android:textSize="13dp"
+                android:gravity="center"
+                android:layout_height="0dp"
+                android:layout_weight="1"/>
+
+        <TextView
+                android:id="@+id/scanCol6"
+                android:textColor="@android:color/black"
+                android:layout_width="wrap_content"
+                android:textSize="13dp"
+                android:gravity="center"
+                android:layout_height="0dp"
+                android:layout_weight="1"/>
+    </LinearLayout>
+
+    <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="10"
+            android:gravity="center"
+            android:layout_gravity="center">
+
+        <Button
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="60dp"
+                android:layout_height="35dp"
+                android:text="예비"
+                android:id="@+id/btn_jj"
+                android:visibility="visible"
+                android:background="@android:color/holo_blue_dark"
+                android:textColor="@android:color/white"
+                android:layout_marginBottom="3dp"
+                android:layout_marginTop="3dp"/>
+    </LinearLayout>
+
+</LinearLayout>
