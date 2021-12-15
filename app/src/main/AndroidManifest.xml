@@ -19,10 +19,15 @@
             android:theme="@style/AppTheme.NoActionBar"
             android:usesCleartextTraffic="true">
         <activity
+                android:name=".JegoInJosaActivity"
+                android:label="@string/title_activity_jego_in_josa"
+                android:screenOrientation="portrait"
+                android:theme="@style/AppTheme.NoActionBar.NoActionBar"/>
+        <activity
                 android:name=".JegoJosaActivity"
                 android:label="@string/title_activity_jego_josa"
                 android:screenOrientation="portrait"
-                android:theme="@style/AppTheme.NoActionBar.NoActionBar"></activity>
+                android:theme="@style/AppTheme.NoActionBar.NoActionBar" />
         <activity
                 android:name=".WjCustStockActivity"
                 android:label="@string/title_activity_wj_cust_stock"
@@ -103,6 +108,7 @@
                 android:name=".WjJaegoReportActivity"
                 android:configChanges="keyboardHidden|orientation"
                 android:label="@string/title_activity_wj_jaego_report"
+                android:screenOrientation="portrait"
                 android:theme="@style/AppTheme.NoActionBar.NoActionBar" />
         <activity
                 android:name=".WjSalesReportActivity"

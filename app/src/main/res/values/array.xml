@@ -3,6 +3,7 @@
     <string-array name="choice_dlg">
         <item>거래처</item>
         <item>본사저장거래처</item>
+        <item>사내자원검사</item>
         <!--item>사내</item>
         <item>대리점(ICL검사)</item-->
     </string-array>

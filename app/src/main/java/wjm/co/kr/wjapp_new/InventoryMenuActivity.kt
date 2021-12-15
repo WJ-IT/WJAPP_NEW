@@ -232,10 +232,10 @@ class InventoryMenuActivity : AppCompatActivity() {
                                     JegoScanActivity.ReadingRFID.showDataJepum(inComming)
                                 }
                             }
-//                            if (topPage.equals("JEGOINSCAN")) {        // 사내 비품/소모품 검색 일때
-//                                if (inComming.epcID_Ascii.substring(0, 3).equals("RFR"))
-//                                    JegoInScan.ShowDataJepum(inComming)
-//                            }
+                            if (reading_loc.topPage.equals("JEGOINJOSA")) {        // 사내 비품/소모품 검색 일때
+                                if (inComming.epcID_Ascii.substring(0, 3).equals("RFR"))
+                                    JegoInJosaActivity.ReadingInJosaRFID.showDataJepum(inComming)
+                            }
 //                            if (topPage.equals("JEGOICLSCAN")) {
 //                                JegoICLScan.ShowDataJepum(inComming)
 //                            }
@@ -266,6 +266,8 @@ class InventoryMenuActivity : AppCompatActivity() {
                     val ran = IntRange(4, 4)
                     if(reading_loc.topPage == "JEGOJOSA") {
                         JegoJosaActivity.ReadingJosaRFID.setBattery(readMessage.slice(ran))
+                    } else if (reading_loc.topPage == "JEGOINJOSA") {
+                        JegoInJosaActivity.ReadingInJosaRFID.setBattery(readMessage.slice(ran))
                     } else {
                         when (readMessage.slice(ran)) {
                             "0" -> Toast.makeText(baseContext, "리더기 즉시 충전해주세요", Toast.LENGTH_LONG)
@@ -323,8 +325,8 @@ class InventoryMenuActivity : AppCompatActivity() {
                         val intentScan = Intent(baseContext, JegoJJScanActivity::class.java)
                         startActivity(intentScan)
                     } else if (mchoice == 2) {
-//                            val intent_scan = Intent(baseContext, JegoInScan::class.java)
-//                            startActivity(intent_scan)
+                        val intent_scan = Intent(baseContext, JegoInJosaActivity::class.java)
+                        startActivity(intent_scan)
                     } else {
 //                            val intent_scan = Intent(baseContext, JegoICLScan::class.java)
 //                            startActivity(intent_scan)

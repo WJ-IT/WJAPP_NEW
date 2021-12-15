@@ -18,8 +18,8 @@ android {
         applicationId "wjm.co.kr.wjapp_new"
         minSdkVersion 21
         targetSdkVersion 30
-        versionCode 24
-        versionName "2.5.1"
+        versionCode 25
+        versionName "2.5.2"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
