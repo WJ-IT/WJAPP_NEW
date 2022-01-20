@@ -3,14 +3,13 @@ package wjm.co.kr.wjapp_new
 import android.app.AlertDialog
 import android.app.Dialog
 import android.content.Context
+import android.database.sqlite.SQLiteDatabase
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.os.Message
-import android.support.design.widget.FloatingActionButton
-import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
@@ -23,10 +22,10 @@ import android.widget.*
 import com.google.gson.GsonBuilder
 import okhttp3.*
 import wjm.co.kr.wjapp_new.databinding.ActivityJegoJosaBinding
-import wjm.co.kr.wjapp_new.databinding.ActivityWjJaegoReportBinding
 import java.io.IOException
 import java.net.URL
 import java.util.concurrent.TimeUnit
+import kotlin.collections.ArrayList
 
 class JegoJosaActivity : AppCompatActivity() {
     private lateinit var bindingA: ActivityJegoJosaBinding
@@ -49,6 +48,10 @@ class JegoJosaActivity : AppCompatActivity() {
     private var josaDetailAdapter: CDialogJosaAdapter? = null
     private var josaDetailList: ArrayList<JosaDetailItem> = ArrayList()
 
+    // SQLite DB관련
+    private var db: SQLiteDatabase? = null
+    private var dbName = "WJDB2"
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         bindingA = ActivityJegoJosaBinding.inflate(layoutInflater)
@@ -65,7 +68,11 @@ class JegoJosaActivity : AppCompatActivity() {
         bindingA.bindingJjosa.btnJosaReaderInit.setOnClickListener(({
             if(InventoryMenuActivity.SwingInfo.swing_NAME.contains("RFPrisma", true)) {
                 InventoryMenuActivity.SwingInfo.mSwing!!.prisma_tagDel()
+            } else {
+                Toast.makeText(this, "Prisma 리더기만 해당됩니다.", Toast.LENGTH_LONG).show()
             }
+//            println("xxxxxxxxxxxxxxx" + dbcount())
+//            println("xxxxxxxxxxxxxxx2" + ReadingJosaRFID.mTagItem.size)
         }))
 
         bindingA.bindingJjosa.btnJosaTagInit.setOnClickListener(({
@@ -73,13 +80,11 @@ class JegoJosaActivity : AppCompatActivity() {
             josaItemList.clear()
             josaItemAdapter!!.notifyDataSetChanged()
             tagBefSize = 0
+            dbdelete("ALL")
         }))
 
         bindingA.bindingJjosa.cbJosaDiff.setOnClickListener(({
-            if (bindingA.bindingJjosa.cbJosaDiff.isChecked) {
-                println("a")
-
-            } else println("b")
+//            if (bindingA.bindingJjosa.cbJosaDiff.isChecked) {}
             josaItemAdapter!!.notifyDataSetChanged()
         }))
 
@@ -93,6 +98,9 @@ class JegoJosaActivity : AppCompatActivity() {
                 }
                 .setNegativeButton("취소", null).show()
         }))
+
+        //DB관련
+        db = openOrCreateDatabase(dbName, MODE_PRIVATE, null)
     }
 
     private fun jegoJosaInit() {
@@ -171,6 +179,7 @@ class JegoJosaActivity : AppCompatActivity() {
         if(InventoryMenuActivity.SwingInfo.swing_NAME.contains("RFPrisma", true)) {
             InventoryMenuActivity.SwingInfo.mSwing!!.prisma_tagDel()
         }
+
     }
 
     private fun makeSendTagList(gbn: String) : String {
@@ -195,9 +204,14 @@ class JegoJosaActivity : AppCompatActivity() {
                     tagList += ",'"+ ReadingJosaRFID.mTagItem[i].epcID_Ascii+"'"//.get(i).epcID_Ascii+"'"
                 }
 
-                if (josaItemList.size > 0 && tagList.length > 0 && startOK) {
+                if (josaItemList.size > 0 && tagList.isNotEmpty() && startOK) {
+                    readTagInsertDB(tagNowSize, tagBefSize)
                     tagBefSize = tagNowSize
                     getReadingtagList(tagList)
+                } else {
+                    if (!startOK) {
+                        Toast.makeText(this, "이전 응답 대기중입니다.", Toast.LENGTH_LONG).show()
+                    }
                 }
 
                 return ""
@@ -217,7 +231,7 @@ class JegoJosaActivity : AppCompatActivity() {
 
     private fun swingConnChk() : Boolean {
         //블루투스 장비 연결 체크
-        if (InventoryMenuActivity.SwingInfo.swing_ADDRESS.equals("")) {
+        if (InventoryMenuActivity.SwingInfo.swing_ADDRESS == "") {
             Toast.makeText(this, "리더기를 연결해주세요", Toast.LENGTH_LONG).show()
             return false
         }
@@ -295,7 +309,7 @@ class JegoJosaActivity : AppCompatActivity() {
                             dBJosaItemList.results[idx].dcSpec
                         )
                     )
-                    rlmSumQty = rlmSumQty + dBJosaItemList.results[idx].rlmQty!!.toInt()
+                    rlmSumQty += dBJosaItemList.results[idx].rlmQty!!.toInt()
                 }
 
                 runOnUiThread { //UI에 알려줌
@@ -308,6 +322,7 @@ class JegoJosaActivity : AppCompatActivity() {
             override fun onFailure(call: Call, e: IOException) {
                 println("Failed to execute request!")
                 println(e.message)
+                startOK = true
             }
         })
         startOK = true
@@ -335,14 +350,15 @@ class JegoJosaActivity : AppCompatActivity() {
 
                 for (idx in dBReadingTagList.results.indices) {
                     for (idx2 in josaItemList.indices) {
-                        if (josaItemList[idx2].cdItem!!.trim().equals(dBReadingTagList.results[idx].cdItem!!.trim()) &&
-                            josaItemList[idx2].cdSpec!!.trim().equals(dBReadingTagList.results[idx].cdSpec!!.trim()) &&
-                            josaItemList[idx2].dcSpec!!.trim().equals(dBReadingTagList.results[idx].dcSpec!!.trim())) {
+                        if (josaItemList[idx2].cdItem!!.trim() == dBReadingTagList.results[idx].cdItem!!.trim() &&
+                            josaItemList[idx2].cdSpec!!.trim() == dBReadingTagList.results[idx].cdSpec!!.trim() &&
+                            josaItemList[idx2].dcSpec!!.trim() == dBReadingTagList.results[idx].dcSpec!!.trim()
+                        ) {
                             if (dBReadingTagList.results[idx].gbnInOut.equals("IN"))
                                 josaItemList[idx2].inQty = (josaItemList[idx2].inQty!!.toInt() + dBReadingTagList.results[idx].tagQty!!.toInt()).toString()
                             else
                                 josaItemList[idx2].outQty = (josaItemList[idx2].outQty!!.toInt() + dBReadingTagList.results[idx].tagQty!!.toInt()).toString()
-                            tagSumQty = tagSumQty + dBReadingTagList.results[idx].tagQty!!.toInt()
+                            tagSumQty += dBReadingTagList.results[idx].tagQty!!.toInt()
                         }
                     }
                 }
@@ -361,6 +377,7 @@ class JegoJosaActivity : AppCompatActivity() {
             override fun onFailure(call: Call, e: IOException) {
                 println("Failed to execute request!")
                 println(e.message)
+                startOK = true
             }
         })
         startOK = true
@@ -389,6 +406,7 @@ class JegoJosaActivity : AppCompatActivity() {
                 if (dBSendTagList.results == "OK") {
                     runOnUiThread { //UI에 알려줌
                         Toast.makeText(baseContext,"전송이 완료되엇습니다.", Toast.LENGTH_LONG).show()
+//                        dbdelete() //전송한 만큼 삭제해야함
                         loadingDialog.dismiss()
                     }
                 }
@@ -403,6 +421,7 @@ class JegoJosaActivity : AppCompatActivity() {
             override fun onFailure(call: Call, e: IOException) {
                 println("Failed to execute request!")
                 println(e.message)
+                startOK = true
             }
         })
         startOK = true
@@ -450,8 +469,10 @@ class JegoJosaActivity : AppCompatActivity() {
             override fun onFailure(call: Call, e: IOException) {
                 println("Failed to execute request!")
                 println(e.message)
+                startOK = true
             }
         })
+        startOK = true
     }
     data class DBJosaProductList(val results: List<JosaProducts>)
     data class JosaProducts(var cdPln: String?, var nmPln: String?, var flag: Boolean?)
@@ -690,7 +711,6 @@ class JegoJosaActivity : AppCompatActivity() {
                         position = i
                         break
                     }
-                    titem = null
                 }
                 return position
             }
@@ -711,8 +731,35 @@ class JegoJosaActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
+    private fun readTagInsertDB(newCnt: Int, oldCnt: Int) {
+        for (i in oldCnt until newCnt) {
+            db!!.execSQL(
+                "INSERT INTO JOSA_INFO (NO_TAG) values('" + ReadingJosaRFID.mTagItem[i].epcID_Ascii + "');"
+            )
+        }
+    }
+
+    private fun dbdelete(item:String) {
+        if (item == "ALL") {
+            db!!.delete("JOSA_INFO", "1=1", null)
+        } else {
+            val whereArg = arrayOf(item)
+            db!!.delete("JOSA_INFO", "NO_TAG = ?", whereArg)
+        }
+    }
+
+    private fun dbcount() : Int {
+        var rtnval = 0
+        val cur1 = db!!.rawQuery("SELECT COUNT(*) FROM JOSA_INFO", null)
+            cur1.moveToNext()
+            rtnval = cur1.getString(0).toInt()
+        cur1.close()
+        return rtnval
+    }
+
     override fun onDestroy() {
         super.onDestroy()
+        dbdelete("ALL")
         ReadingJosaRFID.mTagItem.clear()
         if (swingConnChk())
             mTimeHandler.removeMessages(0)
