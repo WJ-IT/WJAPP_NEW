@@ -712,7 +712,8 @@ println(cdDia)
 
                 if (selcdUseName!!.contains("POD", ignoreCase = true)
                     || selcdUseName!!.contains("ASPIRA", ignoreCase = true)
-                    || selcdUseName!!.contains("ANKORIS", ignoreCase = true)) {
+                    || selcdUseName!!.contains("ANKORIS", ignoreCase = true)
+                    || selcdUseName!!.contains("ISOPURE123", ignoreCase = true)) {
                     bindingA.bindingOrder.spinSpecPower2.visibility = View.VISIBLE
                     bindingA.bindingOrder.txtFrToPower.visibility = View.VISIBLE
                 } else {

@@ -54,11 +54,7 @@ class WjPodftJisiActivity : AppCompatActivity() {
         podftJisiInit()
 
         bindingA.bindingPodftJisi.btnJisiSearch.setOnClickListener(({
-            if (checkDate()) {
-                totChkCount = 0
-                bindingA.bindingPodftJisi.llJisiButtons.visibility = View.GONE
-                getPodFTJisiData()
-            }
+            clickSerarch()
         }))
 
         bindingA.bindingPodftJisi.btnJisiSeoul.setOnClickListener(({
@@ -126,6 +122,14 @@ class WjPodftJisiActivity : AppCompatActivity() {
         }))
 
         bindingA.bindingPodftJisi.llJisiButtons.visibility = View.GONE
+    }
+
+    fun clickSerarch() {
+        if (checkDate()) {
+            totChkCount = 0
+            bindingA.bindingPodftJisi.llJisiButtons.visibility = View.GONE
+            getPodFTJisiData()
+        }
     }
 
     fun closeKeyboard() {
@@ -392,7 +396,7 @@ class WjPodftJisiActivity : AppCompatActivity() {
         val loadingDialog = LodingDialog(this)
         loadingDialog.show()
         val url = URL("http://iclkorea.com/android/WJPodFTJisi_Confirm.asp")
-        val body = FormBody.Builder().add("gbn", gbn).add("noReqs", selNoReqs).add("injs", selInjecotrs).add("dtOrds", selDtOrds).build()
+        val body = FormBody.Builder().add("gbn", gbn).add("noReqs", selNoReqs).add("injs", selInjecotrs).add("dtOrds", selDtOrds).add("sno", WjmMain.LoginUser.sno).build()
         val request = Request.Builder().url(url).post(body).build()
         val client = OkHttpClient()
 
@@ -411,11 +415,13 @@ class WjPodftJisiActivity : AppCompatActivity() {
                         runOnUiThread {
                             podftJisiAdapter!!.notifyDataSetChanged()
                             loadingDialog.dismiss()
+                            clickSerarch()
                         }
                     } else {
                         runOnUiThread {
                             Toast.makeText(baseContext, "출고지시를 실패하였습니다.", Toast.LENGTH_LONG).show()
                             loadingDialog.dismiss()
+                            clickSerarch()
                         }
                     }
                 }
