@@ -24,8 +24,8 @@ import okhttp3.*
 import wjm.co.kr.wjapp_new.databinding.ActivityJegoJosaBinding
 import java.io.IOException
 import java.net.URL
+import java.nio.charset.StandardCharsets
 import java.util.concurrent.TimeUnit
-import kotlin.collections.ArrayList
 
 class JegoJosaActivity : AppCompatActivity() {
     private lateinit var bindingA: ActivityJegoJosaBinding
@@ -66,13 +66,13 @@ class JegoJosaActivity : AppCompatActivity() {
         jegoJosaInit()
 
         bindingA.bindingJjosa.btnJosaReaderInit.setOnClickListener(({
-            if(InventoryMenuActivity.SwingInfo.swing_NAME.contains("RFPrisma", true)) {
+            if (InventoryMenuActivity.SwingInfo.swing_NAME.contains("RFPrisma", true)) {
                 InventoryMenuActivity.SwingInfo.mSwing!!.prisma_tagDel()
             } else {
                 Toast.makeText(this, "Prisma 리더기만 해당됩니다.", Toast.LENGTH_LONG).show()
             }
-//            println("xxxxxxxxxxxxxxx" + dbcount())
-//            println("xxxxxxxxxxxxxxx2" + ReadingJosaRFID.mTagItem.size)
+            println("xxxxxxxxxxxxxxx" + dbcount())
+            println("xxxxxxxxxxxxxxx2" + ReadingJosaRFID.mTagItem.size)
         }))
 
         bindingA.bindingJjosa.btnJosaTagInit.setOnClickListener(({
@@ -190,9 +190,10 @@ class JegoJosaActivity : AppCompatActivity() {
             "ALL" -> {  //전체는 최종 결과 전송시
                 for (i in 0 until tagNowSize) {
                     if (i == 0) {
-                        tagList = "'"+ ReadingJosaRFID.mTagItem[i].epcID_Ascii+"'"//.get(i).epcID_Ascii+"'"
+                        tagList =
+                            "'" + ReadingJosaRFID.mTagItem[i].epcID_Ascii + "'"//.get(i).epcID_Ascii+"'"
                     }
-                    tagList += ",'"+ ReadingJosaRFID.mTagItem[i].epcID_Ascii+"'"//.get(i).epcID_Ascii+"'"
+                    tagList += ",'" + ReadingJosaRFID.mTagItem[i].epcID_Ascii + "'"//.get(i).epcID_Ascii+"'"
                 }
                 return tagList
             }
@@ -205,6 +206,9 @@ class JegoJosaActivity : AppCompatActivity() {
                 }
 
                 if (josaItemList.size > 0 && tagList.isNotEmpty() && startOK) {
+                    println("josaitemlist: ${josaItemList.size}")
+                    println("tagList: ${tagList}")
+                    println("taginsert start ${tagNowSize} end : ${tagBefSize}")
                     readTagInsertDB(tagNowSize, tagBefSize)
                     tagBefSize = tagNowSize
                     getReadingtagList(tagList)
@@ -288,47 +292,47 @@ class JegoJosaActivity : AppCompatActivity() {
             .writeTimeout(30, TimeUnit.MINUTES)
             .connectTimeout(30, TimeUnit.MINUTES).build()
             .newCall(request).enqueue(object : Callback {
-            override fun onResponse(call: Call, response: Response) {
-                val body1 = response.body?.string()
-                var rlmSumQty = 0
+                override fun onResponse(call: Call, response: Response) {
+                    val body1 = response.body?.string()
+                    var rlmSumQty = 0
 
-                //Gson으로 파싱
-                val gson = GsonBuilder().create()
-                val dBJosaItemList = gson.fromJson(body1, DBJosaItemList::class.java)
+                    //Gson으로 파싱
+                    val gson = GsonBuilder().create()
+                    val dBJosaItemList = gson.fromJson(body1, DBJosaItemList::class.java)
 
-                for (idx in dBJosaItemList.results.indices) {
-                    josaItemList.add(
-                        JosaItem(
-                            dBJosaItemList.results[idx].cdItem,
-                            dBJosaItemList.results[idx].nmItem,
-                            dBJosaItemList.results[idx].cdSpec,
-                            dBJosaItemList.results[idx].nmSpec,
-                            dBJosaItemList.results[idx].inQty,
-                            dBJosaItemList.results[idx].outQty,
-                            dBJosaItemList.results[idx].rlmQty,
-                            dBJosaItemList.results[idx].dcSpec
+                    for (idx in dBJosaItemList.results.indices) {
+                        josaItemList.add(
+                            JosaItem(
+                                dBJosaItemList.results[idx].cdItem,
+                                dBJosaItemList.results[idx].nmItem,
+                                dBJosaItemList.results[idx].cdSpec,
+                                dBJosaItemList.results[idx].nmSpec,
+                                dBJosaItemList.results[idx].inQty,
+                                dBJosaItemList.results[idx].outQty,
+                                dBJosaItemList.results[idx].rlmQty,
+                                dBJosaItemList.results[idx].dcSpec
+                            )
                         )
-                    )
-                    rlmSumQty += dBJosaItemList.results[idx].rlmQty!!.toInt()
+                        rlmSumQty += dBJosaItemList.results[idx].rlmQty!!.toInt()
+                    }
+
+                    runOnUiThread { //UI에 알려줌
+                        josaItemAdapter!!.notifyDataSetChanged()
+                        loadingDialog.dismiss()
+                        bindingA.bindingJjosa.txtJosaRlmSum.text = rlmSumQty.toString()
+                    }
                 }
 
-                runOnUiThread { //UI에 알려줌
-                    josaItemAdapter!!.notifyDataSetChanged()
-                    loadingDialog.dismiss()
-                    bindingA.bindingJjosa.txtJosaRlmSum.text = rlmSumQty.toString()
+                override fun onFailure(call: Call, e: IOException) {
+                    println("Failed to execute request!")
+                    println(e.message)
+                    startOK = true
                 }
-            }
-
-            override fun onFailure(call: Call, e: IOException) {
-                println("Failed to execute request!")
-                println(e.message)
-                startOK = true
-            }
-        })
+            })
         startOK = true
     }
     //읽은 태그 정보를 가져와서 기존 리스트에 추가한다
-    private fun getReadingtagList(tagLists : String) {
+    private fun getReadingtagList(tagLists: String) {
         startOK = false
         val loadingDialog = LodingDialog(this)
         loadingDialog.show()
@@ -340,46 +344,49 @@ class JegoJosaActivity : AppCompatActivity() {
             .writeTimeout(30, TimeUnit.MINUTES)
             .connectTimeout(30, TimeUnit.MINUTES).build()
             .newCall(request).enqueue(object : Callback {
-            override fun onResponse(call: Call, response: Response) {
-                val body1 = response.body?.string()
-                var tagSumQty = 0
+                override fun onResponse(call: Call, response: Response) {
+                    val body1 = response.body?.string()
+                    var tagSumQty = 0
 
-                //Gson으로 파싱
-                val gson = GsonBuilder().create()
-                val dBReadingTagList = gson.fromJson(body1, DBReadingTagList::class.java)
+                    //Gson으로 파싱
+                    val gson = GsonBuilder().create()
+                    val dBReadingTagList = gson.fromJson(body1, DBReadingTagList::class.java)
 
-                for (idx in dBReadingTagList.results.indices) {
-                    for (idx2 in josaItemList.indices) {
-                        if (josaItemList[idx2].cdItem!!.trim() == dBReadingTagList.results[idx].cdItem!!.trim() &&
-                            josaItemList[idx2].cdSpec!!.trim() == dBReadingTagList.results[idx].cdSpec!!.trim() &&
-                            josaItemList[idx2].dcSpec!!.trim() == dBReadingTagList.results[idx].dcSpec!!.trim()
-                        ) {
-                            if (dBReadingTagList.results[idx].gbnInOut.equals("IN"))
-                                josaItemList[idx2].inQty = (josaItemList[idx2].inQty!!.toInt() + dBReadingTagList.results[idx].tagQty!!.toInt()).toString()
-                            else
-                                josaItemList[idx2].outQty = (josaItemList[idx2].outQty!!.toInt() + dBReadingTagList.results[idx].tagQty!!.toInt()).toString()
-                            tagSumQty += dBReadingTagList.results[idx].tagQty!!.toInt()
+                    for (idx in dBReadingTagList.results.indices) {
+                        for (idx2 in josaItemList.indices) {
+                            if (josaItemList[idx2].cdItem!!.trim() == dBReadingTagList.results[idx].cdItem!!.trim() &&
+                                josaItemList[idx2].cdSpec!!.trim() == dBReadingTagList.results[idx].cdSpec!!.trim() &&
+                                josaItemList[idx2].dcSpec!!.trim() == dBReadingTagList.results[idx].dcSpec!!.trim()
+                            ) {
+                                if (dBReadingTagList.results[idx].gbnInOut.equals("IN"))
+                                    josaItemList[idx2].inQty =
+                                        (josaItemList[idx2].inQty!!.toInt() + dBReadingTagList.results[idx].tagQty!!.toInt()).toString()
+                                else
+                                    josaItemList[idx2].outQty =
+                                        (josaItemList[idx2].outQty!!.toInt() + dBReadingTagList.results[idx].tagQty!!.toInt()).toString()
+                                tagSumQty += dBReadingTagList.results[idx].tagQty!!.toInt()
+                            }
                         }
+                    }
+
+                    runOnUiThread { //UI에 알려줌
+                        val temp = bindingA.bindingJjosa.txtJosaTagSum.text
+                        if (temp.isBlank() || temp.isEmpty())
+                            bindingA.bindingJjosa.txtJosaTagSum.text = tagSumQty.toString()
+                        else
+                            bindingA.bindingJjosa.txtJosaTagSum.text =
+                                (Integer.parseInt(bindingA.bindingJjosa.txtJosaTagSum.text.toString()) + tagSumQty).toString()
+                        josaItemAdapter!!.notifyDataSetChanged()
+                        loadingDialog.dismiss()
                     }
                 }
 
-                runOnUiThread { //UI에 알려줌
-                    val temp = bindingA.bindingJjosa.txtJosaTagSum.text
-                    if (temp.isBlank() || temp.isEmpty())
-                        bindingA.bindingJjosa.txtJosaTagSum.text = tagSumQty.toString()
-                    else
-                        bindingA.bindingJjosa.txtJosaTagSum.text = (Integer.parseInt(bindingA.bindingJjosa.txtJosaTagSum.text.toString()) + tagSumQty).toString()
-                    josaItemAdapter!!.notifyDataSetChanged()
-                    loadingDialog.dismiss()
+                override fun onFailure(call: Call, e: IOException) {
+                    println("Failed to execute request!")
+                    println(e.message)
+                    startOK = true
                 }
-            }
-
-            override fun onFailure(call: Call, e: IOException) {
-                println("Failed to execute request!")
-                println(e.message)
-                startOK = true
-            }
-        })
+            })
         startOK = true
     }
 
@@ -389,41 +396,48 @@ class JegoJosaActivity : AppCompatActivity() {
         loadingDialog.show()
         val url = URL("http://iclkorea.com/android/JegoJosa_TagResultSend.asp")
         println("josa result : $tagLists")
-        val body = FormBody.Builder().add("tags", tagLists).add("cdpln", selCdPln).add("readerNo", cdloc).add("cdUsr", WjmMain.LoginUser.sno).build()
+        val body = FormBody.Builder().add("tags", tagLists).add("cdpln", selCdPln).add(
+            "readerNo",
+            cdloc
+        ).add("cdUsr", WjmMain.LoginUser.sno).build()
         val request = Request.Builder().url(url).post(body).build()
         val client = OkHttpClient()
         client.newBuilder().readTimeout(30, TimeUnit.MINUTES)
             .writeTimeout(30, TimeUnit.MINUTES)
             .connectTimeout(30, TimeUnit.MINUTES).build()
             .newCall(request).enqueue(object : Callback {
-            override fun onResponse(call: Call, response: Response) {
-                val body1 = response.body?.string()
-                println("Success to execute request! : $body1")
-                //Gson으로 파싱
-                val gson = GsonBuilder().create()
-                val dBSendTagList = gson.fromJson(body1, DBSendTagList::class.java)
+                override fun onResponse(call: Call, response: Response) {
+                    val body1 = response.body?.string()
+                    println("Success to execute request! : $body1")
+                    //Gson으로 파싱
+                    val gson = GsonBuilder().create()
+                    val dBSendTagList = gson.fromJson(body1, DBSendTagList::class.java)
 
-                if (dBSendTagList.results == "OK") {
-                    runOnUiThread { //UI에 알려줌
-                        Toast.makeText(baseContext,"전송이 완료되엇습니다.", Toast.LENGTH_LONG).show()
-//                        dbdelete() //전송한 만큼 삭제해야함
-                        loadingDialog.dismiss()
+                    if (dBSendTagList.results == "OK") {
+                        runOnUiThread { //UI에 알려줌
+                            Toast.makeText(baseContext, "전송이 완료되엇습니다.", Toast.LENGTH_LONG).show()
+                            dbdelete(tagLists) //전송한만큼 삭제
+                            loadingDialog.dismiss()
+
+                        }
+                    } else {
+                        runOnUiThread { //UI에 알려줌
+                            Toast.makeText(
+                                baseContext,
+                                "전송이 실패되엇습니다.(" + dBSendTagList.status + ")",
+                                Toast.LENGTH_LONG
+                            ).show()
+                            loadingDialog.dismiss()
+                        }
                     }
                 }
-                else {
-                    runOnUiThread { //UI에 알려줌
-                        Toast.makeText(baseContext,"전송이 실패되엇습니다.("+dBSendTagList.status+")", Toast.LENGTH_LONG).show()
-                        loadingDialog.dismiss()
-                    }
-                }
-            }
 
-            override fun onFailure(call: Call, e: IOException) {
-                println("Failed to execute request!")
-                println(e.message)
-                startOK = true
-            }
-        })
+                override fun onFailure(call: Call, e: IOException) {
+                    println("Failed to execute request!")
+                    println(e.message)
+                    startOK = true
+                }
+            })
         startOK = true
     }
 
@@ -434,7 +448,10 @@ class JegoJosaActivity : AppCompatActivity() {
         josaDetailList.clear()
         //println(arg1.toString())
         val url = URL("http://iclkorea.com/android/JegoJosa_DetailList.asp")
-        val body = FormBody.Builder().add("cdItem", arg1).add("cdSpec", arg2).add("dcSpec",arg3).add("loc", cdloc).add("tags", tags).build()
+        val body = FormBody.Builder().add("cdItem", arg1).add("cdSpec", arg2).add("dcSpec", arg3).add(
+            "loc",
+            cdloc
+        ).add("tags", tags).build()
 //        println(arg1 + " " + arg2 + " " + arg3 + " "+ tags)
         val request = Request.Builder().url(url).post(body).build()
         val client = OkHttpClient()
@@ -476,15 +493,39 @@ class JegoJosaActivity : AppCompatActivity() {
     }
     data class DBJosaProductList(val results: List<JosaProducts>)
     data class JosaProducts(var cdPln: String?, var nmPln: String?, var flag: Boolean?)
-    data class DBJosaItemList(val results:List<JosaItem>)
-    data class JosaItem(var cdItem:String?, var nmItem:String?, var cdSpec:String?, var nmSpec:String?, var inQty:String?, var outQty:String?, var rlmQty:String?, var dcSpec:String?)
-    data class DBReadingTagList(val results:List<ReadingTagItem>)
-    data class ReadingTagItem(var cdItem:String?, var cdSpec:String?, var dcSpec:String?, var gbnInOut:String?, var tagQty:String?)
-    data class DBSendTagList(val results:String, val status:String)
-    data class DBJosaDetailItem(val results:List<JosaDetailItem>)
-    data class JosaDetailItem(var tagSerial:String?, var tagInOut:String?, var tagLoc:String?, var rlmSerial:String?)
+    data class DBJosaItemList(val results: List<JosaItem>)
+    data class JosaItem(
+        var cdItem: String?,
+        var nmItem: String?,
+        var cdSpec: String?,
+        var nmSpec: String?,
+        var inQty: String?,
+        var outQty: String?,
+        var rlmQty: String?,
+        var dcSpec: String?
+    )
+    data class DBReadingTagList(val results: List<ReadingTagItem>)
+    data class ReadingTagItem(
+        var cdItem: String?,
+        var cdSpec: String?,
+        var dcSpec: String?,
+        var gbnInOut: String?,
+        var tagQty: String?
+    )
+    data class DBSendTagList(val results: String, val status: String)
+    data class DBJosaDetailItem(val results: List<JosaDetailItem>)
+    data class JosaDetailItem(
+        var tagSerial: String?,
+        var tagInOut: String?,
+        var tagLoc: String?,
+        var rlmSerial: String?
+    )
 
-    inner class JosaProductAdapter(private val context: Context, private val itemList: ArrayList<JosaProducts>, private val onClickItem: View.OnClickListener) : RecyclerView.Adapter<JosaProductAdapter.ViewHolder>() {
+    inner class JosaProductAdapter(
+        private val context: Context,
+        private val itemList: ArrayList<JosaProducts>,
+        private val onClickItem: View.OnClickListener
+    ) : RecyclerView.Adapter<JosaProductAdapter.ViewHolder>() {
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
             // context 와 parent.getContext() 는 같다.
@@ -517,13 +558,17 @@ class JegoJosaActivity : AppCompatActivity() {
         }
     }
 
-    inner class JosaItemAdapter(private val context: Context, private val itemList: ArrayList<JosaItem>, private val onLongClick:View.OnLongClickListener) : RecyclerView.Adapter<JosaItemAdapter.ViewHolder>() {
+    inner class JosaItemAdapter(
+        private val context: Context,
+        private val itemList: ArrayList<JosaItem>,
+        private val onLongClick: View.OnLongClickListener
+    ) : RecyclerView.Adapter<JosaItemAdapter.ViewHolder>() {
 
         override fun getItemCount(): Int {
             return itemList.size
         }
 
-        override fun onCreateViewHolder(parent: ViewGroup?,viewType: Int): ViewHolder {
+        override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): ViewHolder {
             val view = LayoutInflater.from(context).inflate(R.layout.row_wj_4col, parent, false)
             return ViewHolder(view)
         }
@@ -579,7 +624,7 @@ class JegoJosaActivity : AppCompatActivity() {
 
         }
 
-        inner class ViewHolder(itemView:View) : RecyclerView.ViewHolder(itemView) {
+        inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
             var txtItem : TextView = itemView.findViewById(R.id.txt_Spec)
             var txtSpec : TextView = itemView.findViewById(R.id.txt_OutDt)
             var txtTagQty : TextView = itemView.findViewById(R.id.txt_Serial)
@@ -589,14 +634,21 @@ class JegoJosaActivity : AppCompatActivity() {
         }
     }
 
-    inner class CDialogJosaAdapter(private var context: Context, private var itemList: ArrayList<JosaDetailItem>) : RecyclerView.Adapter<CDialogJosaAdapter.ViewHolder>(){
+    inner class CDialogJosaAdapter(
+        private var context: Context,
+        private var itemList: ArrayList<JosaDetailItem>
+    ) : RecyclerView.Adapter<CDialogJosaAdapter.ViewHolder>(){
 
         override fun getItemCount(): Int {
             return itemList.size
         }
 
         override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): ViewHolder {
-            val view = LayoutInflater.from(context).inflate(R.layout.row_josa_cdialog, parent, false)
+            val view = LayoutInflater.from(context).inflate(
+                R.layout.row_josa_cdialog,
+                parent,
+                false
+            )
             return ViewHolder(view)
         }
 
@@ -658,6 +710,9 @@ class JegoJosaActivity : AppCompatActivity() {
 
     private val onClickItem = View.OnClickListener { v ->
         selCdPln  = v.tag as String
+        startOK = false
+        val loadingDialog = LodingDialog(this)
+        loadingDialog.show()
 
         for (idx in 0 until josaProductList.size)
             josaProductList[idx].flag = (josaProductList[idx].cdPln == selCdPln)
@@ -673,6 +728,11 @@ class JegoJosaActivity : AppCompatActivity() {
         println("mtag size : ${ReadingJosaRFID.mTagItem.size}")
         if (ReadingJosaRFID.mTagItem.size > 0)
             makeSendTagList("TIMER")
+
+        dbchk()
+
+        loadingDialog.dismiss()
+        startOK = true
     }
 
     private val onLongClick = View.OnLongClickListener { v->
@@ -692,6 +752,7 @@ class JegoJosaActivity : AppCompatActivity() {
 
             fun showDataJepum(Item: TagItem) {
                 val pos = getPosition(Item)
+                println("Position : ${pos}")
                 if (pos < 0) {              //읽은 태그가 중복이 아니면 변수 등록
                     mTagItem.add(Item)
                 }
@@ -706,8 +767,8 @@ class JegoJosaActivity : AppCompatActivity() {
 
                 for (i in 0 until mTagItem.size) {
                     titem = mTagItem[i]
-                    oldID = titem.getEpcID()
-                    if (oldID == item.getEpcID()) {
+                    oldID = titem.getEpcID_Ascii()
+                    if (oldID == item.getEpcID_Ascii()) {
                         position = i
                         break
                     }
@@ -716,9 +777,32 @@ class JegoJosaActivity : AppCompatActivity() {
             }
             //검색된것의 중복체크를 위한 함수 END
 
-            fun setBattery(status:String) {
+            fun setBattery(status: String) {
                 batteryStatus = status
             }
+        }
+    }
+
+    private fun tagmatch(gbn: String) {
+        var no_tag : String = ""
+        var tempTagitem : TagItem
+        if (gbn == "DB") {
+            Toast.makeText(this, "TagMatching Start", Toast.LENGTH_SHORT).show()
+            //db가 많으면 예기치 못한 튕김으로 판단 db의 태그를 mtag로 복사
+            ReadingJosaRFID.mTagItem.clear()
+            val cur1 = db!!.rawQuery("SELECT DISTINCT NO_TAG FROM JOSA_INFO;", null)
+
+            while (cur1.moveToNext()) {
+                no_tag = cur1.getString(0)
+                tempTagitem = TagItem("EPC", no_tag)
+                ReadingJosaRFID.mTagItem.add(tempTagitem)
+                println("MATCH : ${no_tag}")
+            }
+            cur1.close()
+            dbdelete("ALL")
+            Toast.makeText(this, "TagMatching End", Toast.LENGTH_SHORT).show()
+        } else {
+
         }
     }
 
@@ -739,12 +823,15 @@ class JegoJosaActivity : AppCompatActivity() {
         }
     }
 
-    private fun dbdelete(item:String) {
+    private fun dbdelete(item: String) {
         if (item == "ALL") {
             db!!.delete("JOSA_INFO", "1=1", null)
         } else {
             val whereArg = arrayOf(item)
-            db!!.delete("JOSA_INFO", "NO_TAG = ?", whereArg)
+            println("전송 tag ${item}")
+          //  db!!.delete("JOSA_INFO", "NO_TAG IN (?)", whereArg)
+            val sql = "DELETE FROM JOSA_INFO WHERE NO_TAG IN (${item})"
+            db!!.execSQL(sql)
         }
     }
 
@@ -755,6 +842,19 @@ class JegoJosaActivity : AppCompatActivity() {
             rtnval = cur1.getString(0).toInt()
         cur1.close()
         return rtnval
+    }
+
+    private fun dbchk() {
+        val dbcnt = dbcount()
+        val mtagcnt = ReadingJosaRFID.mTagItem.size
+        if (mtagcnt == dbcnt) return
+
+        if (dbcnt > mtagcnt)
+//            if (mtagcnt == 0)
+                tagmatch("DB")
+        else
+            tagmatch("mTAG")
+
     }
 
     override fun onDestroy() {

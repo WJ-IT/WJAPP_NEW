@@ -19,6 +19,12 @@ public class TagItem {
         //this.epcID_Ascii = convertTagValue(epcID);
         this.count = 1;
     }
+    public TagItem(String gbn, String _tagID) {
+        if (gbn.equals("EPC")) {
+            this.epcID_Ascii = _tagID;
+            this.count = 1;
+        }
+    }
     public void setEpcID_Ascii(String temp) {
         epcID_Ascii = temp;
     }
