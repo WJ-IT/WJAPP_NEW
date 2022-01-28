@@ -11,10 +11,13 @@ import android.os.Handler
 import android.os.Looper
 import android.os.Message
 import android.support.constraint.ConstraintSet
+import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.transition.TransitionManager
+import android.util.DisplayMetrics
+import android.util.TypedValue
 import android.view.*
 import android.widget.*
 import com.google.gson.GsonBuilder
@@ -55,7 +58,7 @@ class WjOrderActivity : AppCompatActivity() {
 
 
     private lateinit var trV2Dia : TableRow
-    private lateinit var trV3Bc : TableRow
+//    private lateinit var trV3Bc : TableRow
     private lateinit var trV4Power : TableRow
     private lateinit var trV5Spec : TableRow
     private lateinit var spinItem : Spinner
@@ -210,7 +213,7 @@ class WjOrderActivity : AppCompatActivity() {
         customerDialog(layoutInflater, mHandler, this, "").show()
 
         trV2Dia = findViewById(R.id.trV2Dia)
-        trV3Bc = findViewById(R.id.trV3Bc)
+//        trV3Bc = findViewById(R.id.trV3Bc)
         trV4Power = findViewById(R.id.trV4Power)
         trV5Spec = findViewById(R.id.trV5Spec)
 
@@ -228,6 +231,7 @@ class WjOrderActivity : AppCompatActivity() {
 
         spinItemAdapter = SpinnerAdapter(this, android.R.layout.simple_spinner_dropdown_item, arSpinNmItem)
         spinItem.adapter=spinItemAdapter
+        spinItem.dropDownVerticalOffset = dipToPixels(32f).toInt()
         spinItem.onItemSelectedListener = onItemSelectedListener
         spinSpecDiaAdapter = ArrayAdapter(this, R.layout.spinnerlayout_order, arSpinDia)
         bindingA.bindingOrder.spinSpecDia.adapter=spinSpecDiaAdapter
@@ -709,22 +713,34 @@ println(cdDia)
                 selv5Spec = itemList[position].dcV5
 
                 spininit()
-
+                val constraints=ConstraintSet()
                 if (selcdUseName!!.contains("POD", ignoreCase = true)
                     || selcdUseName!!.contains("ASPIRA", ignoreCase = true)
                     || selcdUseName!!.contains("ANKORIS", ignoreCase = true)
                     || selcdUseName!!.contains("ISOPURE123", ignoreCase = true)) {
                     bindingA.bindingOrder.spinSpecPower2.visibility = View.VISIBLE
                     bindingA.bindingOrder.txtFrToPower.visibility = View.VISIBLE
+                    constraints.clone(bindingA.bindingOrder.clPower)
+                    constraints.connect(bindingA.bindingOrder.spinSpecPower.id, ConstraintSet.END, bindingA.bindingOrder.txtFrToPower.id, ConstraintSet.START, convertDpToPixel(0f,context))
+                    constraints.applyTo(bindingA.bindingOrder.clPower)
                 } else {
                     bindingA.bindingOrder.spinSpecPower2.visibility = View.INVISIBLE
                     bindingA.bindingOrder.txtFrToPower.visibility = View.INVISIBLE
+                    constraints.clone(bindingA.bindingOrder.clPower)
+                    constraints.connect(bindingA.bindingOrder.spinSpecPower.id, ConstraintSet.END, bindingA.bindingOrder.clPower.id, ConstraintSet.END, convertDpToPixel(16f,context) )
+                    constraints.applyTo(bindingA.bindingOrder.clPower)
                 }
                 for (idx in 0 until arProductList.size)
                     if (selcdUseName == arProductList[idx].cdUseName) {
                         arSpinNmItem.add(arProductList[idx].nmItem!!)
                     }
                 spinItemAdapter.notifyDataSetChanged()
+                println("스핀사이즈 : ${arSpinNmItem.size}")
+                if (arSpinNmItem.size == 2) {
+                    spinItem.setSelection(1)
+                    setSpec(1)
+                }
+
 
                 for (idx in 0 until arViewList.size)
                     arViewList[idx].flag = (arViewList[idx].cdUseName == selcdUseName)
@@ -736,10 +752,18 @@ println(cdDia)
                 else
                     trV2Dia.visibility = View.GONE
 
-                if (itemList[position].dcV3 == "Y")
-                    trV3Bc.visibility = View.VISIBLE
-                else
-                    trV3Bc.visibility = View.GONE
+                if (itemList[position].dcV3 == "Y") {
+//                    trV3Bc.visibility = View.VISIBLE
+                    bindingA.bindingOrder.txtBc.visibility = View.VISIBLE
+                    bindingA.bindingOrder.txtBcUnder.visibility = View.VISIBLE
+                    bindingA.bindingOrder.spinSpecBc.visibility = View.VISIBLE
+                }
+                else {
+//                    trV3Bc.visibility = View.GONE
+                    bindingA.bindingOrder.txtBc.visibility = View.INVISIBLE
+                    bindingA.bindingOrder.txtBcUnder.visibility = View.INVISIBLE
+                    bindingA.bindingOrder.spinSpecBc.visibility = View.INVISIBLE
+                }
 
                 if (itemList[position].dcV4 == "Y")
                     trV4Power.visibility = View.VISIBLE
@@ -849,16 +873,13 @@ println(cdDia)
                 cView = inflater.inflate(
                     android.R.layout.simple_spinner_dropdown_item, parent, false
                 )
-
             }
-
             val tv = cView!!.findViewById(android.R.id.text1) as TextView
             tv.text = items[position]
-            tv.setBackgroundColor(Color.DKGRAY)
+            tv.setBackgroundColor(ContextCompat.getColor(applicationContext,R.color.gradation3_start))
             tv.setTextColor(Color.WHITE)
             tv.textSize = 15f
             return cView
-
         }
 
         override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
@@ -870,15 +891,12 @@ println(cdDia)
                     android.R.layout.simple_spinner_item, parent, false
                 )
             }
-
             val tv = cView!!.findViewById(android.R.id.text1) as TextView
             tv.text = items[position]
-            tv.setTextColor(Color.WHITE)
-            tv.textSize = 18f
+            tv.setTextColor(Color.BLACK)
+            tv.textSize = 20f
             return cView
-
         }
-
     }
 
     private fun spininit() {
@@ -906,33 +924,33 @@ println(cdDia)
 
     private val onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
         override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-
-            specinit()
-
-            for (idx in 0 until arProductList.size) {
-                if (arSpinNmItem[position] == arProductList[idx].nmItem)
-                    selcdItem = arProductList[idx].cdItem
-            }
-            if (selv2Dia == "Y") {
-                getSpecList("dia")
-            }
-            if (selv3Bc == "Y") {
-                getSpecList("bc")
-            }
-            if (selv4Power == "Y") {
-                getSpecList("power")
-            }
-            if (selv5Spec == "Y") {
-                getSpecList("spec")
-            }
-
-            if (selv2Dia == "N" && selv3Bc == "N" && selv4Power == "N" && selv5Spec == "N")
-                specConfirm()
+            setSpec(position)
         }
 
         override fun onNothingSelected(parent: AdapterView<*>?) {
-
         }
+    }
+
+    private fun setSpec(position: Int) {
+        for (idx in 0 until arProductList.size) {
+            if (arSpinNmItem[position] == arProductList[idx].nmItem)
+                selcdItem = arProductList[idx].cdItem
+        }
+        if (selv2Dia == "Y") {
+            getSpecList("dia")
+        }
+        if (selv3Bc == "Y") {
+            getSpecList("bc")
+        }
+        if (selv4Power == "Y") {
+            getSpecList("power")
+        }
+        if (selv5Spec == "Y") {
+            getSpecList("spec")
+        }
+
+        if (selv2Dia == "N" && selv3Bc == "N" && selv4Power == "N" && selv5Spec == "N")
+            specConfirm()
     }
 
     private val speconItemSelectedListener = object : AdapterView.OnItemSelectedListener{
@@ -943,6 +961,17 @@ println(cdDia)
 
         override fun onNothingSelected(parent: AdapterView<*>?) {
         }
+    }
+    private fun dipToPixels(dipValue: Float): Float {
+        return TypedValue.applyDimension(
+            TypedValue.COMPLEX_UNIT_DIP,
+            dipValue,
+            resources.displayMetrics
+        )
+    }
+    private fun convertDpToPixel(dp: Float, context: Context): Int {
+        return (dp * (context.resources
+            .displayMetrics.densityDpi.toFloat() / DisplayMetrics.DENSITY_DEFAULT)).toInt()
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

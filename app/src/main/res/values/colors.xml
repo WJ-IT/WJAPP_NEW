@@ -27,4 +27,14 @@
     <color name="slycalendar_defSelectedColor">#2962FF</color>
     <color name="slycalendar_defSelectedTextColor">#ffffff</color>
 
+    <color name="search_back1_start">#3071FF</color>
+    <color name="search_back1_end">#52A3FF</color>
+    <color name="gradation1_start">#ff9fac</color>
+    <color name="gradation1_end">#ffdce5</color>
+    <color name="gradation2_start">#cbdeff</color>
+    <color name="gradation2_end">#ffdce5</color>
+    <color name="gradation3_start">#b7bcf1</color>
+    <color name="gradation3_end">#edeefc</color>
+
+    <color name="spinner_background">#e5e5e5</color>
 </resources>
