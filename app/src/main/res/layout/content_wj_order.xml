@@ -492,9 +492,9 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
-                android:paddingBottom="5dp"
                 android:text="환자명"
                 android:textColor="#000000"
+                app:layout_constraintEnd_toStartOf="@+id/textView188"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -502,15 +502,41 @@
                 android:id="@+id/txt_patient"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="76"
                 android:background="@null"
                 android:ems="10"
                 android:gravity="center"
-                android:hint="환자명 입력"
+                android:hint="직배송시 필수"
                 android:singleLine="true"
                 android:textSize="18dp"
-                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/txt_addr_hp"
+                app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView64" />
+
+        <TextView
+                android:id="@+id/textView188"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="37dp"
+                android:text="휴대폰 번호"
+                android:textColor="#000000"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/textView64" />
+
+        <EditText
+                android:id="@+id/txt_addr_hp"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:background="@null"
+                android:ems="10"
+                android:gravity="center"
+                android:hint="직배송시 필수"
+                android:inputType="textPersonName"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/txt_patient"
                 app:layout_constraintTop_toBottomOf="@+id/textView64" />
 
     </android.support.constraint.ConstraintLayout>
