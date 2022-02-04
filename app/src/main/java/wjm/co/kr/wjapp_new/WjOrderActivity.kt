@@ -3,6 +3,7 @@ package wjm.co.kr.wjapp_new
 import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.app.DatePickerDialog
+import android.app.Dialog
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
@@ -19,19 +20,15 @@ import android.transition.TransitionManager
 import android.util.DisplayMetrics
 import android.util.TypedValue
 import android.view.*
+import android.view.LayoutInflater
+import android.view.inputmethod.InputMethodManager
+import android.webkit.*
 import android.widget.*
 import com.google.gson.GsonBuilder
-
 import okhttp3.*
+import wjm.co.kr.wjapp_new.databinding.ActivityWjOrderBinding
 import java.io.IOException
 import java.net.URL
-import android.widget.TextView
-import android.view.LayoutInflater
-import android.view.ViewGroup
-import android.view.inputmethod.InputMethodManager
-import android.widget.ArrayAdapter
-import android.widget.Toast
-import wjm.co.kr.wjapp_new.databinding.ActivityWjOrderBinding
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -50,6 +47,7 @@ class WjOrderActivity : AppCompatActivity() {
     private var selcdSpec : String? = ""
     private var selordergbn : String? = ""
     private var delrow = 0
+    private var zipcode = ""
     private var arSpinNmItem : ArrayList<String> = ArrayList()
     private var arSpinDia : ArrayList<String> = ArrayList()
     private var arSpinBc : ArrayList<String> = ArrayList()
@@ -77,8 +75,19 @@ class WjOrderActivity : AppCompatActivity() {
 
     private var arBasketGet : ArrayList<WjBasketGet> = ArrayList()
     private var wjBasketAdapter : WjBasketAdapter? = null
+    private lateinit var map_dialog : Dialog
+    private lateinit var webhandler : Handler
 
-    @SuppressLint("ClickableViewAccessibility")
+    var client:WebViewClient = object : WebViewClient() {
+        override fun shouldOverrideUrlLoading(
+            view: WebView?,
+            request: WebResourceRequest?
+        ): Boolean {
+            return false
+        }
+    }
+
+    @SuppressLint("ClickableViewAccessibility", "SetJavaScriptEnabled")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 //        setContentView(R.layout.activity_wj_order)
@@ -87,13 +96,19 @@ class WjOrderActivity : AppCompatActivity() {
         setSupportActionBar(bindingA.toolbar)
 
         orderInit()
-
+        webviewInit()
         // Pod FT surgery Date Select
         bindingA.bindingOrder.txtDtSurg.setOnClickListener(({
             val cal = Calendar.getInstance()
-            val datePicker = DatePickerDialog(this, { _, year, month, date ->
-                bindingA.bindingOrder.txtDtSurg.text = String.format("%d.%02d.%02d", year, month+1, date)
-            }, cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DATE)
+            val datePicker = DatePickerDialog(
+                this, { _, year, month, date ->
+                    bindingA.bindingOrder.txtDtSurg.text = String.format(
+                        "%d.%02d.%02d",
+                        year,
+                        month + 1,
+                        date
+                    )
+                }, cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DATE)
             )
             datePicker.datePicker.minDate = cal.time.time
             datePicker.show()
@@ -124,22 +139,23 @@ class WjOrderActivity : AppCompatActivity() {
 
         var changed = false
         bindingA.bindingOrder.txtBasketBar.setOnClickListener {
-            if (changed) {
-                bindingA.bindingOrder.tlBasket.alpha=0f
-                bindingA.bindingOrder.textView54.alpha=0f
-//                btn_basket.alpha=1f
-//                btn_basket.isClickable=true
-            }
-            else {
-                bindingA.bindingOrder.tlBasket.alpha=1f
-                bindingA.bindingOrder.textView54.alpha=1f
-//                btn_basket.alpha=0f
-//                btn_basket.isClickable=false
-            }
-            TransitionManager.beginDelayedTransition(bindingA.bindingOrder.clOrdermain)
-            val constraint = if (changed) constraintSet1 else constraintSet2
-            constraint.applyTo(bindingA.bindingOrder.clOrdermain)
-            changed = !changed
+        //버튼으로 동작하게 변경
+//            if (changed) {
+//                bindingA.bindingOrder.tlBasket.alpha=0f
+//                bindingA.bindingOrder.textView54.alpha=0f
+////                btn_basket.alpha=1f
+////                btn_basket.isClickable=true
+//            }
+//            else {
+//                bindingA.bindingOrder.tlBasket.alpha=1f
+//                bindingA.bindingOrder.textView54.alpha=1f
+////                btn_basket.alpha=0f
+////                btn_basket.isClickable=false
+//            }
+//            TransitionManager.beginDelayedTransition(bindingA.bindingOrder.clOrdermain)
+//            val constraint = if (changed) constraintSet1 else constraintSet2
+//            constraint.applyTo(bindingA.bindingOrder.clOrdermain)
+//            changed = !changed
         }
 
         bindingA.bindingOrder.btnBasket.setOnClickListener(({
@@ -150,7 +166,10 @@ class WjOrderActivity : AppCompatActivity() {
 
         bindingA.bindingOrder.btnOrder.setOnClickListener(({
             if (arBasketGet.size > 0) {
-                val cancelDialog = AlertDialog.Builder(this, android.R.style.Theme_DeviceDefault_Light_Dialog_NoActionBar)
+                val cancelDialog = AlertDialog.Builder(
+                    this,
+                    android.R.style.Theme_DeviceDefault_Light_Dialog_NoActionBar
+                )
                 cancelDialog.setMessage("장바구니 제품을 주문 하시겠습니까?")
                     .setIcon(R.drawable.wjicon).setTitle("주문 확인")
                     .setPositiveButton("네") { _, _ ->
@@ -170,7 +189,10 @@ class WjOrderActivity : AppCompatActivity() {
 
         bindingA.bindingOrder.btnAllDelete.setOnClickListener(({
             if (arBasketGet.size > 0 && custCd != "") {
-                val cancelDialog = AlertDialog.Builder(this, android.R.style.Theme_DeviceDefault_Light_Dialog_NoActionBar)
+                val cancelDialog = AlertDialog.Builder(
+                    this,
+                    android.R.style.Theme_DeviceDefault_Light_Dialog_NoActionBar
+                )
                 cancelDialog.setMessage("장바구니 제품을 모두 삭제 하시겠습니까?")
                     .setIcon(R.drawable.wjicon).setTitle("장바구니 전체삭제")
                     .setPositiveButton("네") { _, _ ->
@@ -182,6 +204,38 @@ class WjOrderActivity : AppCompatActivity() {
                     .show()
             }
         }))
+
+        bindingA.bindingOrder.btnZipcode.setOnClickListener {
+            showMapDialog()
+        }
+
+        bindingA.bindingOrder.btnAddrDel.setOnClickListener {
+            zipcode = ""
+            bindingA.bindingOrder.txtAddr.setText("")
+            bindingA.bindingOrder.txtAddrDetail.setText("")
+            bindingA.bindingOrder.txtAddrHp.setText("")
+        }
+
+        bindingA.bindingOrder.btnBasketOpen.setOnClickListener {
+            if (changed) {
+                bindingA.bindingOrder.tlBasket.alpha=0f
+                bindingA.bindingOrder.textView54.alpha=0f
+                bindingA.bindingOrder.btnBasketOpen.text = "장바구니 확인"
+//                btn_basket.alpha=1f
+//                btn_basket.isClickable=true
+            }
+            else {
+                bindingA.bindingOrder.tlBasket.alpha=1f
+                bindingA.bindingOrder.textView54.alpha=1f
+                bindingA.bindingOrder.btnBasketOpen.text = "장바구니 닫기"
+//                btn_basket.alpha=0f
+//                btn_basket.isClickable=false
+            }
+            TransitionManager.beginDelayedTransition(bindingA.bindingOrder.clOrdermain)
+            val constraint = if (changed) constraintSet1 else constraintSet2
+            constraint.applyTo(bindingA.bindingOrder.clOrdermain)
+            changed = !changed
+        }
     }
 
     private fun orderInit() {
@@ -229,7 +283,11 @@ class WjOrderActivity : AppCompatActivity() {
 
         spinItem = findViewById(R.id.spin_nmItem)
 
-        spinItemAdapter = SpinnerAdapter(this, android.R.layout.simple_spinner_dropdown_item, arSpinNmItem)
+        spinItemAdapter = SpinnerAdapter(
+            this,
+            android.R.layout.simple_spinner_dropdown_item,
+            arSpinNmItem
+        )
         spinItem.adapter=spinItemAdapter
         spinItem.dropDownVerticalOffset = dipToPixels(32f).toInt()
         spinItem.onItemSelectedListener = onItemSelectedListener
@@ -249,6 +307,11 @@ class WjOrderActivity : AppCompatActivity() {
         bindingA.bindingOrder.spinSpecPower.onItemSelectedListener = speconItemSelectedListener
         bindingA.bindingOrder.spinSpecPower2.onItemSelectedListener = speconItemSelectedListener
         bindingA.bindingOrder.spinSpecSpec.onItemSelectedListener = speconItemSelectedListener
+    }
+
+    @SuppressLint("SetJavaScriptEnabled")
+    private fun webviewInit() {
+        bindingA.bindingOrder.wvAddr.visibility = View.GONE
     }
 
     private fun specConfirm() {
@@ -309,6 +372,25 @@ class WjOrderActivity : AppCompatActivity() {
             "0"
         }
 
+        if (bindingA.bindingOrder.txtAddr.text.toString().isNotEmpty()) {
+            if (zipcode.isEmpty()) {
+                Toast.makeText(this, "우편번호 검색으로 입력하세요", Toast.LENGTH_LONG).show()
+                return false
+            }
+            if (bindingA.bindingOrder.txtAddrDetail.text.toString().isEmpty()) {
+                Toast.makeText(this, "상세주소를 입력해주세요", Toast.LENGTH_LONG).show()
+                return false
+            }
+            if (bindingA.bindingOrder.txtAddrHp.text.toString().isEmpty()) {
+                Toast.makeText(this, "받을 사람의 전화번호를 입력해주세요", Toast.LENGTH_LONG).show()
+                return false
+            }
+            if (bindingA.bindingOrder.txtPatient.text.toString().isEmpty()) {
+                Toast.makeText(this, "수취인/장소 명을 환자명에 입력해주세요", Toast.LENGTH_LONG).show()
+                return false
+            }
+        }
+
 
 //        println("sno : " +  WjmMain.login_user.sno)
 //        println("name : " +  WjmMain.login_user.name)
@@ -339,11 +421,34 @@ class WjOrderActivity : AppCompatActivity() {
         if (bindingA.bindingOrder.spinSpecPower.selectedItem != null) spinPower = bindingA.bindingOrder.spinSpecPower.selectedItem.toString()
         if (bindingA.bindingOrder.spinSpecPower2.selectedItem != null) spinPower2 = bindingA.bindingOrder.spinSpecPower2.selectedItem.toString()
         if (bindingA.bindingOrder.spinSpecSpec.selectedItem != null) spinSpec = bindingA.bindingOrder.spinSpecSpec.selectedItem.toString()
-        if (bindingA.bindingOrder.txtDtSurg.text.toString().length == 10) dtSurg = bindingA.bindingOrder.txtDtSurg.text.toString().substring(0,4)+bindingA.bindingOrder.txtDtSurg.text.toString().substring(5,7)+bindingA.bindingOrder.txtDtSurg.text.toString().substring(8,10)
+        if (bindingA.bindingOrder.txtDtSurg.text.toString().length == 10) dtSurg = bindingA.bindingOrder.txtDtSurg.text.toString().substring(
+            0,
+            4
+        )+bindingA.bindingOrder.txtDtSurg.text.toString().substring(5, 7)+bindingA.bindingOrder.txtDtSurg.text.toString().substring(
+            8,
+            10
+        )
 
-        val basketIn = WjBasketIn(WjmMain.LoginUser.sno, WjmMain.LoginUser.name, custCd, custNm, selcdItem, selcdUseName
-            , spinDia, spinBc, spinPower, spinPower2, spinSpec, bindingA.bindingOrder.txtQty.text.toString(), bindingA.bindingOrder.txtRemark.text.toString(), dtSurg
-            , bindingA.bindingOrder.txtAddr.text.toString(), bindingA.bindingOrder.txtPatient.text.toString(), selordergbn, selcdSpec)
+        val basketIn = WjBasketIn(
+            WjmMain.LoginUser.sno,
+            WjmMain.LoginUser.name,
+            custCd,
+            custNm,
+            selcdItem,
+            selcdUseName,
+            spinDia,
+            spinBc,
+            spinPower,
+            spinPower2,
+            spinSpec,
+            bindingA.bindingOrder.txtQty.text.toString(),
+            bindingA.bindingOrder.txtRemark.text.toString(),
+            dtSurg,
+            bindingA.bindingOrder.txtAddr.text.toString(),
+            bindingA.bindingOrder.txtPatient.text.toString(),
+            selordergbn,
+            selcdSpec
+        )
 
         setBasketIn(basketIn)
         return true
@@ -359,7 +464,7 @@ class WjOrderActivity : AppCompatActivity() {
         return super.onCreateOptionsMenu(menu)
     }
 
-    private fun getOrderItemList(arg1:String) {
+    private fun getOrderItemList(arg1: String) {
         val loadingDialog = LodingDialog(this)
         loadingDialog.show()
         arProductList.clear()
@@ -390,21 +495,29 @@ class WjOrderActivity : AppCompatActivity() {
                         )
                     )
                     if (idx == 0)
-                        arViewList.add(WjOrderProdutList(dbWjOrderList.results[idx].cdItem,
-                            dbWjOrderList.results[idx].nmItem,
-                            dbWjOrderList.results[idx].cdUseName,
-                            dbWjOrderList.results[idx].dcV2,
-                            dbWjOrderList.results[idx].dcV3,
-                            dbWjOrderList.results[idx].dcV4,
-                            dbWjOrderList.results[idx].dcV5, false))
-                    else if (arViewList[arViewList.size-1].cdUseName != dbWjOrderList.results[idx].cdUseName)
-                        arViewList.add(WjOrderProdutList(dbWjOrderList.results[idx].cdItem,
-                            dbWjOrderList.results[idx].nmItem,
-                            dbWjOrderList.results[idx].cdUseName,
-                            dbWjOrderList.results[idx].dcV2,
-                            dbWjOrderList.results[idx].dcV3,
-                            dbWjOrderList.results[idx].dcV4,
-                            dbWjOrderList.results[idx].dcV5, false))
+                        arViewList.add(
+                            WjOrderProdutList(
+                                dbWjOrderList.results[idx].cdItem,
+                                dbWjOrderList.results[idx].nmItem,
+                                dbWjOrderList.results[idx].cdUseName,
+                                dbWjOrderList.results[idx].dcV2,
+                                dbWjOrderList.results[idx].dcV3,
+                                dbWjOrderList.results[idx].dcV4,
+                                dbWjOrderList.results[idx].dcV5, false
+                            )
+                        )
+                    else if (arViewList[arViewList.size - 1].cdUseName != dbWjOrderList.results[idx].cdUseName)
+                        arViewList.add(
+                            WjOrderProdutList(
+                                dbWjOrderList.results[idx].cdItem,
+                                dbWjOrderList.results[idx].nmItem,
+                                dbWjOrderList.results[idx].cdUseName,
+                                dbWjOrderList.results[idx].dcV2,
+                                dbWjOrderList.results[idx].dcV3,
+                                dbWjOrderList.results[idx].dcV4,
+                                dbWjOrderList.results[idx].dcV5, false
+                            )
+                        )
 
                 }
 
@@ -413,6 +526,7 @@ class WjOrderActivity : AppCompatActivity() {
                     loadingDialog.dismiss()
                 }
             }
+
             override fun onFailure(call: Call, e: IOException) {
                 println("Failed to execute request!")
                 println(e.message)
@@ -420,7 +534,7 @@ class WjOrderActivity : AppCompatActivity() {
         })
     }
 
-    private fun getSpecList(gbn:String) {
+    private fun getSpecList(gbn: String) {
         val loadingDialog = LodingDialog(this)
         loadingDialog.show()
         val url = URL("http://iclkorea.com/android/WJOrder_Spec_list.asp")
@@ -454,6 +568,7 @@ class WjOrderActivity : AppCompatActivity() {
                     loadingDialog.dismiss()
                 }
             }
+
             override fun onFailure(call: Call, e: IOException) {
                 println("Failed to execute request!")
                 println(e.message)
@@ -461,7 +576,7 @@ class WjOrderActivity : AppCompatActivity() {
         })
     }
 
-    private fun getJaegoQty(item : WjOrderProdutList) {
+    private fun getJaegoQty(item: WjOrderProdutList) {
         val loadingDialog = LodingDialog(this)
         loadingDialog.show()
         val cdItem = item.cdItem
@@ -475,7 +590,10 @@ println(cdDia)
         println(cdPower)
         println(cdSpec)
         val url = URL("http://iclkorea.com/android/WJOrder_Jaego_qty.asp")
-        val body = FormBody.Builder().add("cdItem", cdItem!!).add("dia", cdDia!!).add("bc", cdBc!!).add("power", cdPower!!).add("spec", cdSpec!!).build()
+        val body = FormBody.Builder().add("cdItem", cdItem!!).add("dia", cdDia!!).add("bc", cdBc!!).add(
+            "power",
+            cdPower!!
+        ).add("spec", cdSpec!!).build()
         val request = Request.Builder().url(url).post(body).build()
         val client = OkHttpClient()
         client.newCall(request).enqueue(object : Callback {
@@ -491,22 +609,23 @@ println(cdDia)
                     runOnUiThread {
                         Toast.makeText(baseContext, "등록된 규격이 아닙니다.", Toast.LENGTH_LONG).show()
                     }
-                }
-                else {
+                } else {
                     selcdSpec = dbWjOrderJaegoQty.cdSpec.toString()
                     runOnUiThread {
                         if (dbWjOrderJaegoQty.results.isEmpty())
                             bindingA.bindingOrder.txtJaegoQty.text = "0"
                         else
-                            bindingA.bindingOrder.txtJaegoQty.text = dbWjOrderJaegoQty.results[0].jaegoQty.toString()
+                            bindingA.bindingOrder.txtJaegoQty.text =
+                                dbWjOrderJaegoQty.results[0].jaegoQty.toString()
                     }
                 }
 
-                runOnUiThread{
+                runOnUiThread {
                     loadingDialog.dismiss()
                 }
 
             }
+
             override fun onFailure(call: Call, e: IOException) {
                 println("Failed to execute request!")
                 println(e.message)
@@ -514,14 +633,26 @@ println(cdDia)
         })
     }
 
-    private fun setBasketIn(item : WjBasketIn) {
+    private fun setBasketIn(item: WjBasketIn) {
         val loadingDialog = LodingDialog(this)
         loadingDialog.show()
         val url = URL("http://iclkorea.com/android/WJOrder_SetBasketIn.asp")
-        val body = FormBody.Builder().add("sno", item.sno!!).add("name", item.name!!).add("cd_hosp", item.cdHosp!!).add("nm_hosp", item.nmHosp!!)
-            .add("cd_item", item.cdItem!!).add("nm_item", item.nmItem!!).add("dia", item.dia).add("bc", item.bc!!).add("power", item.power!!).add("power2", item.power2!!)
-            .add("spec", item.spec!!).add("qty", item.qty!!).add("dt_surg", item.dtSurg!!).add("remark", item.remark!!)
-            .add("addr", item.addr!!).add("patient", item.patient!!).add("cd_spec", item.cdSpec!!).add("ordergbn", item.ordergbn!!).build()
+        val body = FormBody.Builder().add("sno", item.sno!!).add("name", item.name!!).add(
+            "cd_hosp",
+            item.cdHosp!!
+        ).add("nm_hosp", item.nmHosp!!)
+            .add("cd_item", item.cdItem!!).add("nm_item", item.nmItem!!).add("dia", item.dia).add(
+                "bc",
+                item.bc!!
+            ).add("power", item.power!!).add("power2", item.power2!!)
+            .add("spec", item.spec!!).add("qty", item.qty!!).add("dt_surg", item.dtSurg!!).add(
+                "remark",
+                item.remark!!
+            )
+            .add("addr", item.addr!!).add("patient", item.patient!!).add("cd_spec", item.cdSpec!!).add(
+                "ordergbn",
+                item.ordergbn!!
+            ).build()
         val request = Request.Builder().url(url).post(body).build()
         val client = OkHttpClient()
         client.newCall(request).enqueue(object : Callback {
@@ -537,19 +668,19 @@ println(cdDia)
                     runOnUiThread {
                         Toast.makeText(baseContext, "장바구니 등록에 실패하였습니다..", Toast.LENGTH_LONG).show()
                     }
-                }
-                else {
+                } else {
                     getBasketIn(item.cdHosp)
                     runOnUiThread {
                         Toast.makeText(baseContext, "장바구니 등록하였습니다.", Toast.LENGTH_LONG).show()
                     }
                 }
 
-                runOnUiThread{
+                runOnUiThread {
                     loadingDialog.dismiss()
                 }
 
             }
+
             override fun onFailure(call: Call, e: IOException) {
                 println("Failed to execute request!")
                 println(e.message)
@@ -557,7 +688,7 @@ println(cdDia)
         })
     }
 
-    private fun getBasketIn(cdHosp:String?) {
+    private fun getBasketIn(cdHosp: String?) {
         arBasketGet.clear()
         val url = URL("http://iclkorea.com/android/WJOrder_GetBasketIn.asp")
         val body = FormBody.Builder().add("cd_hosp", cdHosp!!).build()
@@ -573,18 +704,26 @@ println(cdDia)
                 val dbWjOrderBasketGet = gson.fromJson(body1, DBWjOrderBasketGet::class.java)
 
                 for (idx in dbWjOrderBasketGet.results.indices) {
-                   arBasketGet.add(WjBasketGet(dbWjOrderBasketGet.results[idx].noReq
-                       , dbWjOrderBasketGet.results[idx].nmItem, dbWjOrderBasketGet.results[idx].nmSpec
-                       , dbWjOrderBasketGet.results[idx].qty, dbWjOrderBasketGet.results[idx].ordergbn
-                       , dbWjOrderBasketGet.results[idx].patient, dbWjOrderBasketGet.results[idx].remark
-                       , dbWjOrderBasketGet.results[idx].addr))
+                    arBasketGet.add(
+                        WjBasketGet(
+                            dbWjOrderBasketGet.results[idx].noReq,
+                            dbWjOrderBasketGet.results[idx].nmItem,
+                            dbWjOrderBasketGet.results[idx].nmSpec,
+                            dbWjOrderBasketGet.results[idx].qty,
+                            dbWjOrderBasketGet.results[idx].ordergbn,
+                            dbWjOrderBasketGet.results[idx].patient,
+                            dbWjOrderBasketGet.results[idx].remark,
+                            dbWjOrderBasketGet.results[idx].addr
+                        )
+                    )
                 }
 
-                runOnUiThread{
+                runOnUiThread {
                     wjBasketAdapter!!.notifyDataSetChanged()
                 }
 
             }
+
             override fun onFailure(call: Call, e: IOException) {
                 println("Failed to execute request!")
                 println(e.message)
@@ -593,7 +732,7 @@ println(cdDia)
 
     }
 
-    private fun deleteBasket(noReq:String?, cdCust:String?) {
+    private fun deleteBasket(noReq: String?, cdCust: String?) {
         val loadingDialog = LodingDialog(this)
         loadingDialog.show()
         val url = URL("http://iclkorea.com/android/WJOrder_DelBasketIn.asp")
@@ -613,8 +752,7 @@ println(cdDia)
                     runOnUiThread {
                         Toast.makeText(baseContext, "주문 삭제에 실패하였습니다..", Toast.LENGTH_LONG).show()
                     }
-                }
-                else {
+                } else {
                     if (noReq == "ALL")
                         arBasketGet.clear()
                     else
@@ -624,12 +762,13 @@ println(cdDia)
                     }
                 }
 
-                runOnUiThread{
+                runOnUiThread {
                     wjBasketAdapter!!.notifyDataSetChanged()
                     loadingDialog.dismiss()
                 }
 
             }
+
             override fun onFailure(call: Call, e: IOException) {
                 println("Failed to execute request!")
                 println(e.message)
@@ -637,7 +776,7 @@ println(cdDia)
         })
     }
 
-    private fun setOrderConfirm(noReq:String?) {
+    private fun setOrderConfirm(noReq: String?) {
         val loadingDialog = LodingDialog(this)
         loadingDialog.show()
         val url = URL("http://iclkorea.com/android/WJOrder_Confirm.asp")
@@ -657,20 +796,20 @@ println(cdDia)
                     runOnUiThread {
                         Toast.makeText(baseContext, "주문 등록에 실패하였습니다..", Toast.LENGTH_LONG).show()
                     }
-                }
-                else {
+                } else {
                     runOnUiThread {
                         Toast.makeText(baseContext, "주문 등록을 완료하였습니다.", Toast.LENGTH_LONG).show()
                     }
                 }
 
-                runOnUiThread{
+                runOnUiThread {
                     arBasketGet.clear()
                     wjBasketAdapter!!.notifyDataSetChanged()
                     loadingDialog.dismiss()
                 }
 
             }
+
             override fun onFailure(call: Call, e: IOException) {
                 println("Failed to execute request!")
                 println(e.message)
@@ -678,28 +817,72 @@ println(cdDia)
         })
     }
 
-    data class DBWjOrderProductList(var results:List<WjOrderProdutList>)
-    data class WjOrderProdutList(var cdItem:String?, var nmItem:String?,var cdUseName:String?, var dcV2:String?, var dcV3:String?, var dcV4:String?, var dcV5:String?, var flag:Boolean?)
-    data class DBWjOrderSpecList(var results:List<WjOrderSpecList>)
-    data class WjOrderSpecList(var spec:String?)
-    data class DBWjOrderJaegoQty(var results:List<WjOrderJaegoQty>, var status:String?, var cdSpec:String?)
-    data class WjOrderJaegoQty(var dcSpec:String?, var jaegoQty:Long?)
-    data class DBWjOrderBasketIn(var results:List<WjBasketIn>, var status:String?)
-    data class WjBasketIn(var sno:String?, var name:String?, var cdHosp:String?, var nmHosp:String?, var cdItem:String?
-                          , var nmItem:String?, var dia:String, var bc:String?, var power:String?, var power2:String?, var spec:String?
-                          , var qty:String?, var remark:String?, var dtSurg:String?, var addr:String?, var patient:String?
-                          , var ordergbn:String?, var cdSpec:String?)
-    data class DBWjOrderBasketGet(var results:List<WjBasketGet>, var status:String?)
-    data class WjBasketGet(var noReq:String?, var nmItem:String?, var nmSpec:String?, var qty:String?, var ordergbn:String?
-                           , var patient:String?, var remark:String?, var addr:String?)
+    data class DBWjOrderProductList(var results: List<WjOrderProdutList>)
+    data class WjOrderProdutList(
+        var cdItem: String?,
+        var nmItem: String?,
+        var cdUseName: String?,
+        var dcV2: String?,
+        var dcV3: String?,
+        var dcV4: String?,
+        var dcV5: String?,
+        var flag: Boolean?
+    )
+    data class DBWjOrderSpecList(var results: List<WjOrderSpecList>)
+    data class WjOrderSpecList(var spec: String?)
+    data class DBWjOrderJaegoQty(
+        var results: List<WjOrderJaegoQty>,
+        var status: String?,
+        var cdSpec: String?
+    )
+    data class WjOrderJaegoQty(var dcSpec: String?, var jaegoQty: Long?)
+    data class DBWjOrderBasketIn(var results: List<WjBasketIn>, var status: String?)
+    data class WjBasketIn(
+        var sno: String?,
+        var name: String?,
+        var cdHosp: String?,
+        var nmHosp: String?,
+        var cdItem: String?,
+        var nmItem: String?,
+        var dia: String,
+        var bc: String?,
+        var power: String?,
+        var power2: String?,
+        var spec: String?,
+        var qty: String?,
+        var remark: String?,
+        var dtSurg: String?,
+        var addr: String?,
+        var patient: String?,
+        var ordergbn: String?,
+        var cdSpec: String?
+    )
+    data class DBWjOrderBasketGet(var results: List<WjBasketGet>, var status: String?)
+    data class WjBasketGet(
+        var noReq: String?,
+        var nmItem: String?,
+        var nmSpec: String?,
+        var qty: String?,
+        var ordergbn: String?,
+        var patient: String?,
+        var remark: String?,
+        var addr: String?
+    )
 
-    inner class WjOrderAdapter(private val context: Context, private val itemList:ArrayList<WjOrderProdutList>) : RecyclerView.Adapter<WjOrderAdapter.ViewHolder>() {
+    inner class WjOrderAdapter(
+        private val context: Context,
+        private val itemList: ArrayList<WjOrderProdutList>
+    ) : RecyclerView.Adapter<WjOrderAdapter.ViewHolder>() {
         override fun getItemCount(): Int {
             return itemList.size
         }
 
         override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): ViewHolder {
-            val view = LayoutInflater.from(context).inflate(R.layout.row_vertical_list , parent, false)
+            val view = LayoutInflater.from(context).inflate(
+                R.layout.row_vertical_list,
+                parent,
+                false
+            )
             return ViewHolder(view)
         }
 
@@ -713,21 +896,40 @@ println(cdDia)
                 selv5Spec = itemList[position].dcV5
 
                 spininit()
-                val constraints=ConstraintSet()
+                val constraints = ConstraintSet()
                 if (selcdUseName!!.contains("POD", ignoreCase = true)
                     || selcdUseName!!.contains("ASPIRA", ignoreCase = true)
                     || selcdUseName!!.contains("ANKORIS", ignoreCase = true)
-                    || selcdUseName!!.contains("ISOPURE123", ignoreCase = true)) {
+                    || selcdUseName!!.contains("ISOPURE123", ignoreCase = true)
+                ) {
                     bindingA.bindingOrder.spinSpecPower2.visibility = View.VISIBLE
                     bindingA.bindingOrder.txtFrToPower.visibility = View.VISIBLE
                     constraints.clone(bindingA.bindingOrder.clPower)
-                    constraints.connect(bindingA.bindingOrder.spinSpecPower.id, ConstraintSet.END, bindingA.bindingOrder.txtFrToPower.id, ConstraintSet.START, convertDpToPixel(0f,context))
+                    constraints.connect(
+                        bindingA.bindingOrder.spinSpecPower.id,
+                        ConstraintSet.END,
+                        bindingA.bindingOrder.txtFrToPower.id,
+                        ConstraintSet.START,
+                        convertDpToPixel(
+                            0f,
+                            context
+                        )
+                    )
                     constraints.applyTo(bindingA.bindingOrder.clPower)
                 } else {
                     bindingA.bindingOrder.spinSpecPower2.visibility = View.INVISIBLE
                     bindingA.bindingOrder.txtFrToPower.visibility = View.INVISIBLE
                     constraints.clone(bindingA.bindingOrder.clPower)
-                    constraints.connect(bindingA.bindingOrder.spinSpecPower.id, ConstraintSet.END, bindingA.bindingOrder.clPower.id, ConstraintSet.END, convertDpToPixel(16f,context) )
+                    constraints.connect(
+                        bindingA.bindingOrder.spinSpecPower.id,
+                        ConstraintSet.END,
+                        bindingA.bindingOrder.clPower.id,
+                        ConstraintSet.END,
+                        convertDpToPixel(
+                            16f,
+                            context
+                        )
+                    )
                     constraints.applyTo(bindingA.bindingOrder.clPower)
                 }
                 for (idx in 0 until arProductList.size)
@@ -757,8 +959,7 @@ println(cdDia)
                     bindingA.bindingOrder.txtBc.visibility = View.VISIBLE
                     bindingA.bindingOrder.txtBcUnder.visibility = View.VISIBLE
                     bindingA.bindingOrder.spinSpecBc.visibility = View.VISIBLE
-                }
-                else {
+                } else {
 //                    trV3Bc.visibility = View.GONE
                     bindingA.bindingOrder.txtBc.visibility = View.INVISIBLE
                     bindingA.bindingOrder.txtBcUnder.visibility = View.INVISIBLE
@@ -783,7 +984,7 @@ println(cdDia)
                 if (itemList[position].cdUseName!!.substring(0, 3) == "CRT") {
                     bindingA.bindingOrder.txtPower.text = String.format("RZD")
                     bindingA.bindingOrder.txtSpec.text = String.format("LZA")
-                }else {
+                } else {
                     bindingA.bindingOrder.txtPower.text = String.format("Power")
                     bindingA.bindingOrder.txtSpec.text = String.format("Spec")
                 }
@@ -797,23 +998,33 @@ println(cdDia)
 
         }
 
-        inner class ViewHolder(itemView : View) : RecyclerView.ViewHolder(itemView) {
+        inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
             var productLayout : LinearLayout = itemView.findViewById(R.id.layout_Product)
             var textNm : TextView = itemView.findViewById(R.id.text_itemNm)
         }
     }
 
-    inner class WjBasketAdapter(private val context : Context, private val itemList:ArrayList<WjBasketGet>) : RecyclerView.Adapter<WjBasketAdapter.ViewHolder>() {
+    inner class WjBasketAdapter(
+        private val context: Context,
+        private val itemList: ArrayList<WjBasketGet>
+    ) : RecyclerView.Adapter<WjBasketAdapter.ViewHolder>() {
         override fun getItemCount(): Int {
             return itemList.size
         }
 
         override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): ViewHolder {
-            val view = LayoutInflater.from(context).inflate(R.layout.row_wj_order_basket, parent, false)
+            val view = LayoutInflater.from(context).inflate(
+                R.layout.row_wj_order_basket,
+                parent,
+                false
+            )
             return ViewHolder(view)
         }
 
-        override fun onBindViewHolder(holder: ViewHolder, @SuppressLint("RecyclerView") position: Int) {
+        override fun onBindViewHolder(
+            holder: ViewHolder,
+            @SuppressLint("RecyclerView") position: Int
+        ) {
             if (position and 1 == 0)
                 holder.llayout.setBackgroundResource(R.drawable.list_item_2)
             else
@@ -835,7 +1046,10 @@ println(cdDia)
                 holder.remarkBasket.text = String.format(itemList[position].remark + itemList[position].addr)
 
             holder.btnDelBasket.setOnClickListener(({
-                val cancelDialog = AlertDialog.Builder(context, android.R.style.Theme_DeviceDefault_Light_Dialog_NoActionBar)
+                val cancelDialog = AlertDialog.Builder(
+                    context,
+                    android.R.style.Theme_DeviceDefault_Light_Dialog_NoActionBar
+                )
                 cancelDialog.setMessage(itemList[position].nmItem + " 을 취소하시겠습니까? (" + itemList[position].noReq + ")")
                     .setIcon(R.drawable.wjicon).setTitle("주문 취소확인")
                     .setPositiveButton("네") { _, _ ->
@@ -848,7 +1062,7 @@ println(cdDia)
             }))
         }
 
-        inner class ViewHolder(itemView : View) : RecyclerView.ViewHolder(itemView) {
+        inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
             var itemBasket : TextView = itemView.findViewById(R.id.txt_itembasket)
             var qtyBasket : TextView = itemView.findViewById(R.id.txt_qtybasket)
             var gubunBasket : TextView = itemView.findViewById(R.id.txt_gbnbasket)
@@ -860,7 +1074,11 @@ println(cdDia)
         }
     }
 
-    inner class SpinnerAdapter(internal var context: Context, textViewResourceId: Int, objects: ArrayList<String>) :
+    inner class SpinnerAdapter(
+        internal var context: Context,
+        textViewResourceId: Int,
+        objects: ArrayList<String>
+    ) :
         ArrayAdapter<String>(context, textViewResourceId, objects) {
 
         private var items = objects
@@ -876,7 +1094,12 @@ println(cdDia)
             }
             val tv = cView!!.findViewById(android.R.id.text1) as TextView
             tv.text = items[position]
-            tv.setBackgroundColor(ContextCompat.getColor(applicationContext,R.color.gradation3_start))
+            tv.setBackgroundColor(
+                ContextCompat.getColor(
+                    applicationContext,
+                    R.color.gradation3_start
+                )
+            )
             tv.setTextColor(Color.WHITE)
             tv.textSize = 15f
             return cView
@@ -976,9 +1199,59 @@ println(cdDia)
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            android.R.id.home -> {finish() ; return true}
+            android.R.id.home -> {
+                finish(); return true
+            }
             R.id.toolbar_cust_select -> customerDialog(layoutInflater, mHandler, this, "").show()
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    fun showMapDialog() {
+        val webView = bindingA.bindingOrder.wvAddr
+        webView.apply {
+            settings.javaScriptEnabled = true
+            settings.javaScriptCanOpenWindowsAutomatically = true
+            settings.setSupportMultipleWindows(true)
+            addJavascriptInterface(AndroidBridge(), "TestApp");
+            webViewClient = client
+            webChromeClient = object : WebChromeClient() {
+                // Grant permissions for cam
+                override fun onCreateWindow(view: WebView?, isDialog: Boolean, isUserGesture: Boolean, resultMsg: Message?): Boolean {
+                    val newWebView = WebView(context)
+                    newWebView.settings.javaScriptEnabled = true
+                    map_dialog = Dialog(context).apply {
+                        setContentView(newWebView)
+                    }
+                    map_dialog.show()
+                    val lp = WindowManager.LayoutParams().apply {
+                        copyFrom(map_dialog.window!!.attributes)
+                        width = WindowManager.LayoutParams.MATCH_PARENT
+                        height = WindowManager.LayoutParams.MATCH_PARENT
+                    }
+                    map_dialog.window!!.attributes = lp
+                    newWebView.webChromeClient = object : WebChromeClient() {
+                        override fun onCloseWindow(window: WebView?) {
+                            map_dialog.dismiss()
+                        }
+                    }
+                    (resultMsg!!.obj as WebView.WebViewTransport).webView = newWebView
+                    resultMsg.sendToTarget()
+                    return true
+                }
+            }
+        }
+        webView.loadUrl("http://iclkorea.com/woojeon/daumpost.html")
+    }
+
+    private inner class AndroidBridge {
+        @JavascriptInterface
+        fun setAddress(arg1: String?, arg2: String?, arg3: String?) {
+            zipcode = arg1!!
+            bindingA.bindingOrder.txtAddr.setText(arg2)
+            bindingA.bindingOrder.txtAddrDetail.setText(arg3)
+
+            map_dialog.dismiss()
+        }
     }
 }

@@ -55,10 +55,13 @@
             android:id="@+id/tlNmItem"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginStart="2dp"
             android:layout_marginTop="5dp"
+            android:layout_marginEnd="2dp"
             android:background="@drawable/gradation_background1"
-            app:layout_constraintTop_toBottomOf="@+id/rvWjOrder"
-            tools:layout_editor_absoluteX="64dp">
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/rvWjOrder">
 
         <TableRow
                 android:layout_width="match_parent"
@@ -121,7 +124,8 @@
                             android:layout_height="wrap_content"
                             android:layout_marginStart="21dp"
                             android:text="Diameter"
-                            android:textColor="#000000"
+                            android:textColor="#4C4C4C"
+                            android:textStyle="italic"
                             app:layout_constraintEnd_toStartOf="@+id/txt_bc"
                             app:layout_constraintHorizontal_bias="0.5"
                             app:layout_constraintStart_toStartOf="parent"
@@ -157,7 +161,8 @@
                             android:layout_marginEnd="16dp"
                             android:layout_weight="20"
                             android:text="Base Curve"
-                            android:textColor="#000000"
+                            android:textColor="#4C4C4C"
+                            android:textStyle="italic"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintHorizontal_bias="0.5"
                             app:layout_constraintStart_toEndOf="@+id/textView38"
@@ -224,7 +229,8 @@
                             android:layout_height="match_parent"
                             android:layout_marginStart="21dp"
                             android:text="Power"
-                            android:textColor="#000000"
+                            android:textColor="#4C4C4C"
+                            android:textStyle="italic"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
 
@@ -291,7 +297,8 @@
                             android:layout_height="match_parent"
                             android:layout_marginStart="21dp"
                             android:text="Spec"
-                            android:textColor="#000000"
+                            android:textColor="#4C4C4C"
+                            android:textStyle="italic"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
 
@@ -338,7 +345,8 @@
                             android:layout_height="match_parent"
                             android:layout_marginStart="21dp"
                             android:text="수술일자"
-                            android:textColor="#000000"
+                            android:textColor="#4C4C4C"
+                            android:textStyle="italic"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
 
@@ -351,6 +359,7 @@
                             android:layout_weight="80"
                             android:gravity="center"
                             android:hint="터치하세요"
+                            android:textColor="#000000"
                             android:textSize="18dp"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
@@ -387,11 +396,12 @@
 
         <TextView
                 android:id="@+id/textView60"
-                android:layout_width="0dp"
+                android:layout_width="60dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
                 android:text="주문수량"
-                android:textColor="#000000"
+                android:textColor="#4C4C4C"
+                android:textStyle="italic"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -403,16 +413,18 @@
                 android:background="@null"
                 android:ems="10"
                 android:gravity="center"
-                android:hint="수량입력"
+                android:hint="0"
                 android:inputType="numberDecimal"
-                android:textSize="18dp"
+                android:textColor="#4CAF50"
+                android:textSize="20dp"
+                android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView60" />
 
         <Button
                 android:id="@+id/btn_jaego"
                 android:layout_width="60dp"
-                android:layout_height="25dp"
+                android:layout_height="30dp"
                 android:layout_marginStart="48dp"
                 android:layout_weight="21"
                 android:background="@drawable/search_background_slim"
@@ -451,24 +463,27 @@
 
         <TextView
                 android:id="@+id/textView61"
-                android:layout_width="0dp"
+                android:layout_width="60dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
                 android:layout_weight="24"
                 android:text="특이사항"
-                android:textColor="#000000"
+                android:textColor="#4C4C4C"
+                android:textStyle="italic"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
         <EditText
                 android:id="@+id/txt_remark"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="25dp"
                 android:background="@null"
                 android:ems="10"
                 android:gravity="center"
                 android:hint="특이사항 입력"
                 android:singleLine="true"
+                android:textColor="#000000"
+                android:textSize="14sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView61" />
@@ -493,7 +508,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
                 android:text="환자명"
-                android:textColor="#000000"
+                android:textColor="#4C4C4C"
+                android:textStyle="italic"
                 app:layout_constraintEnd_toStartOf="@+id/textView188"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -501,13 +517,14 @@
         <EditText
                 android:id="@+id/txt_patient"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="25dp"
                 android:background="@null"
                 android:ems="10"
                 android:gravity="center"
                 android:hint="직배송시 필수"
                 android:singleLine="true"
-                android:textSize="18dp"
+                android:textColor="#000000"
+                android:textSize="14sp"
                 app:layout_constraintEnd_toStartOf="@+id/txt_addr_hp"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
@@ -519,21 +536,25 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="37dp"
                 android:text="휴대폰 번호"
-                android:textColor="#000000"
+                android:textColor="#4C4C4C"
+                android:textStyle="italic"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toEndOf="@+id/textView64" />
+                app:layout_constraintStart_toEndOf="@+id/textView64"
+                app:layout_constraintTop_toTopOf="parent" />
 
         <EditText
                 android:id="@+id/txt_addr_hp"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="25dp"
                 android:layout_marginStart="32dp"
                 android:background="@null"
                 android:ems="10"
                 android:gravity="center"
                 android:hint="직배송시 필수"
-                android:inputType="textPersonName"
+                android:inputType="numberSigned"
+                android:textColor="#000000"
+                android:textSize="14sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toEndOf="@+id/txt_patient"
@@ -559,42 +580,96 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
                 android:text="배송주소"
-                android:textColor="#000000"
+                android:textColor="#4C4C4C"
+                android:textStyle="italic"
                 app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+                android:id="@+id/btn_zipcode"
+                android:layout_width="wrap_content"
+                android:layout_height="25dp"
+                android:background="@drawable/search_background_slim"
+                android:text="우편번호 검색"
+                android:textColor="#FFFFFF"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
         <EditText
                 android:id="@+id/txt_addr"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="76"
+                android:layout_height="20dp"
                 android:background="@null"
+                android:editable="false"
                 android:ems="10"
                 android:gravity="center"
-                android:hint="배송주소 입력"
-                android:textSize="18dp"
+                android:hint="기본주소(검색)"
+                android:textColor="#000000"
+                android:textSize="14sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView65" />
 
+        <EditText
+                android:id="@+id/txt_addr_detail"
+                android:layout_width="0dp"
+                android:layout_height="20dp"
+                android:background="@null"
+                android:ems="10"
+                android:gravity="center"
+                android:hint="상세주소 입력"
+                android:inputType="textPersonName"
+                android:singleLine="true"
+                android:textColor="#000000"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/txt_addr" />
+
     </android.support.constraint.ConstraintLayout>
+
+    <Button
+            android:id="@+id/btn_addr_del"
+            android:layout_width="0dp"
+            android:layout_height="20dp"
+            android:layout_marginEnd="24dp"
+            android:background="@null"
+            android:singleLine="true"
+            android:text="배송정보 삭제"
+            android:textColor="#154EF6"
+            android:textSize="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/constraintLayout8" />
 
     <Button
             android:id="@+id/btn_basket"
             android:layout_width="0dp"
             android:layout_height="41dp"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="8dp"
             android:layout_marginEnd="16dp"
-            android:layout_weight="40"
-            android:background="@drawable/search_background_slim"
+            android:background="@drawable/search_background_slim_flat"
+            android:backgroundTintMode="multiply"
             android:text="장바구니 넣기"
             android:textColor="@android:color/white"
             android:textSize="18dp"
             android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/btn_basket_open"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/constraintLayout8" />
+            app:layout_constraintTop_toBottomOf="@+id/btn_addr_del" />
+
+    <Button
+            android:id="@+id/btn_basket_open"
+            android:layout_width="130dp"
+            android:layout_height="41dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            android:background="@drawable/search_background_slim_flat2"
+            android:text="장바구니 확인"
+            android:textColor="#000000"
+            android:textSize="18dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btn_addr_del" />
 
     <android.support.constraint.ConstraintLayout
             android:id="@+id/clBasket"
@@ -768,7 +843,7 @@
                 android:layout_marginStart="12dp"
                 android:layout_marginBottom="2dp"
                 android:alpha=".8"
-                android:background="@drawable/main_button"
+                android:background="@drawable/search_background_slim_flat"
                 android:text="전체삭제"
                 android:textColor="@android:color/white"
                 android:textSize="18dp"
@@ -783,7 +858,7 @@
                 android:layout_marginEnd="12dp"
                 android:layout_marginBottom="2dp"
                 android:alpha=".8"
-                android:background="@drawable/main_button"
+                android:background="@drawable/search_background_slim_flat"
                 android:text="주문하기"
                 android:textColor="@android:color/white"
                 android:textSize="18dp"
@@ -802,5 +877,15 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
     </android.support.constraint.ConstraintLayout>
+
+    <WebView
+            android:id="@+id/wv_addr"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
 </android.support.constraint.ConstraintLayout>

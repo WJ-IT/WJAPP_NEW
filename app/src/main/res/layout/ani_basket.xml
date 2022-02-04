@@ -1,49 +1,79 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/cl_ordermain"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        tools:showIn="@layout/activity_wj_order"
         tools:context=".WjOrderActivity"
-        android:id="@+id/cl_ordermain">
+        tools:showIn="@layout/activity_wj_order">
 
 
     <android.support.constraint.ConstraintLayout
+            android:id="@+id/clBasket"
             android:layout_width="0dp"
             android:layout_height="500dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:id="@+id/clBasket"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            android:animateLayoutChanges="true"
             android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp">
+            android:layout_marginEnd="10dp"
+            android:animateLayoutChanges="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
         <TextView
+                android:id="@+id/txt_basketBar"
                 android:layout_width="10dp"
                 android:layout_height="0dp"
-                android:id="@+id/txt_basketBar"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
 
-                app:layout_constraintStart_toStartOf="parent"/>
+                app:layout_constraintTop_toTopOf="parent" />
 
     </android.support.constraint.ConstraintLayout>
+
+    <Button
+            android:id="@+id/btn_addr_del"
+            android:layout_width="0dp"
+            android:layout_height="20dp"
+            android:layout_marginEnd="24dp"
+            android:background="@null"
+            android:singleLine="true"
+            android:text="배송정보 삭제"
+            android:textColor="#154EF6"
+            android:textSize="16dp"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/constraintLayout8" />
+
     <Button
             android:id="@+id/btn_basket"
             android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginStart="128dp"
-            android:layout_marginEnd="128dp"
-            android:layout_weight="40"
-            android:alpha="0"
-            android:background="@drawable/main_button"
+            android:layout_height="41dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            android:background="@drawable/search_background_slim_flat"
+            android:backgroundTintMode="multiply"
             android:text="장바구니 넣기"
             android:textColor="@android:color/white"
             android:textSize="18dp"
             android:textStyle="bold"
+            android:visibility="gone"
+            app:layout_constraintEnd_toStartOf="@+id/btn_basket_open"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btn_addr_del" />
+
+    <Button
+            android:id="@+id/btn_basket_open"
+            android:layout_width="130dp"
+            android:layout_height="41dp"
+            android:layout_marginBottom="2dp"
+            android:background="@drawable/search_background_slim_flat2"
+            android:text="장바구니 확인"
+            android:textColor="#000000"
+            android:textSize="18dp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"/>
+            app:layout_constraintStart_toStartOf="parent" />
 </android.support.constraint.ConstraintLayout>
