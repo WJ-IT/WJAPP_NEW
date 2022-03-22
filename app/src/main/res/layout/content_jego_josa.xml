@@ -114,6 +114,13 @@
                 android:text="다른것만보기" />
 
         <TextView
+                android:id="@+id/txt_total_read"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textColor="#673AB7" />
+
+        <TextView
                 android:id="@+id/textView175"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

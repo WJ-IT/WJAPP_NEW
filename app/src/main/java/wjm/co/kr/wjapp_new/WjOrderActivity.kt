@@ -76,7 +76,6 @@ class WjOrderActivity : AppCompatActivity() {
     private var arBasketGet : ArrayList<WjBasketGet> = ArrayList()
     private var wjBasketAdapter : WjBasketAdapter? = null
     private lateinit var map_dialog : Dialog
-    private lateinit var webhandler : Handler
 
     var client:WebViewClient = object : WebViewClient() {
         override fun shouldOverrideUrlLoading(
@@ -444,7 +443,7 @@ class WjOrderActivity : AppCompatActivity() {
             bindingA.bindingOrder.txtQty.text.toString(),
             bindingA.bindingOrder.txtRemark.text.toString(),
             dtSurg,
-            bindingA.bindingOrder.txtAddr.text.toString(),
+            (bindingA.bindingOrder.txtAddr.text.toString() + bindingA.bindingOrder.txtAddrDetail.text.toString()),
             bindingA.bindingOrder.txtPatient.text.toString(),
             selordergbn,
             selcdSpec
@@ -584,11 +583,11 @@ class WjOrderActivity : AppCompatActivity() {
         val cdBc = item.dcV3
         val cdPower = item.dcV4
         val cdSpec = item.dcV5
-        println(cdItem)
-println(cdDia)
-       println(cdBc)
-        println(cdPower)
-        println(cdSpec)
+//        println(cdItem)
+//println(cdDia)
+//       println(cdBc)
+//        println(cdPower)
+//        println(cdSpec)
         val url = URL("http://iclkorea.com/android/WJOrder_Jaego_qty.asp")
         val body = FormBody.Builder().add("cdItem", cdItem!!).add("dia", cdDia!!).add("bc", cdBc!!).add(
             "power",
@@ -637,22 +636,17 @@ println(cdDia)
         val loadingDialog = LodingDialog(this)
         loadingDialog.show()
         val url = URL("http://iclkorea.com/android/WJOrder_SetBasketIn.asp")
-        val body = FormBody.Builder().add("sno", item.sno!!).add("name", item.name!!).add(
-            "cd_hosp",
-            item.cdHosp!!
-        ).add("nm_hosp", item.nmHosp!!)
-            .add("cd_item", item.cdItem!!).add("nm_item", item.nmItem!!).add("dia", item.dia).add(
-                "bc",
-                item.bc!!
-            ).add("power", item.power!!).add("power2", item.power2!!)
-            .add("spec", item.spec!!).add("qty", item.qty!!).add("dt_surg", item.dtSurg!!).add(
-                "remark",
-                item.remark!!
-            )
-            .add("addr", item.addr!!).add("patient", item.patient!!).add("cd_spec", item.cdSpec!!).add(
-                "ordergbn",
-                item.ordergbn!!
-            ).build()
+        val body = FormBody.Builder().add("sno", item.sno!!).add("name", item.name!!)
+            .add("cd_hosp", item.cdHosp!!).add("nm_hosp", item.nmHosp!!)
+            .add("cd_item", item.cdItem!!).add("nm_item", item.nmItem!!)
+            .add("dia", item.dia).add("bc", item.bc!!).add("power", item.power!!)
+            .add("power2", item.power2!!).add("spec", item.spec!!)
+            .add("qty", item.qty!!).add("dt_surg", item.dtSurg!!)
+            .add("remark", item.remark!!).add("addr", item.addr!!)
+            .add("patient", item.patient!!).add("cd_spec", item.cdSpec!!)
+            .add("ordergbn", item.ordergbn!!).add("zipcode", zipcode)
+            .add("addr_hp", bindingA.bindingOrder.txtAddrHp.text.toString())
+            .build()
         val request = Request.Builder().url(url).post(body).build()
         val client = OkHttpClient()
         client.newCall(request).enqueue(object : Callback {
@@ -1178,6 +1172,13 @@ println(cdDia)
 
     private val speconItemSelectedListener = object : AdapterView.OnItemSelectedListener{
         override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+            if (parent!!.id == bindingA.bindingOrder.spinSpecPower.id)
+                bindingA.bindingOrder.spinSpecPower2.setSelection(position)
+            else if (parent.id == bindingA.bindingOrder.spinSpecPower2.id) {
+                if (bindingA.bindingOrder.spinSpecPower.selectedItemPosition > position) {
+                    bindingA.bindingOrder.spinSpecPower2.setSelection(bindingA.bindingOrder.spinSpecPower.selectedItemPosition)
+                }
+            }
             specConfirm()
             bindingA.bindingOrder.txtJaegoQty.text = ""
         }
@@ -1207,13 +1208,14 @@ println(cdDia)
         return super.onOptionsItemSelected(item)
     }
 
+    @SuppressLint("SetJavaScriptEnabled")
     fun showMapDialog() {
         val webView = bindingA.bindingOrder.wvAddr
         webView.apply {
             settings.javaScriptEnabled = true
             settings.javaScriptCanOpenWindowsAutomatically = true
             settings.setSupportMultipleWindows(true)
-            addJavascriptInterface(AndroidBridge(), "TestApp");
+            addJavascriptInterface(AndroidBridge(), "TestApp")
             webViewClient = client
             webChromeClient = object : WebChromeClient() {
                 // Grant permissions for cam

@@ -185,6 +185,7 @@ class JegoJosaActivity : AppCompatActivity() {
     private fun makeSendTagList(gbn: String) : String {
         var tagList = ""
         val tagNowSize = ReadingJosaRFID.mTagItem.size
+        bindingA.bindingJjosa.txtTotalRead.text = "$tagNowSize"
 ///println("befsize : $tagBefSize")
         when(gbn) {
             "ALL" -> {  //전체는 최종 결과 전송시
