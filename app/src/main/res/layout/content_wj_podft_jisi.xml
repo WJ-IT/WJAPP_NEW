@@ -41,16 +41,17 @@
                         android:textSize="14dp" />
 
                 <EditText
-                        android:id="@+id/etxtJisiDateFr"
-                        style="@style/EditDate"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="4"
-                        android:background="@android:drawable/editbox_background_normal"
-                        android:ems="10"
-                        android:hint="20190701"
-                        android:inputType="number"
-                        android:textColor="@android:color/black" />
+                    android:id="@+id/etxtJisiDateFr"
+                    style="@style/EditDate"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="4"
+                    android:background="@android:drawable/editbox_background_normal"
+                    android:ems="10"
+                    android:hint="20190701"
+                    android:inputType="number"
+                    android:textColor="@android:color/black"
+                    tools:ignore="TouchTargetSizeCheck" />
             </TableRow>
 
             <TableRow
@@ -68,15 +69,16 @@
                         android:textSize="14dp" />
 
                 <EditText
-                        android:id="@+id/etxtJisiDateTo"
-                        style="@style/EditDate"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="4"
-                        android:ems="10"
-                        android:hint="default : X"
-                        android:inputType="number"
-                        android:textColor="@android:color/black" />
+                    android:id="@+id/etxtJisiDateTo"
+                    style="@style/EditDate"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="4"
+                    android:ems="10"
+                    android:hint="default : X"
+                    android:inputType="number"
+                    android:textColor="@android:color/black"
+                    tools:ignore="TouchTargetSizeCheck" />
             </TableRow>
 
         </TableLayout>
@@ -111,29 +113,32 @@
                 android:layout_weight="20">
 
             <RadioButton
-                    android:id="@+id/rbtnPodFT"
-                    style="@android:style/Widget.Holo.Light.CompoundButton.RadioButton"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:checked="true"
-                    android:text="POD FT"
-                    android:textSize="14dp" />
+                android:id="@+id/rbtnPodFT"
+                style="@android:style/Widget.Holo.Light.CompoundButton.RadioButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                android:text="@string/podftJisiItemGbnPodft"
+                android:textSize="14sp"
+                tools:ignore="TouchTargetSizeCheck" />
 
             <RadioButton
-                    android:id="@+id/rbtnAnkoris"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="ANKORIS"
-                    android:textSize="14dp" />
+                android:id="@+id/rbtnAnkoris"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/podftJisiItemGbnAnkoris"
+                android:textSize="14sp"
+                tools:ignore="TouchTargetSizeCheck" />
         </RadioGroup>
 
         <Button
-                android:text="@android:string/search_go"
-                android:layout_width="0dp"
-                android:layout_height="40dp"
-                android:id="@+id/btnJisiSearch"
-                android:layout_weight="15"
-                style="@style/ButtonTheme"/>
+            android:id="@+id/btnJisiSearch"
+            style="@style/ButtonTheme"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_weight="15"
+            android:text="@android:string/search_go"
+            tools:ignore="TouchTargetSizeCheck" />
     </LinearLayout>
 
     <LinearLayout
@@ -150,7 +155,7 @@
             >
 
         <TextView
-                android:text="출고지시 ☞"
+                android:text="@string/podftJisiLocSelText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/textView142"
@@ -158,41 +163,58 @@
                 android:textColor="@android:color/black"/>
 
         <Button
-                android:text="서울"
-                android:layout_width="wrap_content"
-                android:layout_height="30dp"
-                android:id="@+id/btnJisiSeoul"
-                android:layout_weight="1"
-                style="@style/ButtonTheme"/>
+            android:id="@+id/btnJisiSeoul"
+            style="@style/ButtonTheme"
+            android:layout_width="0dp"
+            android:layout_height="30dp"
+            android:layout_weight="2"
+            android:text="@string/podftJisiLocSeoul"
+            tools:ignore="TouchTargetSizeCheck" />
 
         <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/textView145"
-                android:layout_weight="3"/>
+            android:id="@+id/textView145"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
 
         <Button
-                android:text="부산"
-                android:layout_width="wrap_content"
-                android:layout_height="30dp"
-                android:id="@+id/btnJisiBusan"
-                android:layout_weight="1"
-                style="@style/ButtonTheme"
-                />
+            android:id="@+id/btnJisiGangnam"
+            style="@style/ButtonTheme"
+            android:layout_width="0dp"
+            android:layout_height="30dp"
+            android:layout_weight="2"
+            android:text="@string/podftJisiLocGangnam"
+            tools:ignore="TouchTargetSizeCheck" />
 
         <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/textView147"
-                android:layout_weight="3"/>
+            android:id="@+id/textView53"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
 
         <Button
-                android:text="대구"
-                android:layout_width="wrap_content"
-                android:layout_height="30dp"
-                android:id="@+id/btnJisiDaegu"
-                android:layout_weight="1"
-                style="@style/ButtonTheme"/>
+            android:id="@+id/btnJisiBusan"
+            style="@style/ButtonTheme"
+            android:layout_width="0dp"
+            android:layout_height="30dp"
+            android:layout_weight="2"
+            android:text="@string/podftJisiLocBusan"
+            tools:ignore="TouchTargetSizeCheck" />
+
+        <TextView
+            android:id="@+id/textView147"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+
+        <Button
+            android:id="@+id/btnJisiDaegu"
+            style="@style/ButtonTheme"
+            android:layout_width="0dp"
+            android:layout_height="30dp"
+            android:layout_weight="2"
+            android:text="@string/podftJisiLocDaegu"
+            tools:ignore="TouchTargetSizeCheck" />
     </LinearLayout>
 
     <TableLayout

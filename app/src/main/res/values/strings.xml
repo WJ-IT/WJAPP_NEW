@@ -105,4 +105,11 @@
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
     <string name="title_activity_jego_josa">JegoJosaActivity</string>
     <string name="title_activity_jego_in_josa">JegoInJosaActivity</string>
+    <string name="podftJisiLocSelText">출고지시 ☞</string>
+    <string name="podftJisiLocSeoul">서울</string>
+    <string name="podftJisiLocBusan">부산</string>
+    <string name="podftJisiLocDaegu">대구</string>
+    <string name="podftJisiLocGangnam">강남</string>
+    <string name="podftJisiItemGbnAnkoris">ANKORIS</string>
+    <string name="podftJisiItemGbnPodft">POD FT</string>
 </resources>

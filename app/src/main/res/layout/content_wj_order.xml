@@ -79,10 +79,11 @@
 
             <Spinner
 
-                    android:id="@+id/spin_nmItem"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="70" />
+                android:id="@+id/spin_nmItem"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="70"
+                tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
         </TableRow>
 
     </TableLayout>
@@ -133,14 +134,15 @@
 
                     <Spinner
 
-                            android:id="@+id/spin_specDia"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="16dp"
-                            app:layout_constraintEnd_toStartOf="@+id/spin_specBc"
-                            app:layout_constraintHorizontal_bias="0.5"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/textView38" />
+                        android:id="@+id/spin_specDia"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        app:layout_constraintEnd_toStartOf="@+id/spin_specBc"
+                        app:layout_constraintHorizontal_bias="0.5"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/textView38"
+                        tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
 
                     <TextView
                             android:id="@+id/textView151"
@@ -170,16 +172,17 @@
 
                     <Spinner
 
-                            android:id="@+id/spin_specBc"
-                            android:layout_width="0dp"
-                            android:layout_height="match_parent"
-                            android:layout_marginStart="48dp"
-                            android:layout_marginEnd="16dp"
-                            android:layout_weight="35"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintHorizontal_bias="0.5"
-                            app:layout_constraintStart_toEndOf="@+id/spin_specDia"
-                            app:layout_constraintTop_toBottomOf="@+id/textView38" />
+                        android:id="@+id/spin_specBc"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="48dp"
+                        android:layout_marginEnd="16dp"
+                        android:layout_weight="35"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.5"
+                        app:layout_constraintStart_toEndOf="@+id/spin_specDia"
+                        app:layout_constraintTop_toBottomOf="@+id/textView38"
+                        tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
 
                     <TextView
                             android:id="@+id/txt_bc_under"
@@ -236,13 +239,14 @@
 
                     <Spinner
 
-                            android:id="@+id/spin_specPower"
-                            android:layout_width="0dp"
-                            android:layout_height="match_parent"
-                            android:layout_marginStart="16dp"
-                            app:layout_constraintEnd_toStartOf="@+id/txtFrToPower"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/txt_power" />
+                        android:id="@+id/spin_specPower"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="16dp"
+                        app:layout_constraintEnd_toStartOf="@+id/txtFrToPower"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/txt_power"
+                        tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
 
                     <TextView
                             android:id="@+id/txtFrToPower"
@@ -257,14 +261,15 @@
 
                     <Spinner
 
-                            android:id="@+id/spin_specPower2"
-                            android:layout_width="0dp"
-                            android:layout_height="match_parent"
-                            android:layout_marginEnd="16dp"
-                            android:layout_weight="35"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toEndOf="@+id/txtFrToPower"
-                            app:layout_constraintTop_toBottomOf="@+id/txt_power" />
+                        android:id="@+id/spin_specPower2"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginEnd="16dp"
+                        android:layout_weight="35"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/txtFrToPower"
+                        app:layout_constraintTop_toBottomOf="@+id/txt_power"
+                        tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
 
                     <TextView
                             android:id="@+id/textView184"
@@ -304,14 +309,15 @@
 
                     <Spinner
 
-                            android:id="@+id/spin_specSpec"
-                            android:layout_width="0dp"
-                            android:layout_height="match_parent"
-                            android:layout_marginStart="16dp"
-                            android:layout_marginEnd="16dp"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/txt_spec" />
+                        android:id="@+id/spin_specSpec"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginEnd="16dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/txt_spec"
+                        tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
 
                     <TextView
                             android:id="@+id/textView158"
@@ -406,33 +412,35 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
         <EditText
-                android:id="@+id/txt_qty"
-                android:layout_width="150dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="36"
-                android:background="@null"
-                android:ems="10"
-                android:gravity="center"
-                android:hint="0"
-                android:inputType="numberDecimal"
-                android:textColor="#4CAF50"
-                android:textSize="20dp"
-                android:textStyle="bold"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView60" />
+            android:id="@+id/txt_qty"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="36"
+            android:background="@null"
+            android:ems="10"
+            android:gravity="center"
+            android:hint="0"
+            android:inputType="numberDecimal"
+            android:textColor="#4CAF50"
+            android:textSize="20dp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView60"
+            tools:ignore="TouchTargetSizeCheck" />
 
         <Button
-                android:id="@+id/btn_jaego"
-                android:layout_width="60dp"
-                android:layout_height="30dp"
-                android:layout_marginStart="48dp"
-                android:layout_weight="21"
-                android:background="@drawable/search_background_slim"
-                android:text="재고확인"
-                android:textColor="@android:color/white"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/txt_qty"
-                app:layout_constraintTop_toTopOf="parent" />
+            android:id="@+id/btn_jaego"
+            android:layout_width="60dp"
+            android:layout_height="30dp"
+            android:layout_marginStart="48dp"
+            android:layout_weight="21"
+            android:background="@drawable/search_background_slim"
+            android:text="재고확인"
+            android:textColor="@android:color/white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/txt_qty"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="TouchTargetSizeCheck" />
 
         <TextView
                 android:id="@+id/txt_jaegoQty"
@@ -474,19 +482,20 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
         <EditText
-                android:id="@+id/txt_remark"
-                android:layout_width="0dp"
-                android:layout_height="25dp"
-                android:background="@null"
-                android:ems="10"
-                android:gravity="center"
-                android:hint="특이사항 입력"
-                android:singleLine="true"
-                android:textColor="#000000"
-                android:textSize="14sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView61" />
+            android:id="@+id/txt_remark"
+            android:layout_width="0dp"
+            android:layout_height="25dp"
+            android:background="@null"
+            android:ems="10"
+            android:gravity="center"
+            android:hint="특이사항 입력"
+            android:singleLine="true"
+            android:textColor="#000000"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView61"
+            tools:ignore="TouchTargetSizeCheck" />
 
     </android.support.constraint.ConstraintLayout>
 
@@ -515,20 +524,21 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
         <EditText
-                android:id="@+id/txt_patient"
-                android:layout_width="0dp"
-                android:layout_height="25dp"
-                android:background="@null"
-                android:ems="10"
-                android:gravity="center"
-                android:hint="직배송시 필수"
-                android:singleLine="true"
-                android:textColor="#000000"
-                android:textSize="14sp"
-                app:layout_constraintEnd_toStartOf="@+id/txt_addr_hp"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView64" />
+            android:id="@+id/txt_patient"
+            android:layout_width="0dp"
+            android:layout_height="25dp"
+            android:background="@null"
+            android:ems="10"
+            android:gravity="center"
+            android:hint="직배송시 필수"
+            android:singleLine="true"
+            android:textColor="#000000"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toStartOf="@+id/txt_addr_hp"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView64"
+            tools:ignore="TouchTargetSizeCheck" />
 
         <TextView
                 android:id="@+id/textView188"
@@ -544,21 +554,22 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
         <EditText
-                android:id="@+id/txt_addr_hp"
-                android:layout_width="0dp"
-                android:layout_height="25dp"
-                android:layout_marginStart="32dp"
-                android:background="@null"
-                android:ems="10"
-                android:gravity="center"
-                android:hint="직배송시 필수"
-                android:inputType="numberSigned"
-                android:textColor="#000000"
-                android:textSize="14sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toEndOf="@+id/txt_patient"
-                app:layout_constraintTop_toBottomOf="@+id/textView64" />
+            android:id="@+id/txt_addr_hp"
+            android:layout_width="0dp"
+            android:layout_height="25dp"
+            android:layout_marginStart="32dp"
+            android:background="@null"
+            android:ems="10"
+            android:gravity="center"
+            android:hint="직배송시 필수"
+            android:inputType="numberSigned"
+            android:textColor="#000000"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/txt_patient"
+            app:layout_constraintTop_toBottomOf="@+id/textView64"
+            tools:ignore="TouchTargetSizeCheck" />
 
     </android.support.constraint.ConstraintLayout>
 
@@ -586,90 +597,96 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
         <Button
-                android:id="@+id/btn_zipcode"
-                android:layout_width="wrap_content"
-                android:layout_height="25dp"
-                android:background="@drawable/search_background_slim"
-                android:text="우편번호 검색"
-                android:textColor="#FFFFFF"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+            android:id="@+id/btn_zipcode"
+            android:layout_width="wrap_content"
+            android:layout_height="25dp"
+            android:background="@drawable/search_background_slim"
+            android:text="우편번호 검색"
+            android:textColor="#FFFFFF"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="TouchTargetSizeCheck" />
 
         <EditText
-                android:id="@+id/txt_addr"
-                android:layout_width="0dp"
-                android:layout_height="20dp"
-                android:background="@null"
-                android:editable="false"
-                android:ems="10"
-                android:gravity="center"
-                android:hint="기본주소(검색)"
-                android:textColor="#000000"
-                android:textSize="14sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView65" />
+            android:id="@+id/txt_addr"
+            android:layout_width="0dp"
+            android:layout_height="20dp"
+            android:background="@null"
+            android:editable="false"
+            android:ems="10"
+            android:gravity="center"
+            android:hint="기본주소(검색)"
+            android:textColor="#000000"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView65"
+            tools:ignore="TouchTargetSizeCheck" />
 
         <EditText
-                android:id="@+id/txt_addr_detail"
-                android:layout_width="0dp"
-                android:layout_height="20dp"
-                android:background="@null"
-                android:ems="10"
-                android:gravity="center"
-                android:hint="상세주소 입력"
-                android:inputType="textPersonName"
-                android:singleLine="true"
-                android:textColor="#000000"
-                android:textSize="14sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/txt_addr" />
+            android:id="@+id/txt_addr_detail"
+            android:layout_width="0dp"
+            android:layout_height="20dp"
+            android:background="@null"
+            android:ems="10"
+            android:gravity="center"
+            android:hint="상세주소 입력"
+            android:inputType="textPersonName"
+            android:singleLine="true"
+            android:textColor="#000000"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txt_addr"
+            tools:ignore="TouchTargetSizeCheck" />
 
     </android.support.constraint.ConstraintLayout>
 
     <Button
-            android:id="@+id/btn_addr_del"
-            android:layout_width="0dp"
-            android:layout_height="20dp"
-            android:layout_marginEnd="24dp"
-            android:background="@null"
-            android:singleLine="true"
-            android:text="배송정보 삭제"
-            android:textColor="#154EF6"
-            android:textSize="16dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/constraintLayout8" />
+        android:id="@+id/btn_addr_del"
+        android:layout_width="0dp"
+        android:layout_height="20dp"
+        android:layout_marginEnd="24dp"
+        android:background="@null"
+        android:singleLine="true"
+        android:text="배송정보 삭제"
+        android:textColor="#154EF6"
+        android:textSize="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout8"
+        tools:ignore="TouchTargetSizeCheck" />
 
     <Button
-            android:id="@+id/btn_basket"
-            android:layout_width="0dp"
-            android:layout_height="41dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="16dp"
-            android:background="@drawable/search_background_slim_flat"
-            android:backgroundTintMode="multiply"
-            android:text="장바구니 넣기"
-            android:textColor="@android:color/white"
-            android:textSize="18dp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toStartOf="@+id/btn_basket_open"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/btn_addr_del" />
+        android:id="@+id/btn_basket"
+        android:layout_width="0dp"
+        android:layout_height="41dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/search_background_slim_flat"
+        android:backgroundTintMode="multiply"
+        android:text="장바구니 넣기"
+        android:textColor="@android:color/white"
+        android:textSize="18dp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toStartOf="@+id/btn_basket_open"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_addr_del"
+        tools:ignore="TouchTargetSizeCheck" />
 
     <Button
-            android:id="@+id/btn_basket_open"
-            android:layout_width="130dp"
-            android:layout_height="41dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="16dp"
-            android:background="@drawable/search_background_slim_flat2"
-            android:text="장바구니 확인"
-            android:textColor="#000000"
-            android:textSize="18dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/btn_addr_del" />
+        android:id="@+id/btn_basket_open"
+        android:layout_width="130dp"
+        android:layout_height="41dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/search_background_slim_flat2"
+        android:text="장바구니 확인"
+        android:textColor="#000000"
+        android:textSize="18dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_addr_del"
+        tools:ignore="TouchTargetSizeCheck" />
 
     <android.support.constraint.ConstraintLayout
             android:id="@+id/clBasket"

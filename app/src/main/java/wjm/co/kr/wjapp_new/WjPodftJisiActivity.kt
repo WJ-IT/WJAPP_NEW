@@ -93,6 +93,18 @@ class WjPodftJisiActivity : AppCompatActivity() {
                 .show()
         }))
 
+        bindingA.bindingPodftJisi.btnJisiGangnam.setOnClickListener(({
+            val jisiDialog = AlertDialog.Builder(this, android.R.style.Theme_DeviceDefault_Light_Dialog_NoActionBar)
+            jisiDialog.setMessage(" (강남)체크한 주문을 출고지시 하시겠습니까? [${totChkCount}건]")
+                .setIcon(R.drawable.wjicon).setTitle("POD FT/ANKORIS 출고지시")
+                .setPositiveButton("네") { _, _ ->
+                    setJisiConfirm("GANGNAM")
+                }
+                .setNegativeButton("아니오", null)
+                .setCancelable(false)
+                .show()
+        }))
+
         bindingA.bindingPodftJisi.chkJisiCancel.setOnClickListener(({
             if (bindingA.bindingPodftJisi.chkJisiCancel.isChecked) {
                 selCancelYN = "N"
