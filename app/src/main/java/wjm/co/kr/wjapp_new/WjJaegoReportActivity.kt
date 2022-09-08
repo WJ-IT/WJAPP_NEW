@@ -1,5 +1,6 @@
 package wjm.co.kr.wjapp_new
 
+import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.app.Dialog
 import android.content.Context
@@ -63,6 +64,7 @@ class WjJaegoReportActivity : AppCompatActivity() {
         bindingA.bindingJeagoReport.spinLoc.adapter = spinAdapter
         bindingA.bindingJeagoReport.spinLoc.setSelection(0)
         bindingA.bindingJeagoReport.spinLoc.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            @SuppressLint("NotifyDataSetChanged")
             override fun onItemSelected(
                 parent: AdapterView<*>?,
                 view: View?,
@@ -73,6 +75,7 @@ class WjJaegoReportActivity : AppCompatActivity() {
                     0 -> cdloc = "WA"
                     1 -> cdloc = "WD"
                     2 -> cdloc = "WE"
+                    3 -> cdloc = "WF"
                 }
                 jaegoList.clear()
                 jaegoListFT.clear()
@@ -108,6 +111,7 @@ class WjJaegoReportActivity : AppCompatActivity() {
         bindingA.bindingJeagoReport.jaegoListview.adapter = jaegolistFTadapter
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     private val onClickItem = View.OnClickListener { v ->
         selCdPln  = v.tag as String?
         viewCol = v.findViewById<TextView>(R.id.text_remark).text.toString().toInt()
@@ -169,6 +173,7 @@ class WjJaegoReportActivity : AppCompatActivity() {
             .writeTimeout(10, TimeUnit.MINUTES)
             .connectTimeout(10, TimeUnit.MINUTES).build()
             .newCall(request).enqueue(object : Callback {
+                @SuppressLint("NotifyDataSetChanged")
                 override fun onResponse(call: Call, response: Response) {
                     val body1 = response.body?.string()
                     //println("Success to execute request! : $body")

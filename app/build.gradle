@@ -10,16 +10,16 @@ android {
             keyAlias = 'key1'
             keyPassword 'woojeon'
             storePassword 'woojeon'
-            storeFile file('D:\\AndroidStudio\\WJAPP_NEW\\wjapp_new.jks')
+            storeFile file('D:\\Android\\WJAPP_NEW\\wjapp_new.jks')
         }
     }
     compileSdkVersion 30
     defaultConfig {
         applicationId "wjm.co.kr.wjapp_new"
-        minSdkVersion 21
+        minSdkVersion 26
         targetSdkVersion 30
-        versionCode 31
-        versionName "2.6.2"
+        versionCode 35
+        versionName "2.6.6"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {

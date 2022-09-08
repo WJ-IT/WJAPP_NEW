@@ -175,6 +175,7 @@ class WjCustJournalActivity : AppCompatActivity() {
         val request = Request.Builder().url(url).post(body).build()
         val client = OkHttpClient()
         client.newCall(request).enqueue(object : Callback {
+            @SuppressLint("NotifyDataSetChanged")
             override fun onResponse(call: Call, response: Response) {
                 val body1 = response.body?.string()
                 println("Success to execute request! : $body1")
@@ -230,6 +231,7 @@ class WjCustJournalActivity : AppCompatActivity() {
             return ViewHolder(view)
         }
 
+        @SuppressLint("SetTextI18n")
         override fun onBindViewHolder(holder: ViewHolder, position: Int) {
             holder.txtNmCust.text = itemList[position].nmCust
             holder.txtDtVisit.text = itemList[position].dtVisit
@@ -240,6 +242,7 @@ class WjCustJournalActivity : AppCompatActivity() {
             holder.txtRowNum.text = "${itemList[position].sortN} / ${itemList.size}"
         }
 
+        @SuppressLint("NotifyDataSetChanged")
         fun setFilter(items : ArrayList<JournalList>) {
             itemList.clear()
             itemList.addAll(items)

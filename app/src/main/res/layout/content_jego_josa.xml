@@ -40,151 +40,188 @@
     </android.support.v7.widget.RecyclerView>
 
     <LinearLayout
-            android:id="@+id/linearLayout36"
-            android:layout_width="match_parent"
+        android:id="@+id/ll_jego_josa_02"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/rv_productlist_josa">
+
+        <ImageView
+            android:id="@+id/imgJosaBattery"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="2dp"
-            android:background="@drawable/search_background_slim"
-            android:orientation="horizontal"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/rv_productlist_josa">
+            android:layout_weight="10"
+            app:srcCompat="@drawable/battery00" />
 
         <TextView
-                android:id="@+id/textView172"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="20"
-                android:gravity="center"
-                android:text="제품명"
-                android:textColor="#FFFFFF" />
+            android:id="@+id/txtJosaToday"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="30"
+            android:text="2022.09.01"
+            android:textAlignment="textEnd"
+            android:textColor="#000000"
+            android:textSize="16sp" />
 
         <TextView
-                android:id="@+id/textView169"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="50"
-                android:gravity="center"
-                android:text="규격"
-                android:textColor="#FFFFFF" />
+            android:id="@+id/textView189"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="30"
+            android:text="일 누적 리딩 현황"
+            android:textSize="16sp" />
+
+        <Button
+            android:id="@+id/btnJosaSendTotResult"
+            style="@style/Widget.AppCompat.Button.Colored"
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="완료전송" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayout36"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:background="@drawable/search_background_slim"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ll_jego_josa_02">
 
         <TextView
-                android:id="@+id/textView170"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="15"
-                android:gravity="center"
-                android:text="TAG"
-                android:textColor="#FFFFFF" />
+            android:id="@+id/textView172"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="20"
+            android:gravity="center"
+            android:text="제품명"
+            android:textColor="#FFFFFF" />
 
         <TextView
-                android:id="@+id/textView171"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="15"
-                android:gravity="center"
-                android:text="전산"
-                android:textColor="#FFFFFF" />
+            android:id="@+id/textView169"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="50"
+            android:gravity="center"
+            android:text="규격"
+            android:textColor="#FFFFFF" />
+
+        <TextView
+            android:id="@+id/textView170"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="15"
+            android:gravity="center"
+            android:text="TAG"
+            android:textColor="#FFFFFF" />
+
+        <TextView
+            android:id="@+id/textView171"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="15"
+            android:gravity="center"
+            android:text="전산"
+            android:textColor="#FFFFFF" />
     </LinearLayout>
 
     <android.support.v7.widget.RecyclerView
-            android:id="@+id/rv_josalist"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_marginTop="2dp"
-            app:layout_constraintBottom_toTopOf="@+id/linearLayout38"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/linearLayout36">
+        android:id="@+id/rv_josalist"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout38"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout36">
 
     </android.support.v7.widget.RecyclerView>
 
     <LinearLayout
-            android:id="@+id/linearLayout38"
-            android:layout_width="match_parent"
-            android:layout_height="25dp"
-            android:orientation="horizontal"
-            app:layout_constraintBottom_toTopOf="@+id/linearLayout37">
+        android:id="@+id/ll_jego_josa_03"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent">
 
-        <CheckBox
-                android:id="@+id/cbJosaDiff"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="40"
-                android:text="다른것만보기" />
+        <Button
+            android:id="@+id/btnJosaTagInit"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="30"
+            android:text="화면 초기화" />
 
-        <TextView
-                android:id="@+id/txt_total_read"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:textColor="#673AB7" />
+        <Button
+            android:id="@+id/btnJosaReaderInit"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="30"
+            android:text="리더기 초기화" />
 
-        <TextView
-                android:id="@+id/textView175"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="30"
-                android:gravity="center"
-                android:text="합계"
-                android:textStyle="bold" />
-
-        <TextView
-                android:id="@+id/txtJosaTagSum"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="15"
-                android:gravity="center"
-                android:textColor="#2AE116"
-                android:textSize="20dp"
-                android:textStyle="bold" />
-
-        <TextView
-                android:id="@+id/txtJosaRlmSum"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="15"
-                android:gravity="center"
-                android:textColor="#1689E1"
-                android:textSize="20dp"
-                android:textStyle="bold" />
+        <Button
+            android:id="@+id/btnJosaSendResult"
+            style="@style/Widget.AppCompat.Button.Colored"
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:backgroundTint="#6377BF"
+            android:text="중간전송" />
     </LinearLayout>
 
     <LinearLayout
-            android:id="@+id/linearLayout37"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:orientation="horizontal"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent">
+        android:id="@+id/linearLayout38"
+        android:layout_width="match_parent"
+        android:layout_height="25dp"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toTopOf="@+id/ll_jego_josa_03">
 
-        <ImageView
-                android:id="@+id/imgJosaBattery"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="10"
-                app:srcCompat="@drawable/battery00" />
+        <CheckBox
+            android:id="@+id/cbJosaDiff"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="40"
+            android:text="다른것만보기" />
 
-        <Button
-                android:id="@+id/btnJosaReaderInit"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="30"
-                android:text="리더기 초기화" />
+        <TextView
+            android:id="@+id/txt_total_read"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textColor="#673AB7" />
 
-        <Button
-                android:id="@+id/btnJosaTagInit"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="30"
-                android:text="화면초기화" />
+        <TextView
+            android:id="@+id/textView175"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="10"
+            android:gravity="center"
+            android:text="합계"
+            android:textStyle="bold" />
 
-        <Button
-                android:id="@+id/btnJosaSendResult"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="30"
-                android:text="결과전송" />
+        <TextView
+            android:id="@+id/txtJosaTagSum"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="15"
+            android:gravity="center"
+            android:textColor="#2AE116"
+            android:textSize="20dp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/txtJosaRlmSum"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="15"
+            android:gravity="center"
+            android:textColor="#1689E1"
+            android:textSize="20dp"
+            android:textStyle="bold" />
     </LinearLayout>
+
 </android.support.constraint.ConstraintLayout>

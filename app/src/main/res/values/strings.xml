@@ -22,7 +22,7 @@
     <string name="bt_not_machine">기기에 블루투스 기능이 없습니다.</string>
 
     <!--Swing Conn -->
-    <string name="swing_already_conn">이미 스윙기가 연결되어 있습니다.</string>
+    <string name="swing_already_conn">다시 스윙기를 연결합니다.</string>
     <string name="swing_noconn">우선 스윙기를 연결해주세요</string>
 
     <string name="tag_sending">현재 태그정보 전송중입니다.</string>

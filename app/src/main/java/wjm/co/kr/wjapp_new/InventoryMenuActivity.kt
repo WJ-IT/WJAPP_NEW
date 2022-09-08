@@ -98,6 +98,11 @@ class InventoryMenuActivity : AppCompatActivity() {
                 }
             } else {
                 MyToast(resources.getString(R.string.swing_already_conn))
+                if (bt_data.BTadapter!!.isDiscovering) {
+                    bt_data.BTadapter!!.cancelDiscovery()
+                }
+                val intent = Intent(this, DeviceListActivity::class.java)
+                startActivityForResult(intent, REQUEST_CONNECT_DEVICE)
             }
         }))
 
