@@ -9,7 +9,6 @@ import android.view.animation.AnimationUtils
 import wjm.co.kr.wjapp_new.databinding.CustomDialogBinding
 
 class LodingDialog(private val c: Context) : Dialog(c) {
-//    private var imgLogo: ImageView? = nul;
     private lateinit var binding: CustomDialogBinding
 
     init {
@@ -20,17 +19,20 @@ class LodingDialog(private val c: Context) : Dialog(c) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-//        setContentView(R.layout.custom_dialog)
         binding = CustomDialogBinding.inflate(layoutInflater)
         setContentView(binding.root)
         val anim = AnimationUtils.loadAnimation(c, R.anim.loading)
         binding.imgAndroid.animation = anim
     }
 
-//    override fun show() {
-//        super.show()
-//    }
-//    override fun dismiss() {
-//        super.dismiss()
-//    }
+    override fun show() {
+        if (!this.isShowing)
+            super.show()
+    }
+
+
+    override fun hide() {
+        if (this.isShowing)
+            super.hide()
+    }
 }

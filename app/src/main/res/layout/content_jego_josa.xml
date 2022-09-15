@@ -1,41 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        tools:context=".JegoJosaActivity"
-        tools:showIn="@layout/activity_jego_josa">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context=".JegoJosaActivity"
+    tools:showIn="@layout/activity_jego_josa">
 
     <TextView
-            android:id="@+id/textView163"
-            android:layout_width="70dp"
-            android:layout_height="20dp"
-            android:gravity="center"
-            android:text="창고선택"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+        android:id="@+id/textView163"
+        android:layout_width="70dp"
+        android:layout_height="20dp"
+        android:gravity="center"
+        android:text="창고선택"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Spinner
-            android:id="@+id/spin_josa_loc"
-            android:layout_width="0dp"
-            android:layout_height="30dp"
-            android:background="@android:color/transparent"
-            android:gravity="center"
-            app:layout_constraintEnd_toEndOf="@+id/textView163"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView163" />
+        android:id="@+id/spin_josa_loc"
+        android:layout_width="0dp"
+        android:layout_height="30dp"
+        android:background="@android:color/transparent"
+        android:gravity="center"
+        app:layout_constraintEnd_toEndOf="@+id/textView163"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView163" />
 
     <android.support.v7.widget.RecyclerView
-            android:id="@+id/rv_productlist_josa"
-            android:layout_width="0dp"
-            android:layout_height="50dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/textView163"
-            app:layout_constraintTop_toTopOf="parent">
+        android:id="@+id/rv_productlist_josa"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/textView163"
+        app:layout_constraintTop_toTopOf="parent">
 
     </android.support.v7.widget.RecyclerView>
 
@@ -50,10 +50,61 @@
 
         <ImageView
             android:id="@+id/imgJosaBattery"
-            android:layout_width="0dp"
+            android:layout_width="35dp"
             android:layout_height="wrap_content"
-            android:layout_weight="10"
-            app:srcCompat="@drawable/battery00" />
+            android:layout_weight="1"
+            app:srcCompat="@drawable/battery00"
+            tools:layout_editor_absoluteX="-12dp"
+            tools:layout_editor_absoluteY="134dp" />
+
+        <LinearLayout
+            android:layout_width="35dp"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/imgJosaRfPower"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1.5"
+                app:srcCompat="@drawable/rfpower100" />
+
+            <TextView
+                android:id="@+id/txtRfPower"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1.2"
+                android:text="30"
+                android:textAlignment="center"
+                android:textSize="16sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="20dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <ImageButton
+                android:id="@+id/btnRfPowerUp"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:backgroundTint="#ffffff"
+                android:scaleX="1.3"
+                android:scaleY="1.3"
+                app:srcCompat="@android:drawable/arrow_up_float" />
+
+            <ImageButton
+                android:id="@+id/btnRfPowerDown"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:backgroundTint="#ffffff"
+                android:scaleX="1.3"
+                android:scaleY="1.3"
+                app:srcCompat="@android:drawable/arrow_down_float" />
+        </LinearLayout>
 
         <TextView
             android:id="@+id/txtJosaToday"
@@ -70,7 +121,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="30"
-            android:text="일 누적 리딩 현황"
+            android:text="일 누적"
             android:textSize="16sp" />
 
         <Button

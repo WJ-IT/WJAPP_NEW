@@ -53,6 +53,8 @@ public class SwingAPI {
     public static final int MESSAGE_FOUND = 8;
     public static final int MESSAGE_TAG = 9;
     public static final int MESSAGE_BATTERY = 11;
+    public static final int MESSAGE_POWER = 12;
+    public static final int MESSAGE_POWERRANGE = 13;
     public static final String TOAST = "toast";
 
     // Command Code
@@ -414,6 +416,27 @@ public class SwingAPI {
 
     public void prisma_tagDel() {
         String cmdString = String.format("~aD\r\n");
+
+        byte[] pkt = cmdString.getBytes();
+        write(pkt);
+    }
+
+    public void prisma_getPower() {
+        String cmdString = String.format("~rp\r\n");
+
+        byte[] pkt = cmdString.getBytes();
+        write(pkt);
+    }
+
+    public void prisma_setPower(String val) {
+        String cmdString = String.format("~wp"+val+"\r\n");
+
+        byte[] pkt = cmdString.getBytes();
+        write(pkt);
+    }
+
+    public void prisma_getPowerRange() {
+        String cmdString = String.format("~ra\r\n");
 
         byte[] pkt = cmdString.getBytes();
         write(pkt);
@@ -1103,6 +1126,12 @@ public class SwingAPI {
                         case 'R':
                             if (buffer[2] == 'e') { //Battery Status 0~4(100%)
                                 mHandler.obtainMessage(MESSAGE_BATTERY, datalength, -1, data).sendToTarget();
+                            }
+                            if (buffer[2] == 'p') { //Power Status
+                                mHandler.obtainMessage(MESSAGE_POWER, datalength, -1, data).sendToTarget();
+                            }
+                            if (buffer[2] == 'a') { //Power Range
+                                mHandler.obtainMessage(MESSAGE_POWERRANGE, datalength, -1, data).sendToTarget();
                             }
                             break;
 

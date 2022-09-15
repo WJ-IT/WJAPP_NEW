@@ -51,6 +51,8 @@ class InventoryMenuActivity : AppCompatActivity() {
     val MESSAGE_FOUND = 8
     val MESSAGE_TAG = 9
     val MESSAGE_BATTERY = 11
+    val MESSAGE_POWER = 12
+    val MESSAGE_POWERRANGE = 13
 
     var BTDevice: BluetoothDevice? = null
     private var BT_enable_onStart = false
@@ -286,6 +288,26 @@ class InventoryMenuActivity : AppCompatActivity() {
                             "4" -> Toast.makeText(baseContext, "리더기 배터리 80%이상", Toast.LENGTH_LONG)
                                 .show()
                         }
+                    }
+                }
+                MESSAGE_POWER -> {
+                    val readBuf = msg.obj as ByteArray
+                    // construct a string from the valid bytes in the buffer
+
+                    val readMessage = String(readBuf, 0, msg.arg1)
+                    val ran = IntRange(4, 7)
+                    if(reading_loc.topPage == "JEGOJOSA") {
+                        JegoJosaActivity.ReadingJosaRFID.getPower(readMessage.slice(ran))
+                    }
+                }
+                MESSAGE_POWERRANGE -> { //000~300
+                    val readBuf = msg.obj as ByteArray
+                    // construct a string from the valid bytes in the buffer
+
+                    val readMessage = String(readBuf, 0, msg.arg1)
+                    val ran = IntRange(4, 4)
+                    if(reading_loc.topPage == "JEGOJOSA") {
+                        JegoJosaActivity.ReadingJosaRFID.getPowerRange(readMessage.slice(ran))
                     }
                 }
                 MESSAGE_TOAST -> if (msg.getData().getString(TOAST).equals("장치 연결에 실패하였습니다.")) {

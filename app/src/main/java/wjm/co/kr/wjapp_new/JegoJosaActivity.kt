@@ -52,6 +52,8 @@ class JegoJosaActivity : AppCompatActivity() {
     private var db: SQLiteDatabase? = null
     private var dbName = "WJDB2"
 
+    private lateinit var loadingDialog : LodingDialog
+
     @SuppressLint("NotifyDataSetChanged")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -124,6 +126,14 @@ class JegoJosaActivity : AppCompatActivity() {
                 }
                 .setNegativeButton("취소", null).show()
         }))
+
+        bindingA.bindingJjosa.btnRfPowerUp.setOnClickListener(({
+            setRfPower("UP")
+        }))
+
+        bindingA.bindingJjosa.btnRfPowerDown.setOnClickListener(({
+            setRfPower("DOWN")
+        }))
         //DB관련
         db = openOrCreateDatabase(dbName, MODE_PRIVATE, null)
     }
@@ -132,6 +142,8 @@ class JegoJosaActivity : AppCompatActivity() {
     private fun jegoJosaInit() {
         // 리딩결과 값을 받을 화면을 알려준다
         InventoryMenuActivity.reading_loc.topPage = "JEGOJOSA"
+
+        loadingDialog = LodingDialog(this)
 
         //spin_loc setting
         val spinAdapter : ArrayAdapter<String> = ArrayAdapter(
@@ -205,6 +217,8 @@ class JegoJosaActivity : AppCompatActivity() {
         //프리즈마면 화면 집입시 초기화
         if(InventoryMenuActivity.SwingInfo.swing_NAME.contains("RFPrisma", true)) {
             InventoryMenuActivity.SwingInfo.mSwing!!.prisma_tagDel()
+            InventoryMenuActivity.SwingInfo.mSwing!!.prisma_setPower("300")
+//            InventoryMenuActivity.SwingInfo.mSwing!!.prisma_getPower()
         }
 
         //당일 누적 일자표시
@@ -302,7 +316,6 @@ class JegoJosaActivity : AppCompatActivity() {
     }
 
     private fun getJosaProductList() {
-        val loadingDialog = LodingDialog(this)
         loadingDialog.show()
         val url = URL("http://iclkorea.com/android/jegoJosa_ProductList.asp")
         val body = FormBody.Builder().add("loc", cdloc).build()
@@ -329,7 +342,7 @@ class JegoJosaActivity : AppCompatActivity() {
 
                 runOnUiThread { //UI에 알려줌
                     josaProductAdapter!!.notifyDataSetChanged()
-                    loadingDialog.dismiss()
+                    loadingDialog.hide()
                 }
             }
 
@@ -339,7 +352,7 @@ class JegoJosaActivity : AppCompatActivity() {
                 println(e.message)
                 runOnUiThread { //UI에 알려줌
                     josaProductAdapter!!.notifyDataSetChanged()
-                    loadingDialog.dismiss()
+                    loadingDialog.hide()
                 }
             }
         })
@@ -347,7 +360,6 @@ class JegoJosaActivity : AppCompatActivity() {
 
     private fun getJosaItemList() {
         startOK = false
-        val loadingDialog = LodingDialog(this)
         loadingDialog.show()
 //        val url = URL("http://iclkorea.com/android/JegoJosa_ItemJegoList.asp")
         val url = URL("http://iclkorea.com/android/JegoJosa_ItemJegoList_new.asp")
@@ -375,7 +387,7 @@ class JegoJosaActivity : AppCompatActivity() {
 
                     runOnUiThread { //UI에 알려줌
                         josaItemAdapter!!.notifyDataSetChanged()
-                        loadingDialog.dismiss()
+                        loadingDialog.hide()
                         bindingA.bindingJjosa.txtJosaRlmSum.text = rlmSumQty.toString()
                         bindingA.bindingJjosa.txtJosaTagSum.text = tagSumQty.toString()
                     }
@@ -385,7 +397,7 @@ class JegoJosaActivity : AppCompatActivity() {
                     println("Failed to execute request!")
                     println(e.message)
                     runOnUiThread { //UI에 알려줌
-                        loadingDialog.dismiss()
+                        loadingDialog.hide()
                     }
                     startOK = true
                 }
@@ -397,8 +409,7 @@ class JegoJosaActivity : AppCompatActivity() {
     //읽은 태그 정보를 가져와서 기존 리스트에 추가한다
     private fun getReadingtagList(tagLists: String) {
         startOK = false
-//        val loadingDialog = LodingDialog(this)
-//        loadingDialog.show()
+        loadingDialog.show()
         val url = URL("http://iclkorea.com/android/JegoJosa_ReadingTagList_new.asp")
         val body = FormBody.Builder().add("tags", tagLists).add("cdpln", selCdPln).add("loc", cdloc).build()
         val request = Request.Builder().url(url).post(body).build()
@@ -441,7 +452,7 @@ class JegoJosaActivity : AppCompatActivity() {
                             bindingA.bindingJjosa.txtJosaTagSum.text =
                                 (Integer.parseInt(bindingA.bindingJjosa.txtJosaTagSum.text.toString()) + tagSumQty).toString()
                         josaItemAdapter!!.notifyDataSetChanged()
-//                        loadingDialog.dismiss()
+                        loadingDialog.hide()
                     }
                 }
 
@@ -449,6 +460,9 @@ class JegoJosaActivity : AppCompatActivity() {
                     println("Failed to execute request!")
                     println(e.message)
                     startOK = true
+                    runOnUiThread { //UI에 알려줌
+                        loadingDialog.hide()
+                    }
                 }
             })
         startOK = true
@@ -456,7 +470,6 @@ class JegoJosaActivity : AppCompatActivity() {
 
     private fun sendTagReadingResult(tagLists: String, cnt: Int) {
         startOK = false
-        val loadingDialog = LodingDialog(this)
         loadingDialog.show()
 //        val url = URL("http://iclkorea.com/android/JegoJosa_TagResultSend.asp")
         println("josa result : $tagLists")
@@ -481,7 +494,7 @@ class JegoJosaActivity : AppCompatActivity() {
                             Toast.makeText(baseContext, "전송이 완료되엇습니다." + cnt.toString() + "/" + (sendCnt + 1).toString(), Toast.LENGTH_LONG).show()
                             dbdelete(tagLists) //전송한만큼 삭제
                             tagmatch("DB")
-                            loadingDialog.dismiss()
+                            loadingDialog.hide()
                         }
                     } else {
                         runOnUiThread { //UI에 알려줌
@@ -490,7 +503,7 @@ class JegoJosaActivity : AppCompatActivity() {
                                 "전송이 실패되엇습니다.(" + dBSendTagList.status + ")",
                                 Toast.LENGTH_LONG
                             ).show()
-                            loadingDialog.dismiss()
+                            loadingDialog.hide()
                         }
                     }
                 }
@@ -505,7 +518,6 @@ class JegoJosaActivity : AppCompatActivity() {
     }
 
     private fun sendTagTotResult() {
-        val loadingDialog = LodingDialog(this)
         loadingDialog.show()
         val url = URL("http://iclkorea.com/android/JegoJosa_TagResultSend_new.asp")
         val body = FormBody.Builder().add("cdpln", selCdPln).add("loc", cdloc).build()
@@ -525,7 +537,7 @@ class JegoJosaActivity : AppCompatActivity() {
                     if (dBSendTagList.results == "OK") {
                         runOnUiThread { //UI에 알려줌
                             Toast.makeText(baseContext, "전송이 완료되엇습니다.", Toast.LENGTH_LONG).show()
-                            loadingDialog.dismiss()
+                            loadingDialog.hide()
                         }
                     } else {
                         runOnUiThread { //UI에 알려줌
@@ -534,7 +546,7 @@ class JegoJosaActivity : AppCompatActivity() {
                                 "전송이 실패되엇습니다.(" + dBSendTagList.status + ")",
                                 Toast.LENGTH_LONG
                             ).show()
-                            loadingDialog.dismiss()
+                            loadingDialog.hide()
                         }
                     }
                 }
@@ -547,7 +559,6 @@ class JegoJosaActivity : AppCompatActivity() {
     }
     private fun getDetailList(arg1: String, arg2: String, arg3: String) {
         startOK = false
-        val loadingDialog = LodingDialog(this)
         loadingDialog.show()
         josaDetailList.clear()
         //println(arg1.toString())
@@ -573,7 +584,7 @@ class JegoJosaActivity : AppCompatActivity() {
                     //println(cdialogList.size)
                     cDialog("$arg1 $arg2 $arg3").show()
                     josaDetailAdapter!!.notifyDataSetChanged()
-                    loadingDialog.dismiss()
+                    loadingDialog.hide()
                 }
             }
 
@@ -582,7 +593,7 @@ class JegoJosaActivity : AppCompatActivity() {
                 println(e.message)
                 startOK = true
                 runOnUiThread { //UI에 알려줌
-                    loadingDialog.dismiss()
+                    loadingDialog.hide()
                 }
             }
         })
@@ -811,12 +822,32 @@ class JegoJosaActivity : AppCompatActivity() {
         return dialog
     }
 
+    private fun setRfPower(gbn : String) {
+        var rfPower = bindingA.bindingJjosa.txtRfPower.text.toString()
+        when (gbn) {
+            "UP" ->
+                if (rfPower != "30")
+                    rfPower = ((rfPower.toInt() + 3) * 10).toString()
+
+            "DOWN" ->
+                if (rfPower != "0")
+                    rfPower = ((rfPower.toInt() - 3) * 10).toString()
+        }
+        bindingA.bindingJjosa.txtRfPower.text = (rfPower.toInt() / 10).toString()
+        when (rfPower.toInt() / 10) {
+            in 0..6 -> bindingA.bindingJjosa.imgJosaRfPower.setImageResource(R.drawable.rfpower20)
+            in 7..12 -> bindingA.bindingJjosa.imgJosaRfPower.setImageResource(R.drawable.rfpower40)
+            in 13..18 -> bindingA.bindingJjosa.imgJosaRfPower.setImageResource(R.drawable.rfpower60)
+            in 19..24 -> bindingA.bindingJjosa.imgJosaRfPower.setImageResource(R.drawable.rfpower80)
+            in 25..30 -> bindingA.bindingJjosa.imgJosaRfPower.setImageResource(R.drawable.rfpower100)
+        }
+        InventoryMenuActivity.SwingInfo.mSwing!!.prisma_setPower(rfPower)
+    }
+
     @SuppressLint("NotifyDataSetChanged")
     private val onClickItem = View.OnClickListener { v ->
         selCdPln  = v.tag as String
         startOK = false
-        val loadingDialog = LodingDialog(this)
-        loadingDialog.show()
 
         for (idx in 0 until josaProductList.size)
             josaProductList[idx].flag = (josaProductList[idx].cdPln == selCdPln)
@@ -825,10 +856,8 @@ class JegoJosaActivity : AppCompatActivity() {
         tagBefSize = 0
         bindingA.bindingJjosa.txtJosaTagSum.text = ""
         josaItemList.clear()
-//        josaTotItemList.clear()
         josaItemAdapter!!.notifyDataSetChanged()
 
-//        getJosaTotList()
         getJosaItemList()
         swingConnChk()
         println("mtag size : ${ReadingJosaRFID.mTagItem.size}")
@@ -836,8 +865,6 @@ class JegoJosaActivity : AppCompatActivity() {
             makeSendTagList("TIMER")
 
         dbchk()
-
-        loadingDialog.dismiss()
         startOK = true
     }
 
@@ -847,8 +874,7 @@ class JegoJosaActivity : AppCompatActivity() {
         val cditem = temp[0]
         val cdspec = temp[1]
         val dcspec = temp[2]
-//        makeSendTagList("ALL")
-//        getDetailList(cditem, cdspec, dcspec, tagArray[0])
+
         getDetailList(cditem, cdspec, dcspec)
         true
     }
@@ -857,6 +883,8 @@ class JegoJosaActivity : AppCompatActivity() {
         companion object {
             var mTagItem: ArrayList<TagItem> = ArrayList()//스윙기로 읽은 데이타를 담을 그릇
             var batteryStatus : String = ""
+            var powerStatus : String = "300"
+            var powerRange : String = ""
 
             fun showDataJepum(Item: TagItem) {
                 val pos = getPosition(Item)
@@ -887,6 +915,12 @@ class JegoJosaActivity : AppCompatActivity() {
 
             fun setBattery(status: String) {
                 batteryStatus = status
+            }
+            fun getPower(status: String) {
+                powerStatus = status
+            }
+            fun getPowerRange(status: String) { // default 000(0) ~ 300(30)
+                powerRange = status
             }
         }
     }
@@ -967,6 +1001,7 @@ class JegoJosaActivity : AppCompatActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
+        loadingDialog.dismiss()
 //        dbdelete("ALL")
         ReadingJosaRFID.mTagItem.clear()
         if (swingConnChk())
