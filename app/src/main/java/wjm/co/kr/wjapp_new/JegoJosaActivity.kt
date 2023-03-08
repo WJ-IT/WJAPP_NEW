@@ -27,6 +27,7 @@ import java.util.concurrent.TimeUnit
 
 class JegoJosaActivity : AppCompatActivity() {
     private lateinit var bindingA: ActivityJegoJosaBinding
+    private var gbnTing = false
     private var cdloc = "WA"
     private var selCdPln = ""
     private var tagBefSize = 0
@@ -134,6 +135,17 @@ class JegoJosaActivity : AppCompatActivity() {
         bindingA.bindingJjosa.btnRfPowerDown.setOnClickListener(({
             setRfPower("DOWN")
         }))
+
+        bindingA.bindingJjosa.btnDbDel.setOnClickListener(({
+            AlertDialog.Builder(this)
+                .setTitle("선택제품 DB 초기화")
+                .setMessage("선택한 제품의 금일 DB 전송자료를 삭제 하시겠습니까?")
+                .setIcon(android.R.drawable.ic_dialog_info)
+                .setPositiveButton("확인") { _, _ ->
+                    setDbDel()
+                }
+                .setNegativeButton("취소", null).show()
+        }))
         //DB관련
         db = openOrCreateDatabase(dbName, MODE_PRIVATE, null)
     }
@@ -226,13 +238,18 @@ class JegoJosaActivity : AppCompatActivity() {
     }
 
     private fun makeSendTagList(gbn: String) : Array<String> {
+        var gbn2 = gbn
         var tagList = ""
         val tagNowSize = ReadingJosaRFID.mTagItem.size
         var imsiStart: Int
         var imsiEnd: Int
         bindingA.bindingJjosa.txtTotalRead.text = "$tagNowSize"
 ///println("befsize : $tagBefSize")
-        when(gbn) {
+        if (gbnTing) {
+            gbn2 = "ALLTAG"
+            gbnTing = false
+        }
+        when(gbn2) {
 //            "ALL" -> {  //전체는 최종 결과 전송시
 //                for (i in 0 until tagNowSize) {
 //                    if (i == 0) {
@@ -527,6 +544,7 @@ class JegoJosaActivity : AppCompatActivity() {
             .writeTimeout(30, TimeUnit.MINUTES)
             .connectTimeout(30, TimeUnit.MINUTES).build()
             .newCall(request).enqueue(object : Callback {
+                @SuppressLint("NotifyDataSetChanged")
                 override fun onResponse(call: Call, response: Response) {
                     val body1 = response.body?.string()
                     println("Success to execute request! : $body1")
@@ -537,6 +555,11 @@ class JegoJosaActivity : AppCompatActivity() {
                     if (dBSendTagList.results == "OK") {
                         runOnUiThread { //UI에 알려줌
                             Toast.makeText(baseContext, "전송이 완료되엇습니다.", Toast.LENGTH_LONG).show()
+//                            ReadingJosaRFID.mTagItem.clear()
+//                            josaItemList.clear()
+//                            josaItemAdapter!!.notifyDataSetChanged()
+//                            tagBefSize = 0
+//                            dbdelete("ALL")
                             loadingDialog.hide()
                         }
                     } else {
@@ -599,6 +622,49 @@ class JegoJosaActivity : AppCompatActivity() {
         })
         startOK = true
     }
+
+    private fun setDbDel() {
+        loadingDialog.show()
+        val url = URL("http://iclkorea.com/android/JegoJosa_TagDbDel.asp")
+        val body = FormBody.Builder().add("cdpln", selCdPln).add("loc", cdloc).build()
+        val request = Request.Builder().url(url).post(body).build()
+        val client = OkHttpClient()
+        client.newBuilder().readTimeout(30, TimeUnit.MINUTES)
+            .writeTimeout(30, TimeUnit.MINUTES)
+            .connectTimeout(30, TimeUnit.MINUTES).build()
+            .newCall(request).enqueue(object : Callback {
+                @SuppressLint("NotifyDataSetChanged")
+                override fun onResponse(call: Call, response: Response) {
+                    val body1 = response.body?.string()
+                    println("Success to execute request! : $body1")
+                    //Gson으로 파싱
+                    val gson = GsonBuilder().create()
+                    val dBSendTagList = gson.fromJson(body1, DBSendTagList::class.java)
+
+                    if (dBSendTagList.results == "OK") {
+                        runOnUiThread { //UI에 알려줌
+                            Toast.makeText(baseContext, "해당제품의 금일전송내역이 삭제되었습니다.", Toast.LENGTH_LONG).show()
+                            loadingDialog.hide()
+                        }
+                    } else {
+                        runOnUiThread { //UI에 알려줌
+                            Toast.makeText(
+                                baseContext,
+                                "전송이 실패되엇습니다.(" + dBSendTagList.status + ")",
+                                Toast.LENGTH_LONG
+                            ).show()
+                            loadingDialog.hide()
+                        }
+                    }
+                }
+
+                override fun onFailure(call: Call, e: IOException) {
+                    println("Failed to execute request!")
+                    println(e.message)
+                }
+            })
+    }
+
     data class DBJosaProductList(val results: List<JosaProducts>)
     data class JosaProducts(var cdPln: String?, var nmPln: String?, var flag: Boolean?)
     data class DBJosaItemList(val results: List<JosaItem>)
@@ -991,9 +1057,11 @@ class JegoJosaActivity : AppCompatActivity() {
         val mtagcnt = ReadingJosaRFID.mTagItem.size
         if (mtagcnt == dbcnt) return
 
-        if (dbcnt > mtagcnt)
+        if (dbcnt > mtagcnt) {
 //            if (mtagcnt == 0)
-                tagmatch("DB")
+            tagmatch("DB")
+            gbnTing = true
+        }
         else
             tagmatch("mTAG")
 

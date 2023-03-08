@@ -1,5 +1,6 @@
 package wjm.co.kr.wjapp_new
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.AlertDialog
 import android.app.Dialog
@@ -18,6 +19,8 @@ import com.google.gson.GsonBuilder
 import okhttp3.*
 import java.io.IOException
 import java.net.URL
+import java.util.*
+import kotlin.collections.ArrayList
 
 class CustomerAdapter(val context: Context, var arItem:ArrayList<CustomerA>): BaseAdapter(),
     Filterable {
@@ -41,6 +44,7 @@ class CustomerAdapter(val context: Context, var arItem:ArrayList<CustomerA>): Ba
         return selectItem
     }
 
+    @SuppressLint("ViewHolder", "SetTextI18n")
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
 
         val layoutInflater = LayoutInflater.from(context)
@@ -57,7 +61,8 @@ class CustomerAdapter(val context: Context, var arItem:ArrayList<CustomerA>): Ba
         col1.text = arItem[position].custNm
 
         val col2 : TextView = convertView.findViewById(android.R.id.text2)
-        col2.text = arItem[position].custCd + " / Team : " + arItem[position].team + " / FAX : " + arItem[position].faxNo
+        col2 .text ="${arItem[position].custCd} / Team : ${arItem[position].team} / FAX : ${arItem[position].faxNo}"
+//            arItem[position].custCd + " / Team : " + arItem[position].team + " / FAX : " + arItem[position].faxNo
 
         if (selectItem == -1 || selectItem != position)
             col1.setTextColor(Color.BLACK)
@@ -98,10 +103,10 @@ class CustomerAdapter(val context: Context, var arItem:ArrayList<CustomerA>): Ba
                     results.count = mOriginalValues!!.size
                     results.values = mOriginalValues
                 } else {
-                    const = const.toString().toLowerCase()
+                    const = const.toString().toLowerCase(Locale.ROOT)
                     for (i in 0 until mOriginalValues!!.size) {
                         val data : String? = mOriginalValues!![i].custNm
-                        if (data!!.toLowerCase().startsWith(const.toString())) {
+                        if (data!!.toLowerCase(Locale.ROOT).startsWith(const.toString())) {
                             filteredArrList.add(mOriginalValues!![i])
                         }
                     }

@@ -54,9 +54,10 @@
             />
 
     <Button
-            android:id="@+id/button_scan"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/button_scan"
-            android:textSize="14dp"/>
+        android:id="@+id/button_scan"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/button_scan"
+        android:textSize="14dp"
+        android:visibility="gone" />
 </LinearLayout>

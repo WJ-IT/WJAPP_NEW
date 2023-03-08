@@ -28,7 +28,7 @@ import wjm.co.kr.wjapp_new.databinding.ActivityWjBoardBinding
 import java.io.*
 
 class WjBoardActivity : AppCompatActivity() {
-     private lateinit var bindingA: ActivityWjBoardBinding
+    private lateinit var bindingA: ActivityWjBoardBinding
     private var selDateFr : String = ""
     private var selDateTo : String = ""
     private var searchView: SearchView? = null
@@ -37,12 +37,12 @@ class WjBoardActivity : AppCompatActivity() {
     private var boardListAdapter : BoardListAdapter? = null
 
     private var attachFilesAdapter : AttachFilesAdapter? = null
-
+    val genFun = Gen_fun()
     // SQLite DB관련
     private var db: SQLiteDatabase? = null
     private var dbName = "WJDB2"
 
-    @SuppressLint("ClickableViewAccessibility")
+    @SuppressLint("ClickableViewAccessibility", "NotifyDataSetChanged")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 //        setContentView(R.layout.activity_wj_board)
@@ -51,6 +51,14 @@ class WjBoardActivity : AppCompatActivity() {
         setSupportActionBar(bindingA.toolbar)
 
         wjBoardInit()
+
+        if (WjmMain.LoginUser.sno == "") {
+            genFun.slToast(this,"다시 로그인해주세요")
+            val intent: Intent?
+            intent = Intent(applicationContext, WjmMain::class.java)
+            startActivity(intent)
+            overridePendingTransition(R.anim.loadfadein, R.anim.loadfadeout)
+        }
 
         bindingA.bindingBoardContent.btnSearchBoard.setOnClickListener(({
             if (checkDate()) {
@@ -140,6 +148,7 @@ class WjBoardActivity : AppCompatActivity() {
         val request = Request.Builder().url(url).post(body).build()
         val client = OkHttpClient()
         client.newCall(request).enqueue(object : Callback {
+            @SuppressLint("NotifyDataSetChanged")
             override fun onResponse(call: Call, response: Response) {
                 val body1 = response.body?.string()
                 println("Success to execute request! : $body1")
@@ -183,6 +192,7 @@ class WjBoardActivity : AppCompatActivity() {
         val request = Request.Builder().url(url).post(body).build()
         val client = OkHttpClient()
         client.newCall(request).enqueue(object : Callback {
+            @SuppressLint("NotifyDataSetChanged")
             override fun onResponse(call: Call, response: Response) {
                 val body1 = response.body?.string()
                 println("Success to execute request! : $body1")
@@ -326,6 +336,7 @@ class WjBoardActivity : AppCompatActivity() {
             }
         }
 
+        @SuppressLint("NotifyDataSetChanged")
         fun setFilter(items : ArrayList<BoardList>) {
             itemList.clear()
             itemList.addAll(items)

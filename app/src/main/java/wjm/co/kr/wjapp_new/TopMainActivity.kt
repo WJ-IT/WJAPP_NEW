@@ -1,5 +1,6 @@
 package wjm.co.kr.wjapp_new
 
+import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
@@ -7,7 +8,6 @@ import android.database.sqlite.SQLiteDatabase
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.support.constraint.ConstraintLayout
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
@@ -72,8 +72,7 @@ class TopMainActivity : AppCompatActivity() {
 
         binding.txtLoginName.text =  WjmMain.LoginUser.name
 
-        if (dbgetReadYN())
-        else{
+        if (!dbgetReadYN()) {
             cDialogBoard()
             getCompanySchedules()
         }
@@ -101,6 +100,7 @@ class TopMainActivity : AppCompatActivity() {
         val request = Request.Builder().url(url).post(body).build()
         val client = OkHttpClient()
         client.newCall(request).enqueue(object : Callback {
+            @SuppressLint("NotifyDataSetChanged")
             override fun onResponse(call: Call, response: Response) {
                 val body1 = response.body?.string()
                 //println("Success to execute request! : $body1")
@@ -150,13 +150,13 @@ class TopMainActivity : AppCompatActivity() {
                                 val rvCDialog : RecyclerView = view.findViewById(R.id.rvSchedule)
 
                                 btnCTSave.text = "삭제"
-                                txtSchedule.setText("")
-                                txtSchedule.setHint("위의 일정을 누르면 세부내용이 나타납니다")
+                                txtSchedule.text = ""
+                                txtSchedule.hint = "위의 일정을 누르면 세부내용이 나타납니다"
                                 txtSchedule.isEnabled = false
                                 txtSchedule.isFocusableInTouchMode = false
                                 val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
                                 imm.hideSoftInputFromWindow(txtSchedule.windowToken, 0)
-                                btnCTWrite.setText("작성")
+                                btnCTWrite.text = "작성"
                                 llDateSelect.visibility = View.GONE
                                 llTitle.visibility = View.GONE
                                 rvCDialog.visibility = View.VISIBLE
@@ -205,8 +205,8 @@ class TopMainActivity : AppCompatActivity() {
 
                                 setResult(1)
                                 val txtSchedule : TextView = view.findViewById(R.id.etxtSchedule)
-                                txtSchedule.setText("")
-                                txtSchedule.setHint("위의 일정을 누르면 세부내용이 나타납니다")
+                                txtSchedule.text = ""
+                                txtSchedule.hint = "위의 일정을 누르면 세부내용이 나타납니다"
                                 getCompanySchedules()
                             }
                             .setCancelable(false)
@@ -234,6 +234,7 @@ class TopMainActivity : AppCompatActivity() {
     data class ScheduleCDialog(var noSch:String?, var frDate:String?, var toDate:String?, var title:String?, var remark:String?)
     data class DBCScheduleWrite(var results: String?)
 
+    @SuppressLint("CutPasteId")
     private fun cDialogBoard() {
         jaegocdialogadapter = null
         val layout = layoutInflater
@@ -253,8 +254,8 @@ class TopMainActivity : AppCompatActivity() {
 
         // date init setting
         val calendarNow = Calendar.getInstance()
-        txtFrDt.setText(SimpleDateFormat("yyyyMMdd", Locale.getDefault()).format(calendarNow.time))
-        txtToDt.setText(SimpleDateFormat("yyyyMMdd", Locale.getDefault()).format(calendarNow.time))
+        txtFrDt.text = SimpleDateFormat("yyyyMMdd", Locale.getDefault()).format(calendarNow.time)
+        txtToDt.text = SimpleDateFormat("yyyyMMdd", Locale.getDefault()).format(calendarNow.time)
 
         val dialog = builder.create()
         dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
@@ -355,6 +356,7 @@ class TopMainActivity : AppCompatActivity() {
             return ViewHolder(view)
         }
 
+        @SuppressLint("SetTextI18n")
         override fun onBindViewHolder(holder: ViewHolder, position: Int) {
             if (position and 1 == 0)
                 holder.clayout.setBackgroundResource(R.drawable.list_item_2)
@@ -365,7 +367,7 @@ class TopMainActivity : AppCompatActivity() {
             holder.txtSchedule.text = itemList[position].title
 
             holder.clayout.setOnClickListener(({
-                etxtSchedule!!.setText(itemList[position].remark)
+                etxtSchedule!!.text = itemList[position].remark
                 cdSD = itemList[position].noSch!!
             }))
         }
@@ -379,9 +381,7 @@ class TopMainActivity : AppCompatActivity() {
     }
 
     private fun checkDate(frDt : String, toDt : String) : Boolean {
-        val dateFr =frDt
-        val dateTo = toDt
-        if (dateFr.length != 8 || dateTo.length != 8) {
+        if (frDt.length != 8 || toDt.length != 8) {
             Toast.makeText(this, "날짜는 8자리로 입력해주세요.", Toast.LENGTH_LONG).show()
             return false
         }
@@ -389,8 +389,8 @@ class TopMainActivity : AppCompatActivity() {
         val sdf = SimpleDateFormat("yyyyMMdd", Locale.getDefault())
         sdf.isLenient = false
         try {
-            sdf.parse(dateFr)
-            sdf.parse(dateTo)
+            sdf.parse(frDt)
+            sdf.parse(toDt)
         }catch (e: ParseException){
             Toast.makeText(this, "정확한 날짜로 입력해주세요.", Toast.LENGTH_LONG).show()
             return false
@@ -401,9 +401,9 @@ class TopMainActivity : AppCompatActivity() {
 
     private fun dbgetReadYN() : Boolean {
         val cur1 = db!!.rawQuery("select DT_READ from SCHEDULE_READ where sno = '" + WjmMain.LoginUser.sno + "' ;", null)
-        if (cur1.count == 0) {
+        return if (cur1.count == 0) {
             cur1.close()
-            return false
+            false
         } else {
             cur1.moveToNext()
             val date = cur1.getString(0)
@@ -412,7 +412,7 @@ class TopMainActivity : AppCompatActivity() {
             val now = Calendar.getInstance()
 
             cur1.close()
-            return (date == sdf.format(now.time))
+            (date == sdf.format(now.time))
         }
     }
 

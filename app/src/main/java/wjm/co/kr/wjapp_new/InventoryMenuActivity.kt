@@ -1,16 +1,15 @@
 package wjm.co.kr.wjapp_new
 
+import android.Manifest
 import android.app.Activity
 import android.app.AlertDialog
 import android.app.Dialog
 import android.bluetooth.BluetoothAdapter
 import android.bluetooth.BluetoothDevice
-import android.content.DialogInterface
 import android.content.Intent
-import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
-import android.os.Message
+import android.content.pm.PackageManager
+import android.os.*
+import android.support.v4.app.ActivityCompat
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.view.Gravity
@@ -25,6 +24,7 @@ class InventoryMenuActivity : AppCompatActivity() {
     private lateinit var binding: ContentInventoryMenuBinding
     private val TAG = "WjmAPP"
     private val D = true
+    val genFun = Gen_fun()
 
     class SwingInfo {
         companion object {
@@ -86,10 +86,25 @@ class InventoryMenuActivity : AppCompatActivity() {
         if ( SwingInfo.mSwing != null) binding.btnBluetooth.setImageResource(R.drawable.blue_tooth_on)
         onStartBluetooth()
 
+        if (ActivityCompat.checkSelfPermission(
+                this,
+                Manifest.permission.BLUETOOTH_SCAN
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return
+        }
+
         binding.btnBluetooth.setOnClickListener(({
             if (SwingInfo.mSwing == null)  {
                 if (bt_data.BTadapter == null) {
-                    MyToast(resources.getString(R.string.bt_not_machine))
+                    genFun.ssToast(this,resources.getString(R.string.bt_not_machine))
                 }
                 else if (BTDevice == null) {
                     if (bt_data.BTadapter!!.isDiscovering) {
@@ -99,7 +114,7 @@ class InventoryMenuActivity : AppCompatActivity() {
                     startActivityForResult(intent, REQUEST_CONNECT_DEVICE)
                 }
             } else {
-                MyToast(resources.getString(R.string.swing_already_conn))
+                genFun.ssToast(this,resources.getString(R.string.swing_already_conn))
                 if (bt_data.BTadapter!!.isDiscovering) {
                     bt_data.BTadapter!!.cancelDiscovery()
                 }
@@ -111,7 +126,7 @@ class InventoryMenuActivity : AppCompatActivity() {
         binding.btnScan.setOnClickListener(({
             if (SwingInfo.mSwing != null) {
                 choiceDlg(SCAN_GBN)!!.show()
-            } else MyToast(resources.getString(R.string.swing_noconn))
+            } else genFun.ssToast(this,resources.getString(R.string.swing_noconn))
         }))
 
         binding.btnResult.setOnClickListener(({
@@ -141,16 +156,31 @@ class InventoryMenuActivity : AppCompatActivity() {
     }
 
     private fun onStartBluetooth() {
+
         bt_data.BTadapter = BluetoothAdapter.getDefaultAdapter()
         if (bt_data.BTadapter == null) { //블루투스 기능이 없으면 리턴
-            MyToast(resources.getString(R.string.bt_not_machine))
+            genFun.ssToast(this,resources.getString(R.string.bt_not_machine))
             return
         }
 
-        BT_enable_onStart = bt_data.BTadapter!!.isEnabled()  //블루투스가 활성화되어있는가?
+        BT_enable_onStart = bt_data.BTadapter!!.isEnabled  //블루투스가 활성화되어있는가?
         if (!BT_enable_onStart) {    //활성화안되있다면...
-            val BT_turnOn = Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE)  //활성화시킴
-            startActivityForResult(BT_turnOn, 7001)
+            val btTurnOn = Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE)  //활성화시킴
+            if (ActivityCompat.checkSelfPermission(
+                    this,
+                    Manifest.permission.BLUETOOTH_CONNECT
+                ) != PackageManager.PERMISSION_GRANTED
+            ) {
+                // TODO: Consider calling
+                //    ActivityCompat#requestPermissions
+                // here to request the missing permissions, and then overriding
+                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                //                                          int[] grantResults)
+                // to handle the case where the user grants the permission. See the documentation
+                // for ActivityCompat#requestPermissions for more details.
+                return
+            }
+            startActivityForResult(btTurnOn, 7001)
         }
     }
 
@@ -167,6 +197,20 @@ class InventoryMenuActivity : AppCompatActivity() {
                         .getString(DeviceListActivity.EXTRA_DEVICE_ADDRESS)
                     // Get the BLuetoothDevice object
                     BTDevice = bt_data.BTadapter!!.getRemoteDevice(address)
+                    if (ActivityCompat.checkSelfPermission(
+                            this,
+                            Manifest.permission.BLUETOOTH_CONNECT
+                        ) != PackageManager.PERMISSION_GRANTED
+                    ) {
+                        // TODO: Consider calling
+                        //    ActivityCompat#requestPermissions
+                        // here to request the missing permissions, and then overriding
+                        //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                        //                                          int[] grantResults)
+                        // to handle the case where the user grants the permission. See the documentation
+                        // for ActivityCompat#requestPermissions for more details.
+                        return
+                    }
                     SwingInfo.swing_ADDRESS = BTDevice!!.name
                     //                    Toast.makeText(getBaseContext(),BTDevice.getAddress(),Toast.LENGTH_SHORT).show();
                     // Attempt to connect to the device
@@ -182,7 +226,7 @@ class InventoryMenuActivity : AppCompatActivity() {
                 } else {
                     // User did not enable Bluetooth or an error occured
                     //                    Log.d(TAG, "BT not enabled");
-                    Toast.makeText(this, R.string.bt_not_enabled_leaving, Toast.LENGTH_SHORT).show()
+                    genFun.ssToast(this, resources.getString(R.string.bt_not_enabled_leaving))
                     finish()
                 }
         }
@@ -239,8 +283,8 @@ class InventoryMenuActivity : AppCompatActivity() {
                                     JegoScanActivity.ReadingRFID.showDataJepum(inComming)
                                 }
                             }
-                            if (reading_loc.topPage.equals("JEGOINJOSA")) {        // 사내 비품/소모품 검색 일때
-                                if (inComming.epcID_Ascii.substring(0, 3).equals("RFR"))
+                            if (reading_loc.topPage == "JEGOINJOSA") {        // 사내 비품/소모품 검색 일때
+                                if (inComming.epcID_Ascii.substring(0, 3) == "RFR")
                                     JegoInJosaActivity.ReadingInJosaRFID.showDataJepum(inComming)
                             }
 //                            if (topPage.equals("JEGOICLSCAN")) {
@@ -271,22 +315,21 @@ class InventoryMenuActivity : AppCompatActivity() {
 
                     val readMessage = String(readBuf, 0, msg.arg1)
                     val ran = IntRange(4, 4)
-                    if(reading_loc.topPage == "JEGOJOSA") {
-                        JegoJosaActivity.ReadingJosaRFID.setBattery(readMessage.slice(ran))
-                    } else if (reading_loc.topPage == "JEGOINJOSA") {
-                        JegoInJosaActivity.ReadingInJosaRFID.setBattery(readMessage.slice(ran))
-                    } else {
-                        when (readMessage.slice(ran)) {
-                            "0" -> Toast.makeText(baseContext, "리더기 즉시 충전해주세요", Toast.LENGTH_LONG)
-                                .show()
-                            "1" -> Toast.makeText(baseContext, "리더기 충전해주세요", Toast.LENGTH_LONG)
-                                .show()
-                            "2" -> Toast.makeText(baseContext, "리더기 배터리 40%이상", Toast.LENGTH_LONG)
-                                .show()
-                            "3" -> Toast.makeText(baseContext, "리더기 배터리 60%이상", Toast.LENGTH_LONG)
-                                .show()
-                            "4" -> Toast.makeText(baseContext, "리더기 배터리 80%이상", Toast.LENGTH_LONG)
-                                .show()
+                    when (reading_loc.topPage) {
+                        "JEGOJOSA" -> {
+                            JegoJosaActivity.ReadingJosaRFID.setBattery(readMessage.slice(ran))
+                        }
+                        "JEGOINJOSA" -> {
+                            JegoInJosaActivity.ReadingInJosaRFID.setBattery(readMessage.slice(ran))
+                        }
+                        else -> {
+                            when (readMessage.slice(ran)) {
+                                "0" -> genFun.slToast(baseContext, "리더기 즉시 충전해주세요")
+                                "1" -> genFun.slToast(baseContext, "리더기 충전해주세요")
+                                "2" -> genFun.slToast(baseContext, "리더기 배터리 40%이상")
+                                "3" -> genFun.slToast(baseContext, "리더기 배터리 60%이상")
+                                "4" -> genFun.slToast(baseContext, "리더기 배터리 80%이상")
+                            }
                         }
                     }
                 }
@@ -310,7 +353,7 @@ class InventoryMenuActivity : AppCompatActivity() {
                         JegoJosaActivity.ReadingJosaRFID.getPowerRange(readMessage.slice(ran))
                     }
                 }
-                MESSAGE_TOAST -> if (msg.getData().getString(TOAST).equals("장치 연결에 실패하였습니다.")) {
+                MESSAGE_TOAST -> if (msg.data.getString(TOAST).equals("장치 연결에 실패하였습니다.")) {
                     SwingInfo.mSwing!!.stop()
                     SwingInfo.mSwing = null
                     BTDevice = null
@@ -345,18 +388,22 @@ class InventoryMenuActivity : AppCompatActivity() {
                 }
                 .setPositiveButton("선택"
                 ) { _, _ ->
-                    if (mchoice == 0) { //거래처 일반 스캔시
-                        val intentScan = Intent(baseContext, JegoScanActivity::class.java)
-                        startActivity(intentScan)
-                    } else if (mchoice == 1) { //저장재고 스캔시
-                        val intentScan = Intent(baseContext, JegoJJScanActivity::class.java)
-                        startActivity(intentScan)
-                    } else if (mchoice == 2) {
-                        val intent_scan = Intent(baseContext, JegoInJosaActivity::class.java)
-                        startActivity(intent_scan)
-                    } else {
-//                            val intent_scan = Intent(baseContext, JegoICLScan::class.java)
-//                            startActivity(intent_scan)
+                    val intentScan : Intent
+                    when(mchoice) {
+                        0 -> {//거래처 일반 스캔시
+                            intentScan = Intent(baseContext, JegoScanActivity::class.java)
+                            startActivity(intentScan)
+                        }
+                        1 -> {
+                            intentScan = Intent(baseContext, JegoJJScanActivity::class.java)
+                            startActivity(intentScan)
+                        }
+                        2 -> {
+                            intentScan = Intent(baseContext, JegoInJosaActivity::class.java)
+                            startActivity(intentScan)
+                        }
+                        else -> {
+                        }
                     }
                 }
                 .setNegativeButton("돌아가기"
@@ -365,9 +412,5 @@ class InventoryMenuActivity : AppCompatActivity() {
         }
         return null
     }
-
-    private fun MyToast(msg:String) {
-        Toast.makeText(baseContext, msg, Toast.LENGTH_SHORT).show()
-    }
-
 }
+

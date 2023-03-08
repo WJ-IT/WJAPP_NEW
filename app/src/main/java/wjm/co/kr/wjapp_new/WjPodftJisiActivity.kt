@@ -1,5 +1,6 @@
 package wjm.co.kr.wjapp_new
 
+import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.app.DatePickerDialog
 import android.app.SearchManager
@@ -16,7 +17,6 @@ import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.*
 import com.google.gson.GsonBuilder
-
 import okhttp3.*
 import wjm.co.kr.wjapp_new.databinding.ActivityWjPodftJisiBinding
 import java.io.IOException
@@ -43,6 +43,7 @@ class WjPodftJisiActivity : AppCompatActivity() {
     private var arOriginList : ArrayList<PodFTJisiList> = ArrayList()
 
     private var searchView: SearchView? = null
+    private val genFun = Gen_fun()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -166,8 +167,8 @@ class WjPodftJisiActivity : AppCompatActivity() {
 
         //network connecting
         val networkState = NetworkState(this)
-        if (networkState.isConnected())
-        else myToast( "네트워크에 연결되지 않았습니다.")
+        if (!networkState.isConnected())
+            genFun.slToast(this, "네트워크에 연결되지 않았습니다.")
 
         // date init setting
         val cal = Calendar.getInstance()
@@ -283,6 +284,7 @@ class WjPodftJisiActivity : AppCompatActivity() {
             .writeTimeout(30, TimeUnit.MINUTES)
             .connectTimeout(30, TimeUnit.MINUTES).build()
             .newCall(request).enqueue(object : Callback {
+                @SuppressLint("NotifyDataSetChanged")
                 override fun onResponse(call: Call, response: Response) {
                     val body1 = response.body?.string()
                   //  println("Success to execute request! : $body1")
@@ -318,6 +320,7 @@ class WjPodftJisiActivity : AppCompatActivity() {
             .writeTimeout(30, TimeUnit.MINUTES)
             .connectTimeout(30, TimeUnit.MINUTES).build()
             .newCall(request).enqueue(object : Callback {
+                @SuppressLint("NotifyDataSetChanged")
                 override fun onResponse(call: Call, response: Response) {
                     val body1 = response.body?.string()
 //                    println("Success to execute request! : $body1")
@@ -360,6 +363,7 @@ class WjPodftJisiActivity : AppCompatActivity() {
             .writeTimeout(30, TimeUnit.MINUTES)
             .connectTimeout(30, TimeUnit.MINUTES).build()
             .newCall(request).enqueue(object : Callback {
+                @SuppressLint("NotifyDataSetChanged")
                 override fun onResponse(call: Call, response: Response) {
                     val body1 = response.body?.string()
 //                    println("Success to execute request! : $body1")
@@ -416,6 +420,7 @@ class WjPodftJisiActivity : AppCompatActivity() {
             .writeTimeout(30, TimeUnit.MINUTES)
             .connectTimeout(30, TimeUnit.MINUTES).build()
             .newCall(request).enqueue(object : Callback {
+                @SuppressLint("NotifyDataSetChanged")
                 override fun onResponse(call: Call, response: Response) {
                     val body1 = response.body?.string()
                     println("Success to execute request! : $body1")
@@ -465,6 +470,7 @@ class WjPodftJisiActivity : AppCompatActivity() {
             return ViewHolder(view)
         }
 
+        @SuppressLint("NotifyDataSetChanged", "SetTextI18n")
         override fun onBindViewHolder(holder: ViewHolder, position: Int) {
             if (position == 0) holder.trJisiNmHosp.visibility = View.VISIBLE
             else
@@ -681,6 +687,7 @@ class WjPodftJisiActivity : AppCompatActivity() {
         //    var trJisiTable : TableLayout = itemView.findViewById(R.id.tlPodFTJisi)
         }
 
+        @SuppressLint("NotifyDataSetChanged")
         fun setFilter(items : ArrayList<PodFTJisiList>) {
             itemList.clear()
             itemList.addAll(items)
@@ -711,7 +718,7 @@ class WjPodftJisiActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             android.R.id.home -> {finish() ; return true}
-            R.id.app_bar_search -> Toast.makeText(applicationContext, "검색눌럿네", Toast.LENGTH_LONG).show()
+            R.id.app_bar_search -> genFun.slToast(this, "검색눌럿네")
         }
         return super.onOptionsItemSelected(item)
     }
@@ -750,9 +757,4 @@ class WjPodftJisiActivity : AppCompatActivity() {
     private fun nullChk(originval:String?) : String {
         return if (originval.isNullOrEmpty()) "" else originval
     }
-
-    private fun myToast(msg:String) {
-        Toast.makeText(baseContext, msg, Toast.LENGTH_SHORT).show()
-    }
-
 }

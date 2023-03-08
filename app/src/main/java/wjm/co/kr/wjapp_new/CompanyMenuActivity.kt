@@ -1,5 +1,6 @@
 package wjm.co.kr.wjapp_new
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
@@ -16,12 +17,10 @@ import android.view.animation.AnimationUtils
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
-import android.widget.Toast
 import com.google.gson.GsonBuilder
 
 //import kotlinx.android.synthetic.main.content_company_menu.*
 import okhttp3.*
-import wjm.co.kr.wjapp_new.databinding.ActivityCompanyMenuBinding
 import wjm.co.kr.wjapp_new.databinding.ContentCompanyMenuBinding
 import java.io.IOException
 import java.net.URL
@@ -33,12 +32,22 @@ class CompanyMenuActivity : AppCompatActivity() {
     private var companyMenuList : ArrayList<CompanyMenuList> = ArrayList()
     private var companyMenuAdapter : CompanyMenuAdapter? = null
 
+    private val genFun = Gen_fun()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         //setContentView(R.layout.activity_company_menu)
         binding = ContentCompanyMenuBinding.inflate(layoutInflater)
         setContentView(binding.root)
         companyMenuInit()
+
+        if (WjmMain.LoginUser.sno == "") {
+            genFun.slToast(this,"다시 로그인해주세요")
+            val intent: Intent?
+            intent = Intent(applicationContext, WjmMain::class.java)
+            startActivity(intent)
+            overridePendingTransition(R.anim.loadfadein, R.anim.loadfadeout)
+        }
     }
 
     private fun companyMenuInit() {
@@ -69,6 +78,7 @@ class CompanyMenuActivity : AppCompatActivity() {
         val loadingDialog = LodingDialog(this)
         loadingDialog.show()
         client.newCall(request).enqueue(object : Callback {
+            @SuppressLint("NotifyDataSetChanged")
             override fun onResponse(call: Call, response: Response) {
                 val responsebody = response.body?.string()
                 println("Success to execute request! : $responsebody")
@@ -109,6 +119,7 @@ class CompanyMenuActivity : AppCompatActivity() {
         val loadingDialog = LodingDialog(this)
         loadingDialog.show()
         client.newCall(request).enqueue(object : Callback {
+            @SuppressLint("NotifyDataSetChanged")
             override fun onResponse(call: Call, response: Response) {
                 val responsebody = response.body?.string()
                 println("Success to execute request! : $responsebody")
@@ -119,25 +130,24 @@ class CompanyMenuActivity : AppCompatActivity() {
 
                 if (dbSetBookmark.status == "NO") {
                     runOnUiThread {
-                        Toast.makeText(baseContext, "즐겨찾기 설정에 실패하였습니다.", Toast.LENGTH_LONG).show()
+                        genFun.slToast(baseContext, "즐겨찾기 설정에 실패하였습니다.")
                         loadingDialog.dismiss()
                     }
                 }else {
                     runOnUiThread {
-                        val comp : Comparator<CompanyMenuList> = object : Comparator<CompanyMenuList> {
-                            override fun compare(o1: CompanyMenuList, o2: CompanyMenuList): Int {
+                        val comp : Comparator<CompanyMenuList> =
+                            Comparator<CompanyMenuList> { o1, o2 ->
                                 var temp1 = ""
                                 var temp2 = ""
                                 if (o1.bookmarkYN=="Y") temp1 = "0"
                                 if (o2.bookmarkYN=="Y") temp2 = "0"
                                 val v1 = temp1 + o1.idMenu
                                 val v2 = temp2 + o2.idMenu
-                                return v1.compareTo(v2)
+                                v1.compareTo(v2)
                             }
-                        }
                         Collections.sort(companyMenuList, comp)
 
-                        Toast.makeText(baseContext, "즐겨찾기 ON/OFF 설정 하였습니다.", Toast.LENGTH_LONG).show()
+                        genFun.slToast(baseContext, "즐겨찾기 ON/OFF 설정 하였습니다.")
                         companyMenuAdapter!!.notifyDataSetChanged()
                         loadingDialog.dismiss()
                     }
@@ -224,13 +234,7 @@ class CompanyMenuActivity : AppCompatActivity() {
             val txtNmMenu : TextView = itemView.findViewById(R.id.txt_company_menu)
             val llCompanyRow: LinearLayout = itemView.findViewById(R.id.ll_company_row)
             val imgBookmark : ImageView = itemView.findViewById(R.id.img_wj_bookmark)
-            init {
-
-            }
         }
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-    }
 }

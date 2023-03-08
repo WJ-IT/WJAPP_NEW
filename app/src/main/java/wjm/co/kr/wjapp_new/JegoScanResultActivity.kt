@@ -99,6 +99,7 @@ class JegoScanResultActivity : AppCompatActivity(), AdapterView.OnItemSelectedLi
         return super.onOptionsItemSelected(item)
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     private fun initJegoResult() {
         tagList.clear()
         monthlist.clear()
@@ -279,6 +280,7 @@ class JegoScanResultActivity : AppCompatActivity(), AdapterView.OnItemSelectedLi
         val request = Request.Builder().url(url).post(body).build()
         val client = OkHttpClient()
         client.newCall(request).enqueue(object : Callback {
+            @SuppressLint("NotifyDataSetChanged")
             override fun onResponse(call: Call, response: Response) {
                 val returnbody = response.body?.string()
 //                println("Success to execute request! : $returnbody")

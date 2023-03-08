@@ -1,12 +1,17 @@
 package wjm.co.kr.wjapp_new
 
+import android.Manifest
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.database.sqlite.SQLiteDatabase
 import android.graphics.Point
 import android.os.*
 import android.provider.Settings
+import android.support.annotation.RequiresApi
 import android.support.constraint.ConstraintSet
+import android.support.v4.app.ActivityCompat
 import android.support.v7.app.AppCompatActivity
 import android.transition.TransitionManager
 import android.view.KeyEvent
@@ -41,6 +46,17 @@ class WjmMain : AppCompatActivity(), AdapterView.OnItemSelectedListener{
     private var firstSpin = true
     private var secondSpin = false
 
+    private val permisstions = arrayOf(
+        Manifest.permission.ACCESS_FINE_LOCATION
+    )
+    @RequiresApi(Build.VERSION_CODES.S)
+    val permissionsAbove = arrayOf(
+        Manifest.permission.BLUETOOTH_SCAN,
+        Manifest.permission.BLUETOOTH_CONNECT,
+        Manifest.permission.ACCESS_FINE_LOCATION
+    )
+    private val requestAllPermission = 2
+
     class LoginUser {
         companion object {
             var sno = ""
@@ -64,6 +80,7 @@ class WjmMain : AppCompatActivity(), AdapterView.OnItemSelectedListener{
             }
         }
     }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         //setContentView(R.layout.activity_wjm_main)
@@ -74,24 +91,17 @@ class WjmMain : AppCompatActivity(), AdapterView.OnItemSelectedListener{
         val networkState = NetworkState(this)
         if (!networkState.isConnected())
             myToast( "네트워크에 연결되지 않았습니다.")
-//
-//
-//        Log.i("ANDROID ID", "##### READ Android ID ######")
-//
-//        try {
-//            val SSAID = Settings.Secure.getString(this.contentResolver, Settings.Secure.ANDROID_ID)
-//            //Log.i("ANDROID ID", my_android_id)
-//            val deviceName = Build.MANUFACTURER + " " + Build.MODEL
-////to add to textview
-//            //to add to textview
-//
-//            //Log.i("ANDROID NAME",  deviceName)
-//        }
-//        catch (e: SecurityException){
-//            Log.i("ANDROID ID", "Secure Exception!")
-//        }
 
-
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.S){
+            if (!hasPermissions(this, permissionsAbove)) {
+                requestPermissions(permissionsAbove, requestAllPermission)
+            }
+        }else{
+            if (!hasPermissions(this, permisstions)) {
+                requestPermissions(permisstions, requestAllPermission)
+            }
+        }
+        
         finishToast= Toast.makeText(applicationContext, "\'뒤로가기\'를 한번 더 눌러 종료하십시오.", Toast.LENGTH_LONG)
         binding.txtPass.hint = "게시판 비밀번호"
         loginData()
@@ -123,12 +133,23 @@ class WjmMain : AppCompatActivity(), AdapterView.OnItemSelectedListener{
         }
         mHandler.sendEmptyMessageDelayed(0, 500)
 
-        val display = getWindowManager().getDefaultDisplay()
+       // val display = getWindowManager().getDefaultDisplay()
         val size = Point()
-        display.getSize(size)
+       // display.getSize(size)
         LoginUser.screenWidth = size.x
 
 
+    }
+
+    private fun hasPermissions(context: Context, permissions: Array<String>): Boolean {
+        for (permission in permissions) {
+            if (ActivityCompat.checkSelfPermission(context, permission)
+                != PackageManager.PERMISSION_GRANTED
+            ) {
+                return false
+            }
+        }
+        return true
     }
 
     // 로그인 할 이름, 사번을 가져와서 리스트에 세팅함
@@ -223,6 +244,7 @@ class WjmMain : AppCompatActivity(), AdapterView.OnItemSelectedListener{
         return true
     }
 
+    @SuppressLint("HardwareIds")
     private fun secondLogin() {
         val loadingDialog = LodingDialog(this)
         loadingDialog.show()
@@ -245,6 +267,7 @@ class WjmMain : AppCompatActivity(), AdapterView.OnItemSelectedListener{
                         loadingDialog.dismiss()
                     }
                 } else {
+                    loadingDialog.dismiss()
                     val intent = Intent(baseContext, TopMainActivity::class.java)
                     startActivity(intent)
                     overridePendingTransition(R.anim.loadfadein, R.anim.loadfadeout)
@@ -256,36 +279,6 @@ class WjmMain : AppCompatActivity(), AdapterView.OnItemSelectedListener{
             }
         })
     }
-//    class MyAsyncTask : AsyncTask<String, String, String>() {
-//        override fun doInBackground(vararg params: String?): String {
-//            val url = URL("http://iclkorea.com/android/WjmMain_list.asp")
-//            val request = Request.Builder().url(url).build()
-//            val client = OkHttpClient()
-//            try {
-//                client.newCall(request).enqueue(object : Callback{
-//                    override fun onResponse(call: Call?, response: Response?) {
-//                        val body = response?.body()?.string()
-//                        println("Success to execute request! : $body")
-//
-//                        //Gson으로 파싱
-//                        val gson = Gson()
-//                        val list = gson.fromJson(body, DBListsno::class.java)
-//                        Log.d("Json Parsing", list.results[1].kname)
-//                    }
-//
-//                    override fun onFailure(call: Call?, e: IOException) {
-//                        println("Failed to execute request!")
-//                        println(e.message)
-//                    }
-//                })
-//
-//            } catch (e : IOException) {
-//                Log.d("FetchPostsTask", e.message)
-//            }
-//           return "test"
-//        }
-//
-//    }
 
     private fun myToast(msg:String) {
         Toast.makeText(baseContext, msg, Toast.LENGTH_SHORT).show()
@@ -329,6 +322,7 @@ class WjmMain : AppCompatActivity(), AdapterView.OnItemSelectedListener{
 
             LoginUser.sno = cur2.getString(0)
             pw = cur2.getString(1)
+            println(LoginUser.sno)
             println(pw)
             if (cur2.getString(2).isNullOrEmpty())
                 LoginUser.publicId = ""

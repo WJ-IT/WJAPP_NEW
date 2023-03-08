@@ -1,11 +1,11 @@
 package wjm.co.kr.wjapp_new
 
+import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.database.sqlite.SQLiteDatabase
 import android.graphics.*
-import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -25,7 +25,6 @@ import java.net.URL
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
-import wjm.co.kr.wjapp_new.InventoryMenuActivity
 
 class JegoScanActivity : AppCompatActivity() {
     private lateinit var bindingA: ActivityJegoScanBinding
@@ -77,6 +76,7 @@ class JegoScanActivity : AppCompatActivity() {
             Toast.makeText(baseContext, "로그인 정보가 사라졌어요!", Toast.LENGTH_LONG).show()
             val intent = Intent(baseContext, WjmMain::class.java)
             startActivity(intent)
+            overridePendingTransition(R.anim.loadfadein, R.anim.loadfadeout)
         }
 
         val layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
@@ -310,6 +310,7 @@ class JegoScanActivity : AppCompatActivity() {
         val request = Request.Builder().url(url).post(body).build()
         val client = OkHttpClient()
         client.newCall(request).enqueue(object : Callback {
+            @SuppressLint("NotifyDataSetChanged", "SetTextI18n")
             override fun onResponse(call: Call, response: Response) {
                 val returnbody = response.body?.string()
                 //println("Success to execute request! : $body")
@@ -418,6 +419,7 @@ class JegoScanActivity : AppCompatActivity() {
     )
     data class DBSendOK(val results: String?)
 
+    @SuppressLint("NotifyDataSetChanged")
     private fun initData() {
         scanCnt = 0
         scanCntBef = 0
@@ -439,6 +441,7 @@ class JegoScanActivity : AppCompatActivity() {
             return itemList.size
         }
 
+        @SuppressLint("SetTextI18n")
         override fun onBindViewHolder(holder: ScanAdapter.ViewHolder, position: Int) {
             if (position and 1 == 0)
                 holder.llrow.setBackgroundResource(R.drawable.list_item_2)

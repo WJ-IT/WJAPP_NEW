@@ -96,6 +96,14 @@ class WjOrderActivity : AppCompatActivity() {
 
         orderInit()
         webviewInit()
+        if (WjmMain.LoginUser.sno == "") {
+            Toast.makeText(baseContext, "다시 로그인해주세요", Toast.LENGTH_LONG).show()
+            val intent: Intent?
+            intent = Intent(applicationContext, WjmMain::class.java)
+            startActivity(intent)
+            overridePendingTransition(R.anim.loadfadein, R.anim.loadfadeout)
+        }
+
         // Pod FT surgery Date Select
         bindingA.bindingOrder.txtDtSurg.setOnClickListener(({
             val cal = Calendar.getInstance()
@@ -473,6 +481,7 @@ class WjOrderActivity : AppCompatActivity() {
         val request = Request.Builder().url(url).post(body).build()
         val client = OkHttpClient()
         client.newCall(request).enqueue(object : Callback {
+            @SuppressLint("NotifyDataSetChanged")
             override fun onResponse(call: Call, response: Response) {
                 val body1 = response.body?.string()
                 //println("Success to execute request! : $body1")
@@ -689,6 +698,7 @@ class WjOrderActivity : AppCompatActivity() {
         val request = Request.Builder().url(url).post(body).build()
         val client = OkHttpClient()
         client.newCall(request).enqueue(object : Callback {
+            @SuppressLint("NotifyDataSetChanged")
             override fun onResponse(call: Call, response: Response) {
                 val body1 = response.body?.string()
                 //println("Success to execute request! : $body1")
@@ -734,6 +744,7 @@ class WjOrderActivity : AppCompatActivity() {
         val request = Request.Builder().url(url).post(body).build()
         val client = OkHttpClient()
         client.newCall(request).enqueue(object : Callback {
+            @SuppressLint("NotifyDataSetChanged")
             override fun onResponse(call: Call, response: Response) {
                 val body1 = response.body?.string()
                 //println("Success to execute request! : $body1")
@@ -778,6 +789,7 @@ class WjOrderActivity : AppCompatActivity() {
         val request = Request.Builder().url(url).post(body).build()
         val client = OkHttpClient()
         client.newCall(request).enqueue(object : Callback {
+            @SuppressLint("NotifyDataSetChanged")
             override fun onResponse(call: Call, response: Response) {
                 val body1 = response.body?.string()
                 //println("Success to execute request! : $body1")
@@ -880,6 +892,7 @@ class WjOrderActivity : AppCompatActivity() {
             return ViewHolder(view)
         }
 
+        @SuppressLint("NotifyDataSetChanged")
         override fun onBindViewHolder(holder: ViewHolder, position: Int) {
             holder.textNm.text = itemList[position].cdUseName
             holder.productLayout.setOnClickListener(({

@@ -1,13 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-        package="wjm.co.kr.wjapp_new">
+    xmlns:tools="http://schemas.android.com/tools"
+    package="wjm.co.kr.wjapp_new">
 
-    <uses-permission android:name="android.permission.BLUETOOTH" />
-    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+    <uses-permission android:name="android.permission.BLUETOOTH" android:maxSdkVersion="30"/>
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" android:maxSdkVersion="30"/>
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        tools:ignore="ScopedStorage" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <!-- sdk 31 upper about bluetooth -->
+    <uses-permission android:name="android.permission.BLUETOOTH_SCAN" />
+    <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADVERTISE" />
+    <uses-feature android:name="android.hardware.bluetooth"/>
+    <uses-feature android:name="android.hardware.bluetooth_le"/>
 
     <application
             android:allowBackup="false"
@@ -17,7 +25,8 @@
             android:screenOrientation="portrait"
             android:supportsRtl="true"
             android:theme="@style/AppTheme.NoActionBar"
-            android:usesCleartextTraffic="true">
+            android:usesCleartextTraffic="true"
+        android:dataExtractionRules="@xml/data_extraction_rules">
         <activity
                 android:name=".JegoInJosaActivity"
                 android:label="@string/title_activity_jego_in_josa"
@@ -96,7 +105,7 @@
         <activity
                 android:name=".TopMainActivity"
                 android:label="@string/title_activity_top_main"
-                android:screenOrientation="portrait"
+                android:screenOrientation="fullSensor"
                 android:theme="@style/AppTheme.NoActionBar.NoActionBar" />
         <activity
                 android:name=".WjLmReportActivity"
@@ -133,7 +142,8 @@
                 android:theme="@style/AppTheme.NoActionBar.NoActionBar" />
         <activity
                 android:name=".WjmMain"
-                android:screenOrientation="portrait">
+                android:screenOrientation="portrait"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

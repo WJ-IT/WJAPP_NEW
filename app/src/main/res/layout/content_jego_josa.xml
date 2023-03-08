@@ -120,7 +120,7 @@
             android:id="@+id/textView189"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="30"
+            android:layout_weight="20"
             android:text="일 누적"
             android:textSize="16sp" />
 
@@ -205,14 +205,21 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="30"
-            android:text="화면 초기화" />
+            android:text="화면초기화" />
+
+        <Button
+            android:id="@+id/btnDbDel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="제품DB삭제" />
 
         <Button
             android:id="@+id/btnJosaReaderInit"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="30"
-            android:text="리더기 초기화" />
+            android:text="리더 초기화" />
 
         <Button
             android:id="@+id/btnJosaSendResult"
